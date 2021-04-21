@@ -1,13 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+
 import {
   BrowserRouter as Router,
+  Link,
   Switch,
-  Route,
-  Link
-}from 'react-router-dom';
-import IconLabelButtons from './componentes/IconLabelButtons';
+} from 'react-router-dom';
+
 import BasicTextFields from './componentes/BasicTextFields';
+import IconLabelButtons from './componentes/IconLabelButtons';
+
+//import TagButton from './componentes/TagButton';
+
 function App() {
   return (
     <Router>
@@ -24,6 +27,7 @@ function App() {
         <Switch>
         <Router path="/">
           <BasicTextFields/>
+          
           <IconLabelButtons/>
           </Router>
           <Router path="/login">

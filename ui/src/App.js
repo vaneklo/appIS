@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import SignUp from './form/SignUp';
 
@@ -7,5 +6,4 @@ function App() {
    <SignUp />
   );
 }
-
 export default App;

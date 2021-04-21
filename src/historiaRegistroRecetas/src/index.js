@@ -4,7 +4,7 @@ import './SeccionFormulario.css';
 import SeccionFormulario from './SeccionFormulario';
 import reportWebVitals from './reportWebVitals';
 import'./firebase'
-import 'bootswatch/dist/journal/bootstrap.min.css'
+//import 'bootswatch/dist/journal/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>

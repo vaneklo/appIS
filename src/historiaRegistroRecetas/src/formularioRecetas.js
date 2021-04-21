@@ -1,5 +1,6 @@
 import React,{useState}from'react'
 import firebase from 'firebase'
+import TableroIngredientes from './TableroIngredientes';
 
  const FormularioRecetas=(props)=>{
     //valores iniciales de los campos
@@ -8,6 +9,10 @@ import firebase from 'firebase'
         campodescripcion: '' , 
         campocomplejidad: '',
                          };
+    const [data,setdata]=useState([]);
+    //const peticionGet=()=>{axios.get()}
+
+
     //valores iniciales de la imagen es null                     
         const [image, setImage] = useState(null);
     //valores iniciales de los campos de texto
@@ -87,6 +92,8 @@ return(
       
          <br/>
      </div>
+       <TableroIngredientes/>
+
 
     <div className="form-group">
          <textarea name="campodescripcion"  

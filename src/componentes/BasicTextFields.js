@@ -10,13 +10,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
+const searchStyle = {
+  width: '60%'
+}
 export default function BasicTextFields() {
   const classes = useStyles();
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="outlined-basic" label="Ingrediente" variant="outlined" />
+      <TextField id="outlined-basic" label="Ingrediente" variant="outlined" style={searchStyle}/>
     </form>
   );
 }

@@ -8,6 +8,7 @@ import {
 }from 'react-router-dom';
 import IconLabelButtons from './componentes/IconLabelButtons';
 import BasicTextFields from './componentes/BasicTextFields';
+import Autocompletado from './componentes/Autocompletado';
 function App() {
   return (
     <Router>
@@ -23,8 +24,9 @@ function App() {
         </div>
         <Switch>
         <Router path="/">
-          <BasicTextFields/>
-          <IconLabelButtons/>
+          <Autocompletado /> 
+          {/* <BasicTextFields/>
+          <IconLabelButtons/> */}
           </Router>
           <Router path="/login">
             login

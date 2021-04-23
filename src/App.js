@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './componentes/Header'
+import Image from 'material-ui-image'
 import { Typography } from '@material-ui/core';
 import {
   BrowserRouter as Router,
@@ -15,7 +16,7 @@ function App() {
     <Router>
 
       <Header />
-      <Typography variant="h2" component="h3" gutterBottom style={{ textAlign: 'center' }}>
+      <Typography variant="h2" component="h1" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
         ComeCon
       </Typography>
 

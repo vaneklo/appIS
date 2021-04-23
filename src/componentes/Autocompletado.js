@@ -1,12 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import {
-  Button,
-} from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import MuiTextField from '@material-ui/core/TextField';
-import {
-  Autocomplete,
-} from 'formik-material-ui-lab';
+import { Autocomplete } from 'formik-material-ui-lab';
 import Box from '@material-ui/core/Box';
 
 import { ingredientes } from '../data/datos';
@@ -25,7 +21,7 @@ const Autocompletado = () => (
     }}
   >
     {({ submitForm, isSubmitting, touched, errors }) => (
-
+      <Container maxWidth="xs">
       <Form>
         <Box display="flex" justifyContent="center" >
           <Box margin={1}  >
@@ -35,7 +31,7 @@ const Autocompletado = () => (
               component={Autocomplete}
               options={ingredientes}
               getOptionLabel={(option) => option.ingrediente}
-              style={{ width: 400 }}
+              style={{ width: '60vw' }}
               renderInput={(params) => (
                 <MuiTextField
                   {...params}
@@ -62,6 +58,7 @@ const Autocompletado = () => (
         </Box>
 
       </Form>
+      </Container>
     )}
   </Formik>
 );

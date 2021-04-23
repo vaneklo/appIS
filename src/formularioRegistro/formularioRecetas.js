@@ -1,9 +1,13 @@
-import React,{useState}from'react'
-import firebase from 'firebase'
-import TableroDeIngredientes from './TableroDeIngredientes'
-import {db} from './firebase'
+import React, { useState } from 'react';
 
- const FormularioRecetas=()=>{
+import firebase from 'firebase';
+
+import Input from '@material-ui/core/Input';
+
+import { db } from './firebase';
+import TableroDeIngredientes from './TableroDeIngredientes';
+
+const FormularioRecetas=()=>{
     //valores iniciales de los campos nombre desripcion y complejidad
     const initialStateValues = {
         camponombre: '',
@@ -86,68 +90,84 @@ return(
 <form   className='card card-body'>
     <h1>Registro de recetas</h1>
     <div className="form-group input-group">
-         <input type="text" 
-         className='form-control' 
-         placeholder='introduzca el nombre de una receta'
-         name='camponombre'
-         onChange={handleInputChange}
-         />
+        Nombre de la Receta:
+        <Input placeholder="Placeholder"
+        inputProps={{ 'aria-label': 'description' }} 
+        className='form-control' 
+        placeholder='Introduzca nombre la receta'
+        name='camponombre'
+        onChange={handleInputChange}
+        />
     </div>
-    <div>
-      <TableroDeIngredientes />
-    </div>
-
+    <div>Foto de la Receta:</div>
     <div className="form-group input-group">
          <br/>
          <input type="file" onChange={cambioImagen} />
       
          <br/>
      </div>
+     <div>Ingredientes:</div>
+    <div>
+      <TableroDeIngredientes />
+    </div>
 
+    <br></br>
+    Pasos de elaboracion:
     <div className="form-group">
          <textarea name="campodescripcion"  
          cols="30" 
          rows="10" 
          className="form-control"
+         placeholder="Introduzca los pasos"
          onChange={handleInputChange}
          >
          </textarea>
     </div>
     <div className="form-group input-group">
-         <input type="text" 
-         className='form-control' 
-         placeholder='complejidad'
+    <Input placeholder="Placeholder" 
+    inputProps={{ 'aria-label': 'description' }} 
+    className='form-control' 
+         placeholder='Complejidad'
          name='campocomplejidad'
          onChange={handleInputChange}
-         />
+    />
+         
     </div>
     <div>
-    <input type="text" 
-         className='form-control' 
+    <Input
+    inputProps={{ 'aria-label': 'description' }} 
+    className='form-control' 
          placeholder='Calorias'
          name='campoCalorias'
          onChange={handleInputChange}
-         />
-
-        <input type="text" 
-         className='form-control' 
+    />
+    <div>
+    <Input 
+    inputProps={{ 'aria-label': 'description' }} 
+    className='form-control' 
          placeholder='Grasas Saturadas'
          name='campoGrasas'
          onChange={handleInputChange}
-         />
-        <input type="text" 
-         className='form-control' 
+    />
+    </div>
+    <div>
+    <Input 
+    inputProps={{ 'aria-label': 'description' }} 
+    className='form-control' 
          placeholder='Carbohidratos'
          name='campoCarbohidratos'
          onChange={handleInputChange}
-         /> 
+    />
     </div>
-
-
+    
+    
+    
+    
+    </div>
 
     <div>
         <button className="btn btn-primary btn-block" onClick={handleSubmit} 
-        >registrar receta</button>
+        >Registrar Receta</button>
     </div>
 </form>
 )

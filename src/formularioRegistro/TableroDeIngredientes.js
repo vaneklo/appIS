@@ -1,5 +1,34 @@
-import React, { useState, useEffect } from "react";
-import {IngredientCreator} from'./IngredientCreator'
+import React, { useState } from 'react';
+
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import { IngredientCreator } from './IngredientCreator';
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 
 const TableroDeIngredientes =(props)=> {
 
@@ -33,21 +62,21 @@ const TableroDeIngredientes =(props)=> {
     return (
       <div>
         <div className="container-fluid">   
-            <IngredientCreator agregarIngrediente={createNewIngredient}/>
-          <table className="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>cantidad</th>
-                <th>nombre del ingrediente</th>
-              </tr>
-            </thead>
-            <tbody>{recipeTableRows()}</tbody>
-          </table>
+        <IngredientCreator agregarIngrediente={createNewIngredient}/>
+            <TableContainer component={Paper}>        
+              <Table className="class.table" size="small"  aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                  <TableCell align="left">Cantidad</TableCell>
+                  <TableCell align="left">Nombre del Ingrediente</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{recipeTableRows()}</TableBody>
+              </Table>
+            </TableContainer>
         </div>
       </div>
     );
   }
   
   export default TableroDeIngredientes;
-
-

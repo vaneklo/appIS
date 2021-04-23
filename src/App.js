@@ -6,36 +6,21 @@ import {
   Route,
   Link
 }from 'react-router-dom';
-import IconLabelButtons from './componentes/IconLabelButtons';
-import BasicTextFields from './componentes/BasicTextFields';
 import Autocompletado from './componentes/Autocompletado';
+import SeccionFormulario from './formularioRegistro/SeccionFormulario';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <h1>ComeCon</h1>
-        <div>
-          <Link to="/login">
-            login
-          </Link>
-          <Link to="/registrar">
-            registrar
-          </Link>
-        </div>
-        <Switch>
-        <Router path="/">
-          <Autocompletado /> 
-          {/* <BasicTextFields/>
-          <IconLabelButtons/> */}
-          </Router>
-          <Router path="/login">
-            login
-          </Router>
-          <Router path="/registrarse">
-            Registrar
-          </Router>
-        </Switch>
-      </div>
+      <ul className="nav-container s-border s-main-center s-pl-0">
+        <li className="nav-container--item s-mr-2">
+            <Link to="/">Inicio</Link>
+        </li>
+        <li className="nav-container--item s-mr-2">
+            <Link to="/registrar">Recetas</Link>
+        </li>
+      </ul>
+      <Route exact path="/" component={Autocompletado}/>
+      <Route exact path="/registrar" component={SeccionFormulario}/>
     </Router>
     
   );

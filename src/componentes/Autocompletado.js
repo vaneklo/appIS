@@ -26,7 +26,9 @@ const Autocompletado = () => (
     }}
   >
     {({submitForm, isSubmitting, touched, errors}) => (
+      
         <Form>
+          <h1>ComeCon</h1>   
           <Box display="flex" justifyContent="center" >
           <Box margin={1}  >
             <Field
@@ -53,7 +55,7 @@ const Autocompletado = () => (
               variant="contained"
               color="primary"
               disabled={isSubmitting}
-              onClick={submitForm}
+              onClick={submitForm}  
             >
               Enviar
             </Button>

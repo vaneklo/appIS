@@ -1,8 +1,7 @@
 import React from 'react';
-import {Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import {
   Button,
-  Typography,
 } from '@material-ui/core';
 import MuiTextField from '@material-ui/core/TextField';
 import {
@@ -10,7 +9,7 @@ import {
 } from 'formik-material-ui-lab';
 import Box from '@material-ui/core/Box';
 
-import {ingredientes} from '../data/datos';
+import { ingredientes } from '../data/datos';
 
 const Autocompletado = () => (
   <Formik
@@ -18,18 +17,17 @@ const Autocompletado = () => (
       autocomplete: [],
     }}
 
-    onSubmit={(values, {setSubmitting}) => {
+    onSubmit={(values, { setSubmitting }) => {
       setTimeout(() => {
         setSubmitting(false);
         alert(JSON.stringify(values, null, 2));
       }, 500);
     }}
   >
-    {({submitForm, isSubmitting, touched, errors}) => (
-      
-        <Form>
-          <h1>ComeCon</h1>   
-          <Box display="flex" justifyContent="center" >
+    {({ submitForm, isSubmitting, touched, errors }) => (
+
+      <Form>
+        <Box display="flex" justifyContent="center" >
           <Box margin={1}  >
             <Field
               name="autocomplete"
@@ -37,7 +35,7 @@ const Autocompletado = () => (
               component={Autocomplete}
               options={ingredientes}
               getOptionLabel={(option) => option.ingrediente}
-              style={{width: 300}}
+              style={{ width: 400 }}
               renderInput={(params) => (
                 <MuiTextField
                   {...params}
@@ -49,19 +47,21 @@ const Autocompletado = () => (
               )}
             />
           </Box>
-          </Box>
+        </Box>
+        <Box display="flex" justifyContent="center" >
           <Box margin={1} >
             <Button
               variant="contained"
               color="primary"
               disabled={isSubmitting}
-              onClick={submitForm}  
+              onClick={submitForm}
             >
               Enviar
             </Button>
           </Box>
-          
-        </Form>
+        </Box>
+
+      </Form>
     )}
   </Formik>
 );

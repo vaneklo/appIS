@@ -1,28 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './componentes/Header'
+import { Typography } from '@material-ui/core';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
-}from 'react-router-dom';
+} from 'react-router-dom';
 import Autocompletado from './componentes/Autocompletado';
 import SeccionFormulario from './formularioRegistro/SeccionFormulario';
+import Footer from './componentes/Footer';
 function App() {
   return (
     <Router>
-      <ul className="nav-container s-border s-main-center s-pl-0">
-        <li className="nav-container--item s-mr-2">
-            <Link to="/">Inicio</Link>
-        </li>
-        <li className="nav-container--item s-mr-2">
-            <Link to="/registrar">Recetas</Link>
-        </li>
-      </ul>
-      <Route exact path="/" component={Autocompletado}/>
-      <Route exact path="/registrar" component={SeccionFormulario}/>
+
+      <Header />
+      <Typography variant="h2" component="h3" gutterBottom style={{ textAlign: 'center' }}>
+        ComeCon
+      </Typography>
+
+      <Switch>
+        <Route exact path="/">
+          <Autocompletado />
+        </Route>
+        <Route path="/registrar">
+          <SeccionFormulario />
+        </Route>
+      </Switch>
+
+      <Footer />
+
     </Router>
-    
+
   );
 }
 

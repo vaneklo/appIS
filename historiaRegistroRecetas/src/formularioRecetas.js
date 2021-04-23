@@ -1,18 +1,43 @@
 import React,{useState}from'react'
 import firebase from 'firebase'
+import TableroDeIngredientes from './TableroDeIngredientes'
+import {db} from './firebase'
 
- const FormularioRecetas=(props)=>{
-    //valores iniciales de los campos
+ const FormularioRecetas=()=>{
+    //valores iniciales de los campos nombre desripcion y complejidad
     const initialStateValues = {
         camponombre: '',
         campodescripcion: '' , 
         campocomplejidad: '',
-                         };
+        campoCalorias:'',
+        campoGrasas:'',
+        campoCarbohidratos:'',
+        campoProteinas:'',
+      };
     //valores iniciales de la imagen es null                     
-        const [image, setImage] = useState(null);
+   const [image, setImage] = useState(null);
     //valores iniciales de los campos de texto
     const [values, setValues] = useState(initialStateValues);
+  
+  
+    //metodos para las imagenes
+    const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
+   //metodo para actualizar imagenes
+     const actualizacionImagen = () => {
+    const storageRef=firebase.storage().ref(`images/${image.name}`).put(image);
+      alert("imagen subida con exito");                   
+     };
 
+    const agregarReceta= async ()=>{
+      //comunicacion con la base de datos
+      //con la coleccion receta.doc para id unico
+      //link object los valores
+     await  db.collection('receta').doc().set(values);
+    }
+
+    // -------//const agregarIngredientesReceta= async (linkObject)=>{
+    ///----------- //await  db.collection('ingrediente-receta').doc().set(linkObject);}
+    
     //validacion de los campos de texto
     const validarNombreReceta = (str) => {
         var pattern = new RegExp("^.*[a-zA-Z]+.*$");
@@ -37,8 +62,9 @@ import firebase from 'firebase'
                   else{
                       if(image===null){alert("debe agregar una imagen");}
                       else{ e.preventDefault();
-                            console.log(values)
-                             props.agregarReceta(values);                 
+                             console.log(values)
+                             agregarReceta(values);  
+                             //agregarIngredientesReceta()  ;           
                              actualizacionImagen();
                             } 
                     }
@@ -55,22 +81,9 @@ import firebase from 'firebase'
      };
 
 
-
-
-
-     //metodos para las imagenes
-     const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-     //metodo para actualizar imagenes
-     const actualizacionImagen = () => {
-        const storageRef=firebase.storage().ref(`images/${image.name}`).put(image);
-        alert("imagen subida con exito");                   
-        };
-    
-
-
-
+ 
 return(
-<form onSubmit={handleSubmit}  className='card card-body'>
+<form   className='card card-body'>
     <h1>Registro de recetas</h1>
     <div className="form-group input-group">
          <input type="text" 
@@ -79,6 +92,9 @@ return(
          name='camponombre'
          onChange={handleInputChange}
          />
+    </div>
+    <div>
+      <TableroDeIngredientes />
     </div>
 
     <div className="form-group input-group">
@@ -106,7 +122,31 @@ return(
          />
     </div>
     <div>
-        <button className="btn btn-primary btn-block" 
+    <input type="text" 
+         className='form-control' 
+         placeholder='Calorias'
+         name='campoCalorias'
+         onChange={handleInputChange}
+         />
+
+        <input type="text" 
+         className='form-control' 
+         placeholder='Grasas Saturadas'
+         name='campoGrasas'
+         onChange={handleInputChange}
+         />
+        <input type="text" 
+         className='form-control' 
+         placeholder='Carbohidratos'
+         name='campoCarbohidratos'
+         onChange={handleInputChange}
+         /> 
+    </div>
+
+
+
+    <div>
+        <button className="btn btn-primary btn-block" onClick={handleSubmit} 
         >registrar receta</button>
     </div>
 </form>

@@ -9,7 +9,8 @@ const [newIngredient,setNewIngredient] = useState("");
 const updateNewCantidadValue=e=>setNewCantidad(e.target.value);
 const updateNewingredientValue=e=>setNewIngredient(e.target.value);
 
-  const createNewIngredient = () => {
+  const createNewIngredient = (e) => {
+    e.preventDefault();
     props.agregarIngrediente(newCantidad,newIngredient);
     setNewIngredient('');
     setNewCantidad('');
@@ -28,10 +29,7 @@ const updateNewingredientValue=e=>setNewIngredient(e.target.value);
         onChange={updateNewCantidadValue}
       />
 
-
-      <button  onClick={createNewIngredient}>
-        Add
-      </button>
+      <button onClick={createNewIngredient}>Add</button>
     </div>
   );
 };

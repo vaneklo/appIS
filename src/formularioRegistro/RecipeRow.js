@@ -5,6 +5,5 @@ export const RecipeRow = props => (
       <td>{props.recipe.cant}</td>
       <td>{props.recipe.name}</td>
       <button>eliminar</button>
-
     </tr>
 );

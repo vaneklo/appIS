@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {RecipeRow} from './RecipeRow'
 import {IngredientCreator} from'./IngredientCreator'
 
-function TableroDeIngredientes() {
-    const [userName, setUserName] = useState("Fazt");
+const TableroDeIngredientes =(props)=> {
 
-    const [recipeItems, setRecipeItems] = useState([
-        {cant:"1"  ,name: "recipe One"}
-      ]);
-    
-    
+  const [recipeItems, setRecipeItems] = useState([
+    {nombreReceta:'', cant:''  ,name:''}
+     ]);
+
     //hago un recorrido de las tareas y las muestro en pantalla
-     const recipeTableRows= ()=>
-     recipeItems.map(recipe=>(
-     <RecipeRow  recipe={recipe} key={recipe.name} />))
+     const recipeTableRows=(e)=>
+      recipeItems.map(recipe=>(
+      <tr key={recipe.name}>
+      <td>{recipe.name}</td>
+      <td>{recipe.cant}</td>
+      <td><button >eliminar</button> </td>
+      </tr>
+      ))
     
      const createNewIngredient = (cantidad,ingredientName) => {
        //si la el ingrediente esta dentro de la lista ya no se agregara
@@ -21,16 +23,12 @@ function TableroDeIngredientes() {
         setRecipeItems([...recipeItems, { cant:cantidad,name: ingredientName}]);
       }
       else{alert('coincidencia encontrada el la lista de items')}
+        
     };
 
-    const deleteIngredient = (ingredientName) => {
-      //si la el ingrediente esta dentro de la lista ya no se agregara
-     if (recipeItems.find(i => i.name === ingredientName)) {
-       console.log('se elimino un item')
-       
-     }
-   };
-
+    const deleteIngredient=()=>{
+    console.log('item eliminado'); 
+    }
 
     return (
       <div>
@@ -40,14 +38,11 @@ function TableroDeIngredientes() {
             <thead>
               <tr>
                 <th>cantidad</th>
-                <th>Nombre del ingrediente</th>
+                <th>nombre del ingrediente</th>
               </tr>
             </thead>
             <tbody>{recipeTableRows()}</tbody>
           </table>
-
-
-
         </div>
       </div>
     );

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-
 import firebase from 'firebase';
-
 import Input from '@material-ui/core/Input';
-
 import { db } from './firebase';
 import TableroDeIngredientes from './TableroDeIngredientes';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import {IngredientCreator} from './IngredientCreator';
 
 const FormularioRecetas=()=>{
     //valores iniciales de los campos nombre desripcion y complejidad
@@ -17,31 +23,59 @@ const FormularioRecetas=()=>{
         campoGrasas:'',
         campoCarbohidratos:'',
         campoProteinas:'',
+        urlImagen:''
       };
-    //valores iniciales de la imagen es null                     
-   const [image, setImage] = useState(null);
     //valores iniciales de los campos de texto
     const [values, setValues] = useState(initialStateValues);
-  
-  
+   //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
+   const [recipeItems, setRecipeItems] = useState([]);
+    //valores iniciales de la imagen es null                     
+    const [image, setImage] = useState(null);
+
     //metodos para las imagenes
-    const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
+   // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
+   const cambioImagen = e => {if (true) {setImage(e.target.files[0]);}
+  else{alert('formato de imagen no valido');}
+  
+  
+  };
    //metodo para actualizar imagenes
-     const actualizacionImagen = () => {
+    const subirImagen = () => {
     const storageRef=firebase.storage().ref(`images/${image.name}`).put(image);
-      alert("imagen subida con exito");                   
+    //setValues({...values,[name]:value}
+    //values.urlImagen=storageRef.snapshot.downloadURL;
+    console.log(storageRef.snapshot.getDownloadURL);
+    alert("imagen subida con exito");                   
      };
-
-    const agregarReceta= async ()=>{
-      //comunicacion con la base de datos
-      //con la coleccion receta.doc para id unico
-      //link object los valores
-     await  db.collection('receta').doc().set(values);
+     /////////////////////////////////////////
+     function validarImagen(e) {
+    //console.log(imagen.name);
+    var imagen = e.target.files[0];
+    if(imagen.type != 'image/jpg'){
+    alert('formato no valido para imagen')
+    return false;}
+    else{return true;}
+    console.log(imagen.name);
+         
+     // if (!(/\.(jpg|png)$/i).test(imagen.name)) {
+    // alert('Ingrese una imagen con alguno de los siguientes formatos: .jpeg/.jpg/.png.');
+    //return false;
+      //} 
+      //else{return true;}
+      //return true;
     }
-
-    // -------//const agregarIngredientesReceta= async (linkObject)=>{
-    ///----------- //await  db.collection('ingrediente-receta').doc().set(linkObject);}
+   
+    ///////////////////////////////////////////////
+    const agregarReceta=()=>{
+      //comunicacion con la base de datos con la coleccion receta.doc,para id unico
+     //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc
+      recipeItems.map((recipeItem)=>{
+      db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
+    })
+    db.collection('receta').doc().set(values);
+  }
     
+
     //validacion de los campos de texto
     const validarNombreReceta = (str) => {
         var pattern = new RegExp("^.*[a-zA-Z]+.*$");
@@ -56,8 +90,33 @@ const FormularioRecetas=()=>{
         var pattern = new RegExp("^[1-9][0-9]*$");
         return !!pattern.test(str);
       };
-
-
+ 
+     //crear las filas de la tabla de ingredientes
+    //hago un recorrido de las filas de los datos y las muestro en pantalla
+    //se actualiza frecuentemente
+         const recipeTableRows=(e)=>
+         recipeItems.map(recipe=>(
+         <tr key={recipe.name}>
+         <td>{recipe.cantidad}</td>
+         <td>{recipe.unidades}</td>
+         <td>{recipe.name}</td>
+         <td><button onClick={deleteIngredient} >eliminar</button> </td>
+         </tr>
+         ))
+          
+        //crear nuevo ingrediente en la tabla
+        const createNewIngredient = (cantidad,unidades,ingredientName) => {
+       //si la el ingrediente esta dentro de la lista ya no se agregara
+        if (!recipeItems.find(i=>i.name === ingredientName)) {
+           setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
+          console.log(recipeItems);
+          }
+         else{alert('coincidencia encontrada el la lista de items')}};
+   
+       const deleteIngredient=(e)=>{
+         e.preventDefault();
+       console.log('item eliminado'); 
+       }
     //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
       const handleSubmit = e =>{
       if(!validarNombreReceta(values.camponombre)){alert("nombre no valido");}  
@@ -66,10 +125,12 @@ const FormularioRecetas=()=>{
                   else{
                       if(image===null){alert("debe agregar una imagen");}
                       else{ e.preventDefault();
-                             console.log(values)
+                             console.log(values);
                              agregarReceta(values);  
-                             //agregarIngredientesReceta()  ;           
-                             actualizacionImagen();
+
+                              /// agregarIngredientesReceta(recipeItems)  ;           
+                             subirImagen();
+                             
                             } 
                     }
                }
@@ -84,8 +145,6 @@ const FormularioRecetas=()=>{
       
      };
 
-
- 
 return(
 <form   className='card card-body'>
     <h1>Registro de recetas</h1>
@@ -108,7 +167,21 @@ return(
      </div>
      <div>Ingredientes:</div>
     <div>
-      <TableroDeIngredientes />
+    <div>   
+        <IngredientCreator agregarIngrediente={createNewIngredient}/>
+            <TableContainer component={Paper}>        
+              <Table className="class.table" size="small"  aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                  <TableCell >cantidad</TableCell>
+                  <TableCell >unidades</TableCell>
+                  <TableCell >Nombre del Ingrediente</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{recipeTableRows()}</TableBody>
+              </Table>
+            </TableContainer>
+        </div>
     </div>
 
     <br></br>

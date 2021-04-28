@@ -9,7 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { IngredientCreator } from './IngredientCreator';
+import {IngredientCreator} from './IngredientCreator';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {

@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './SeccionFormulario.css';
+import SeccionFormulario from './SeccionFormulario';
 import reportWebVitals from './reportWebVitals';
+import'./firebase'
+import TableroDeIngredientes from './TableroDeIngredientes';
+
+
+//import 'bootswatch/dist/journal/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+  <SeccionFormulario/>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,11 +1,19 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { Button, Container } from '@material-ui/core';
-import MuiTextField from '@material-ui/core/TextField';
-import { Autocomplete } from 'formik-material-ui-lab';
-import Box from '@material-ui/core/Box';
-import { Typography } from '@material-ui/core';
 
+import {
+  Field,
+  Form,
+  Formik,
+} from 'formik';
+import { Autocomplete } from 'formik-material-ui-lab';
+
+import {
+  Button,
+  Container,
+  Typography,
+} from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import MuiTextField from '@material-ui/core/TextField';
 
 import { ingredientes } from '../data/datos';
 

@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 
 import firebase from 'firebase';
 
-import Input from '@material-ui/core/Input';
-import { Button, Container, Typography, TextField } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid'
+import {
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { db } from './firebase';
 import TableroDeIngredientes from './TableroDeIngredientes';
+
 // import classes from '*.module.css';
 
 
@@ -77,13 +82,13 @@ const FormularioRecetas = () => {
 
   //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
   const handleSubmit = e => {
-    if (!validarNombreReceta(values.camponombre)) { alert("nombre no valido"); }
+    if (!validarNombreReceta(values.camponombre)) { alert("Ingrese un nombre válido para la receta"); }
     else {
-      if (!validarDescripcionReceta(values.campodescripcion)) { alert("descripcion no valida"); }
+      if (!validarDescripcionReceta(values.campodescripcion)) { alert("Descripción no válida."); }
       else {
         if (!validarComplejidadReceta(values.campocomplejidad)) { alert("la complejidad solo se mide con numeros"); }
         else {
-          if (image === null) { alert("debe agregar una imagen"); }
+          if (image === null) { alert("Suba una imagen por favor."); }
           else {
             e.preventDefault();
             console.log(values)
@@ -118,6 +123,7 @@ const FormularioRecetas = () => {
             <TextField
               required
               label="Nombre de la receta"
+              InputProps={{ inputProps: { maxLength: 35 } }}
               defaultValue=""
               fullWidth='true'
               placeholder='Introduzca nombre la receta'
@@ -144,6 +150,7 @@ const FormularioRecetas = () => {
               label="Pasos de elaboración"
               placeholder="Introduzca los pasos"
               multiline
+              InputProps={{ inputProps: { minLength: 100,maxLength: 5000 } }}
               rows={7}
               defaultValue=""
               variant="outlined"
@@ -155,6 +162,10 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12}>
             <TextField
               label="Complejidad"
+              type="number"
+              InputProps={{ inputProps: { min: 1, max: 5 } }}
+              minValue="1"
+              maxValue="5"              
               defaultValue=""
               fullWidth='true'
               placeholder='Grado de complejidad'
@@ -165,6 +176,8 @@ const FormularioRecetas = () => {
             <TextField
               label="Calorías"
               defaultValue=""
+              type="number"
+              InputProps={{ inputProps: { min: 0 } }}
               fullWidth='true'
               placeholder='Número de calorías'
               name='campoCalorias'
@@ -174,6 +187,8 @@ const FormularioRecetas = () => {
             <TextField
               label="Grasas saturadas"
               defaultValue=""
+              type="number"
+              InputProps={{ inputProps: { min: 0 } }}
               fullWidth='true'
               placeholder='Número de grasas saturadas'
               name='campoGrasas'
@@ -183,6 +198,8 @@ const FormularioRecetas = () => {
             <TextField
               label="Carbohidratos"
               defaultValue=""
+              type="number"
+              InputProps={{ inputProps: { min: 0 } }}
               fullWidth='true'
               placeholder='Número de carbohidratos'
               name='campoCarbohidratos'

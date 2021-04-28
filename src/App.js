@@ -16,10 +16,7 @@ function App() {
     <Router>
 
       <Header />
-      <Typography variant="h2" component="h1" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
-        ComeCon
-      </Typography>
-
+      
       <Switch>
         <Route exact path="/">
           <Autocompletado />

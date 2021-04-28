@@ -28,18 +28,24 @@ const FormularioRecetas=()=>{
     //valores iniciales de los campos de texto
     const [values, setValues] = useState(initialStateValues);
    //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
-   const [recipeItems, setRecipeItems] = useState([]);
+   const[recipeItems, setRecipeItems] = useState([]);
     //valores iniciales de la imagen es null                     
     const [image, setImage] = useState(null);
 
     //metodos para las imagenes
    // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-   const cambioImagen = e => {if (true) {setImage(e.target.files[0]);}
+   const cambioImagen = e => {if (validarImagen(e)) {setImage(e.target.files[0]);}
   else{alert('formato de imagen no valido');}
   
   
   };
-   //metodo para actualizar imagenes
+    function validarImagen(e) {
+    //console.log(imagen.name);
+    var imagen = e.target.files[0];
+    return true;
+    }
+
+   //metodo para subir imagenes a la base de datos falta como recuperar la url
     const subirImagen = () => {
     const storageRef=firebase.storage().ref(`images/${image.name}`).put(image);
     //setValues({...values,[name]:value}
@@ -47,28 +53,11 @@ const FormularioRecetas=()=>{
     console.log(storageRef.snapshot.getDownloadURL);
     alert("imagen subida con exito");                   
      };
-     /////////////////////////////////////////
-     function validarImagen(e) {
-    //console.log(imagen.name);
-    var imagen = e.target.files[0];
-    if(imagen.type != 'image/jpg'){
-    alert('formato no valido para imagen')
-    return false;}
-    else{return true;}
-    console.log(imagen.name);
-         
-     // if (!(/\.(jpg|png)$/i).test(imagen.name)) {
-    // alert('Ingrese una imagen con alguno de los siguientes formatos: .jpeg/.jpg/.png.');
-    //return false;
-      //} 
-      //else{return true;}
-      //return true;
-    }
-   
-    ///////////////////////////////////////////////
+
+     
     const agregarReceta=()=>{
-      //comunicacion con la base de datos con la coleccion receta.doc,para id unico
-     //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc
+    //comunicacion con la base de datos con la coleccion receta.doc,para id unico
+    //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc
       recipeItems.map((recipeItem)=>{
       db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
     })
@@ -94,13 +83,13 @@ const FormularioRecetas=()=>{
      //crear las filas de la tabla de ingredientes
     //hago un recorrido de las filas de los datos y las muestro en pantalla
     //se actualiza frecuentemente
-         const recipeTableRows=(e)=>
+         const recipeTableRows=()=>
          recipeItems.map(recipe=>(
          <tr key={recipe.name}>
          <td>{recipe.cantidad}</td>
          <td>{recipe.unidades}</td>
          <td>{recipe.name}</td>
-         <td><button onClick={deleteIngredient} >eliminar</button> </td>
+         <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
          </tr>
          ))
           
@@ -113,9 +102,21 @@ const FormularioRecetas=()=>{
           }
          else{alert('coincidencia encontrada el la lista de items')}};
    
-       const deleteIngredient=(e)=>{
+       const deleteIngredient=(e,recipeItem)=>{
          e.preventDefault();
-       console.log('item eliminado'); 
+          console.log('antes'+recipeItems);
+          var contador=0;
+          var lista=recipeItems;
+          console.log(lista);
+           lista.map((ingrediente)=>{
+             if(recipeItem.name==ingrediente.name)
+             {recipeItems.splice(contador,1);
+             }
+           contador++;
+           });
+        //setRecipeItems(lista);
+       // recipeTableRows();
+      console.log('despues'+recipeItems)
        }
     //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
       const handleSubmit = e =>{

@@ -47,8 +47,8 @@ const FormularioRecetas = () => {
    //valores iniciales de los campos de texto
    const [values, setValues] = useState(initialStateValues);
    //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
-   //const[recipeItems, setRecipeItems] = useState([window.localStorage.getItem('tablaIngredientes')]);
-   const[recipeItems, setRecipeItems] = useState(JSON.parse(window.localStorage.getItem('tablaIngredientes')));
+   const[recipeItems, setRecipeItems] = useState([]);
+  // const[recipeItems, setRecipeItems] = useState(JSON.parse(window.localStorage.getItem('tablaIngredientes')));
     //valores iniciales de la imagen es null                     
    const [image, setImage] = useState(null);
 
@@ -76,9 +76,11 @@ const FormularioRecetas = () => {
      const agregarReceta=()=>{
       //comunicacion con la base de datos con la coleccion receta.doc,para id unico
       //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc
-        recipeItems.map((recipeItem)=>{
+        if(recipeItems!=null){
+         recipeItems.map((recipeItem)=>{
         db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
          })
+        }
          db.collection('receta').doc().set(values);
         }
 
@@ -104,6 +106,7 @@ const FormularioRecetas = () => {
     //hago un recorrido de las filas de los datos y las muestro en pantalla
     //se actualiza frecuentemente
     const recipeTableRows=()=>{
+      console.log(recipeItems)
       if(recipeItems!=null){
         recipeItems.map(recipe=>(
           <tr key={recipe.name}>
@@ -113,27 +116,28 @@ const FormularioRecetas = () => {
           <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
           </tr>
           ))
-      }
-      
+        }
     };
-   
-   
-
+     
               //crear nuevo ingrediente en la tabla
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
-                //si los campos no estan vacios
-                if(cantidad!='' && unidades!='' && ingredientName!= ''&& cantidad!=null && unidades!=null && ingredientName!= null){
-                   //si la el ingrediente esta dentro de la lista ya no se agregara
-                 if (!recipeItems.find(i=>i.name == ingredientName)) {
-                        setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
-                    }
-                  else{alert('coincidencia encontrada el la lista de items')}
-                    }
-                  else{//falta en los criterios de aceptacion
-                    alert('no puede haber campos vacios')
-                 }
-                 };
-                const deleteIngredient=(e,recipeItem)=>{
+                if(recipeItems!=null){
+                  if(cantidad!='' && unidades!='' && ingredientName!=''){
+                    if (!recipeItems.find(i=>i.name == ingredientName)) {
+                    setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
+                        }
+                     else{alert('coincidencia encontrada el la lista de items')}
+                  }  
+                  else{alert('no puede haber campos vacios')}
+             }
+                else{
+                  setRecipeItems([{cantidad:cantidad,unidades:unidades,name: ingredientName}]);
+               }
+               
+              }
+   
+
+                const deleteIngredient=(recipeItem)=>{
                   //e.preventDefault();
                    //console.log('antes'+recipeItems);
                    var contador=0;
@@ -148,12 +152,11 @@ const FormularioRecetas = () => {
                     contador++;
                     });
                     setRecipeItems(lista);
-                    recipeTableRows();
                    console.log(recipeItems)
-                    var tablaAlmacen=recipeItems;
+                  var tablaAlmacen=recipeItems;
          
                     window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
-                    console.log([window.localStorage.getItem("tablaIngredientes")])
+                
             
                 }
 
@@ -224,7 +227,6 @@ const FormularioRecetas = () => {
               onChange={handleInputChange}
               value={values.camponombre}
               />
-
           </Grid>
 
           <Grid item sm={12} xs={12} >
@@ -235,24 +237,27 @@ const FormularioRecetas = () => {
 
           <Grid item sm={12} xs={12}>
             <div>Ingredientes:</div>
-            <div>   
+             
+     <div>   
         <IngredientCreator agregarIngrediente={createNewIngredient}/>
             <TableContainer component={Paper}>        
-              <Table className="class.table" size="small"  aria-label="customized table">
-                <TableHead>
+              <Table >
+                  <TableHead>
                   <TableRow>
                   <TableCell >cantidad</TableCell>
                   <TableCell >unidades</TableCell>
                   <TableCell >Nombre del Ingrediente</TableCell>
                   </TableRow>
-                </TableHead>
+                  </TableHead>
                 <TableBody>{recipeTableRows()}</TableBody>
               </Table>
             </TableContainer>
-        </div>
+            </div>
+   
+        
+       
 
-
-            
+          
           </Grid>
 
           <Grid item sm={12} xs={12}>

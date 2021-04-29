@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
+
 import firebase from 'firebase';
-import Input from '@material-ui/core/Input';
-import {db} from './firebase';
-import TableroDeIngredientes from './TableroDeIngredientes';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import {IngredientCreator} from './IngredientCreator';
 
 import {
   Button,
@@ -20,10 +9,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-// import classes from '*.module.css';
-
+import { db } from './firebase';
+import { IngredientCreator } from './IngredientCreator';
 
 const useStyles = makeStyles((theme) => ({
   formulario: {
@@ -107,24 +103,28 @@ const FormularioRecetas = () => {
      //crear las filas de la tabla de ingredientes
     //hago un recorrido de las filas de los datos y las muestro en pantalla
     //se actualiza frecuentemente
-    const recipeTableRows=()=>
-    recipeItems.filter(item=>item.name!=null || item.name!='')
-      .map(recipe=>(
-      <tr key={recipe.name}>
-      <td>{recipe.cantidad}</td>
-      <td>{recipe.unidades}</td>
-      <td>{recipe.name}</td>
-      <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
-      </tr>
-      ))
+    const recipeTableRows=()=>{
+      if(recipeItems!=null){
+        recipeItems.map(recipe=>(
+          <tr key={recipe.name}>
+          <td>{recipe.cantidad}</td>
+          <td>{recipe.unidades}</td>
+          <td>{recipe.name}</td>
+          <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
+          </tr>
+          ))
+      }
+      
+    };
+   
    
 
               //crear nuevo ingrediente en la tabla
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
                 //si los campos no estan vacios
-                if(cantidad!='' && unidades!='' && ingredientName!= ''){
+                if(cantidad!='' && unidades!='' && ingredientName!= ''&& cantidad!=null && unidades!=null && ingredientName!= null){
                    //si la el ingrediente esta dentro de la lista ya no se agregara
-                 if (!recipeItems.find(i=>i.name === ingredientName)) {
+                 if (!recipeItems.find(i=>i.name == ingredientName)) {
                         setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
                     }
                   else{alert('coincidencia encontrada el la lista de items')}

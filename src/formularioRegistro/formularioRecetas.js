@@ -47,7 +47,14 @@ const FormularioRecetas = () => {
 
 
   //metodos para las imagenes
-  const cambioImagen = e => { if (e.target.files[0]) { setImage(e.target.files[0]); } };
+  const cambioImagen = e => { 
+    if(1>2){
+      if (e.target.files[0].size<200000) {
+        setImage(e.target.files[0]);         
+      } else{alert("el archivo es muy grande");}
+    
+    }    
+  };
   //metodo para actualizar imagenes
   const actualizacionImagen = () => {
     const storageRef = firebase.storage().ref(`images/${image.name}`).put(image);
@@ -89,7 +96,7 @@ const FormularioRecetas = () => {
         if (!validarComplejidadReceta(values.campocomplejidad)) { alert("la complejidad solo se mide con numeros"); }
         else {
           if (image === null) { alert("Suba una imagen por favor."); }
-          else {
+          else {            
             e.preventDefault();
             console.log(values)
             agregarReceta(values);
@@ -136,7 +143,7 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" onChange={cambioImagen} />
+            <input type="file" accept=".jpg,.png" name="imagenes"onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>

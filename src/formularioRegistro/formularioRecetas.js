@@ -30,16 +30,14 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     borderRadius: '10px'
   }
+
 }));
 
-<<<<<<< HEAD
-=======
 
 
   
   
 
->>>>>>> 599334078b586641f7190042aac74fb9e3d7d7a2
 const FormularioRecetas = () => {
   const classes = useStyles();
 
@@ -79,24 +77,18 @@ const FormularioRecetas = () => {
     campoCarbohidratos:window.localStorage.getItem('campoCarbohidratos'),
     campoProteinas:window.localStorage.getItem('campoProteinas')
   };
-  //valores iniciales de la imagen es null                     
-  const [image, setImage] = useState(null);
-  //valores iniciales de los campos de texto
-  const [values, setValues] = useState(initialStateValues);
+   //valores iniciales de los campos de texto
+   const [values, setValues] = useState(initialStateValues);
+   //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
+   const[recipeItems, setRecipeItems] = useState([]);
+  // const[recipeItems, setRecipeItems] = useState(JSON.parse(window.localStorage.getItem('tablaIngredientes')));
+    //valores iniciales de la imagen es null                     
+   const [image, setImage] = useState(null);
 
-  //metodos para las imagenes
-  const cambioImagen = e => { 
-    if(1>2){
-      if (e.target.files[0].size<200000) {
-        setImage(e.target.files[0]);         
-      } else{alert("el archivo es muy grande");}
-    
-    }    
-  };
-  //metodo para actualizar imagenes
-  const actualizacionImagen = () => {
-    const storageRef = firebase.storage().ref(`images/${image.name}`).put(image);
-    alert("imagen subida con exito");
+       //metodos para las imagenes
+   // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
+   const cambioImagen = e => {if (validarImagen(e)) {setImage(e.target.files[0]);}
+  else{alert('formato de imagen no valido');}
   };
     function validarImagen(e) {
     //console.log(imagen.name);
@@ -110,13 +102,8 @@ const FormularioRecetas = () => {
     //setValues({...values,[name]:value}
     //values.urlImagen=storageRef.snapshot.downloadURL;
     console.log(storageRef.snapshot.getDownloadURL);
-<<<<<<< HEAD
-    alert("imagen subida con exito");                   
-  };
-=======
     alert("Registro exitoso");                   
      };
->>>>>>> 599334078b586641f7190042aac74fb9e3d7d7a2
 
      
      const agregarReceta=()=>{
@@ -128,9 +115,6 @@ const FormularioRecetas = () => {
          })
         }
          db.collection('receta').doc().set(values);
-<<<<<<< HEAD
-      };
-=======
         }
 
 
@@ -149,28 +133,23 @@ const FormularioRecetas = () => {
       return !!pattern.test(str);
     };
     
->>>>>>> 599334078b586641f7190042aac74fb9e3d7d7a2
 
-  //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
-  const handleSubmit = e => {
-    if (!validarNombreReceta(values.camponombre)) { alert("Ingrese un nombre válido para la receta"); }
-    else {
-      if (!validarDescripcionReceta(values.campodescripcion)) { alert("Descripción no válida."); }
-      else {
-        if (!validarComplejidadReceta(values.campocomplejidad)) { alert("la complejidad solo se mide con numeros"); }
-        else {
-          if (image === null) { alert("Suba una imagen por favor."); }
-          else {            
-            e.preventDefault();
-            console.log(values)
-            agregarReceta(values);
-            //agregarIngredientesReceta()  ;           
-            actualizacionImagen();
-          }
+     //crear las filas de la tabla de ingredientes
+    //hago un recorrido de las filas de los datos y las muestro en pantalla
+    //se actualiza frecuentemente
+    const recipeTableRows=()=>{
+      console.log(recipeItems)
+      if(recipeItems!=null){
+        recipeItems.map(recipe=>(
+          <tr key={recipe.name}>
+          <td>{recipe.cantidad}</td>
+          <td>{recipe.unidades}</td>
+          <td>{recipe.name}</td>
+          <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
+          </tr>
+          ))
         }
-      }
-    }
-  };
+    };
      
               //crear nuevo ingrediente en la tabla
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
@@ -181,13 +160,15 @@ const FormularioRecetas = () => {
                         }
                      else{alert('coincidencia encontrada el la lista de items')}
                   }  
-                  else{alert('no puede haber campos vacios');}
+                  else{alert('no puede haber campos vacios')}
              }
                 else{
                   setRecipeItems([{cantidad:cantidad,unidades:unidades,name: ingredientName}]);
-               }               
-              };
+               }
+               
+              }
    
+
                 const deleteIngredient=(recipeItem)=>{
                   //e.preventDefault();
                    //console.log('antes'+recipeItems);
@@ -195,8 +176,8 @@ const FormularioRecetas = () => {
                    var lista=recipeItems;
                   // console.log(lista);
                     lista.map((ingrediente)=>{
-                      if(recipeItem.name==ingrediente.name){
-                      console.log(ingrediente);
+                      if(recipeItem.name==ingrediente.name)
+                      {console.log(ingrediente);
                        lista.splice(contador,1);
                        console.log(lista);
                       }
@@ -204,9 +185,12 @@ const FormularioRecetas = () => {
                     });
                     setRecipeItems(lista);
                    console.log(recipeItems)
-                  var tablaAlmacen=recipeItems;         
-                    window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));                           
-                };
+                  var tablaAlmacen=recipeItems;
+         
+                    window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
+                
+            
+                }
 
 
 
@@ -215,7 +199,7 @@ const FormularioRecetas = () => {
     //value es el valor del input
     const handleInputChange= (e) =>{
       const{name,value}=e.target;
-      setLocalStorageRecetas({...values,[name]:value});
+      setLocalStorageRecetas({...values,[name]:value})
       };
  
       //almacenamiento dentro de la ventana,persiste a la actualziacion
@@ -230,11 +214,14 @@ const FormularioRecetas = () => {
         window.localStorage.setItem('campoCarbohidratos',value.campoCarbohidratos);
         window.localStorage.setItem('campoProteinas',value.campoProteinas);
         }
-      catch(error){console.error(error);}
-     };
+      catch(error){console.error(error);
+                  }
+     }
+  
+
      
    //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
-   /*const handleSubmit = (e) =>{
+   const handleSubmit = e =>{
     if(!validarNombreReceta(values.camponombre)){alert("nombre no valido");}  
     else{
       if(!validarNombre(values.camponombre)){alert("Receta ya registrada");}
@@ -253,7 +240,8 @@ const FormularioRecetas = () => {
      } }
    };
 
-*/
+
+
   return (
     <Container maxWidth='sm'>
       <Typography variant="h4" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
@@ -279,15 +267,14 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" accept=".jpg,.png" name="imagenes"onChange={cambioImagen} />
+            <input type="file" onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>
             <div>Ingredientes:</div>
              
      <div>   
-        <Ingredie
-        ntCreator agregarIngrediente={createNewIngredient}/>
+        <IngredientCreator agregarIngrediente={createNewIngredient}/>
             <TableContainer component={Paper}>        
               <Table >
                   <TableHead>
@@ -301,6 +288,11 @@ const FormularioRecetas = () => {
               </Table>
             </TableContainer>
             </div>
+   
+        
+       
+
+          
           </Grid>
 
           <Grid item sm={12} xs={12}>
@@ -374,6 +366,9 @@ const FormularioRecetas = () => {
 
         </Grid>
       </form>
-    </Container>
-};)
+
+
+    </Container>)
+
+};
 export default FormularioRecetas;

@@ -267,7 +267,7 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" onChange={cambioImagen} />
+            <input type="file" accept=".jpge, .png, .jpg"onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>

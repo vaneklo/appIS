@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import firebase from 'firebase';
 
@@ -31,9 +34,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
+  
+  
+
 const FormularioRecetas = () => {
   const classes = useStyles();
 
+  const[listaNombresRegistrados,setListaNombresRegistrados]=useState([]);
+  useEffect(()=>{getNombre()}, [])
+  
+  
+  const getNombre=async()=>{
+    
+    let obj;
+    let lista=[]
+    const querySnapshot=await db.collection("receta").get();
+    querySnapshot.forEach((doc)=>{obj=doc.data()
+    obj.id=doc.id
+    lista.push(obj)
+    });
+    setListaNombresRegistrados(lista)
+    console.log(lista[0].camponombre);
+    
+    }
+  const validarNombre=(nombre)=>{
+    var bandera = true;
+    var contador = 0;
+    
+    listaNombresRegistrados.map((receta)=>{ if(receta.camponombre==nombre) {console.log(receta.camponombre); 
+    bandera=false; console.log("Error encontrado."); } contador++; });
+      return bandera;
+      console.log(bandera);
+  }
   //valores iniciales de los campos nombre desripcion y complejidad
   const initialStateValues = {
     camponombre:window.localStorage.getItem('camponombre'),
@@ -69,7 +102,7 @@ const FormularioRecetas = () => {
     //setValues({...values,[name]:value}
     //values.urlImagen=storageRef.snapshot.downloadURL;
     console.log(storageRef.snapshot.getDownloadURL);
-    alert("imagen subida con exito");                   
+    alert("Registro exitoso");                   
      };
 
      
@@ -83,7 +116,6 @@ const FormularioRecetas = () => {
         }
          db.collection('receta').doc().set(values);
         }
-
 
 
     //validacion de los campos de texto
@@ -100,7 +132,7 @@ const FormularioRecetas = () => {
       var pattern = new RegExp("^[1-9][0-9]*$");
       return !!pattern.test(str);
     };
-
+    
 
      //crear las filas de la tabla de ingredientes
     //hago un recorrido de las filas de los datos y las muestro en pantalla
@@ -191,7 +223,10 @@ const FormularioRecetas = () => {
    //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
    const handleSubmit = e =>{
     if(!validarNombreReceta(values.camponombre)){alert("nombre no valido");}  
-    else{if(!validarDescripcionReceta(values.campodescripcion)){alert("descripcion no valida");}  
+    else{
+      if(!validarNombre(values.camponombre)){alert("Receta ya registrada");}
+      else{
+        if(!validarDescripcionReceta(values.campodescripcion)){alert("descripcion no valida");}  
          else{if(!validarComplejidadReceta(values.campocomplejidad)){alert("la complejidad solo se mide con numeros");}
                 else{
                     if(image===null){alert("debe agregar una imagen");}
@@ -202,7 +237,7 @@ const FormularioRecetas = () => {
                           } 
                   }
              }
-         }
+     } }
    };
 
 

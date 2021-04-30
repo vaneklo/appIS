@@ -1,0 +1,94 @@
+[33mcommit 92e5993399a939634023a9cae5c07e9517e4626f[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Juan P. Montecinos <201400076@est.umss.edu>
+Date:   Fri Apr 30 12:31:34 2021 -0400
+
+    problema de tipos de imagenes
+
+[33mcommit ca3bd7c6147ff6826abba0292d217a6bc92cdff9[m
+Author: EinaSwain <dayanabarra99@gmail.com>
+Date:   Wed Apr 28 17:29:09 2021 -0400
+
+    Correccion de campos del formulario
+    
+    *Correccion de mensajes de error
+    *Correccion de los campos complejidad, calorias, grasas saturadas, carbohidratos. Ahora son campos numericos.
+    *El campo complejidad solo acepta valores de 1 a 5
+
+[33mcommit 52a4f1ba6439d76387ab95d5e4b905942f0f2300[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Wed Apr 28 15:32:40 2021 -0400
+
+    Ajuste de estilo de formulario
+
+[33mcommit 19f78d20feb023e45b2ec0aa9ee20411e0106e33[m
+Author: EinaSwain <dayanabarra99@gmail.com>
+Date:   Fri Apr 23 19:13:28 2021 -0400
+
+    Arreglo del iu
+
+[33mcommit 06e5e17573a6ea297c19583cf0c5e0fab4ddb5c4[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Fri Apr 23 18:06:14 2021 -0400
+
+    Modificando estilo
+
+[33mcommit e5cad9dc1514da972502c7322df7901de61ec3dd[m
+Author: mitco874 <82779170+mitco874@users.noreply.github.com>
+Date:   Fri Apr 23 13:44:25 2021 -0400
+
+    se agrego la tabla de ingredientes
+
+[33mcommit 6790afe5f1370663e1a29e00656a272ef843fe63[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Fri Apr 23 08:12:58 2021 -0400
+
+    Estilos, header y footer
+
+[33mcommit 8a46c52d2971290cfb3cdaa195df6e4b2a145d72[m
+Merge: e603a0cb 2d27058c
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Fri Apr 23 06:39:12 2021 -0400
+
+    Merge branch 'main' of https://github.com/vaneklo/appIS into main
+
+[33mcommit e603a0cb06c818d090aabb36d59973c01e833bc3[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Fri Apr 23 06:37:30 2021 -0400
+
+    Agregados mas datos de prueba
+
+[33mcommit 2d27058c3a6b806766f21358a2ef90b5bd04e996[m
+Author: Juan P. Montecinos <201400076@est.umss.edu>
+Date:   Fri Apr 23 01:11:11 2021 -0400
+
+    Enrutamiento de paginas
+
+[33mcommit 0bc8410bdc3fad630599c4e1a06978987e51adf4[m
+Author: Juan P. Montecinos <201400076@est.umss.edu>
+Date:   Fri Apr 23 00:11:22 2021 -0400
+
+    registro de ingredientes y formularios
+
+[33mcommit 2eadc1529568a20a9b0519f1b4c1abec2409a6c8[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Thu Apr 22 11:17:14 2021 -0400
+
+    Add coomponente de autocompletado y lista inicial de ingredientes
+
+[33mcommit ad3d31b08d22165a6515d94f4031d3b44d6fc316[m
+Author: Alex Ojeda Copa <alex-roc@users.noreply.github.com>
+Date:   Wed Apr 21 20:41:43 2021 -0400
+
+    Prueba de modifion de CSS
+
+[33mcommit 376deac1e5b4170c7677e0bf19f6659cc80f4dac[m
+Author: Juan P. Montecinos <201400076@est.umss.edu>
+Date:   Wed Apr 21 02:12:52 2021 -0400
+
+    home de la aplicacion
+
+[33mcommit 26177a26ab4a3002d816ee9d348b83db6980b14a[m
+Author: vaneklo <72883732+vaneklo@users.noreply.github.com>
+Date:   Sun Apr 18 15:58:48 2021 -0400
+
+    Initial commit

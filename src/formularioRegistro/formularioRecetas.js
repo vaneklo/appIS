@@ -87,13 +87,19 @@ const FormularioRecetas = () => {
 
        //metodos para las imagenes
    // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-   const cambioImagen = e => {if (validarImagen(e)) {setImage(e.target.files[0]);}
-  else{alert('formato de imagen no valido');}
+   const cambioImagen = e => {
+     if (validarImagen(e)) {
+       setImage(e.target.files[0]);
+    }
+    else{alert('formato de imagen no valido');}
   };
     function validarImagen(e) {
-    //console.log(imagen.name);
-    var imagen = e.target.files[0];
-    return true;
+      //validacion de tama;o de imagen
+      if(e.target.files[0].size>200000){
+        return false;
+      }else{
+        return true;
+      }
     }
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url

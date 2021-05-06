@@ -42,6 +42,7 @@ const Autocompletado = () => (
                 <Field
                   name="autocomplete"
                   multiple
+                  noOptionsText='No existen coincidencias'
                   component={Autocomplete}
                   options={ingredientes.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
                   }

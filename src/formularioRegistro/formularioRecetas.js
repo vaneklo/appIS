@@ -87,19 +87,34 @@ const FormularioRecetas = () => {
 
        //metodos para las imagenes
    // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-   const cambioImagen = e => {
-     if (validarImagen(e)) {
-       setImage(e.target.files[0]);
-    }
-    else{alert('formato de imagen no valido');}
-  };
-    function validarImagen(e) {
-      //validacion de tama;o de imagen
-      if(e.target.files[0].size>200000){
-        return false;
-      }else{
-        return true;
+   const cambioImagen = e => {                                 
+     try{
+        if (validarImagen()) {
+          setImage(e.target.files[0]);
+        }else{}
       }
+      catch(error){
+        alert('465165'); 
+       }     
+  };
+    function validarImagen() {    
+        var o = document.getElementById('archivo');
+        var foto = o.files[0];        
+
+        var img = new Image();
+        img.onload = function dimension() {
+          var tam720=this.width.toFixed(0)<=720 && this.height.toFixed(0)<= 720;
+          var tam480=this.width.toFixed(0)>= 480 && this.height.toFixed(0)>= 480;
+          if (tam720 && tam480) {
+            alert('La imagen se subio correctamente :)');            
+            return true;      
+          } else {
+            alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480');            
+            return false;               
+          }
+        };
+        img.src = URL.createObjectURL(foto);              
+        return false;      
     }
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url
@@ -273,7 +288,7 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" accept=".jpge, .png, .jpg"onChange={cambioImagen} />
+            <input type="file" name="archivo" id="archivo" accept=".jpge, .png, .jpg"onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>

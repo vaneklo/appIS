@@ -43,7 +43,8 @@ const Autocompletado = () => (
                   name="autocomplete"
                   multiple
                   component={Autocomplete}
-                  options={ingredientes}
+                  options={ingredientes.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
+                  }
                   getOptionLabel={(option) => option.ingrediente}
                   style={{ width: '60vw' }}
                   renderInput={(params) => (

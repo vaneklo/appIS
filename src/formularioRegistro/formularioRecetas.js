@@ -187,7 +187,7 @@ const FormularioRecetas = () => {
                     if (!recipeItems.find(i=>i.name == ingredientName)) {
                     setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
                         //nota no debe usarse (1) problema de tiempos por eso esta la variable tablaAlmacen 
-                      //window.localStorage.setItem('tablaIngredientes',recipeItems);    
+                      //(1)window.localStorage.setItem('tablaIngredientes',recipeItems);    
                       var tablaAlmacen=recipeItems;
                       window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
                                                                           }
@@ -268,7 +268,6 @@ const FormularioRecetas = () => {
              }
      } }
    };
-
 
 
   return (

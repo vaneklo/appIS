@@ -33,17 +33,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-
-  
-  
-
 const FormularioRecetas = () => {
   const classes = useStyles();
 
   const[listaNombresRegistrados,setListaNombresRegistrados]=useState([]);
-  useEffect(()=>{getNombre()}, [])
-  
+  useEffect(()=>{getNombre()},[])
   
   const getNombre=async()=>{
     
@@ -65,27 +59,42 @@ const FormularioRecetas = () => {
     listaNombresRegistrados.map((receta)=>{ if(receta.camponombre==nombre) {console.log(receta.camponombre); 
     bandera=false; console.log("Error encontrado."); } contador++; });
       return bandera;
-      console.log(bandera);
+      
   }
+   // bugs de los valores nulos arreglado
+  const getValoresVentanaIngredientes=()=>{
+    const arreglo=JSON.parse(window.localStorage.getItem('tablaIngredientes'));
+    if(arreglo!=null){return arreglo;}
+    else{return [];}}
+
+  const getValoresDescripcion=()=>{
+    var descip=window.localStorage.getItem('campodescripcion');
+    if(descip!=null){
+    return descip;  
+    }
+    else{return '';}
+  }
+
   //valores iniciales de los campos nombre desripcion y complejidad
   const initialStateValues = {
     camponombre:window.localStorage.getItem('camponombre'),
-    campodescripcion: window.localStorage.getItem('campodescripcion') , 
-    campocomplejidad: window.localStorage.getItem('campocomplejidad'),
+    campodescripcion:getValoresDescripcion(), 
+    campocomplejidad:window.localStorage.getItem('campocomplejidad'),
     campoCalorias:window.localStorage.getItem('campoCalorias'),
     campoGrasas:window.localStorage.getItem('campoGrasas'),
     campoCarbohidratos:window.localStorage.getItem('campoCarbohidratos'),
-    campoProteinas:window.localStorage.getItem('campoProteinas')
   };
+
    //valores iniciales de los campos de texto
    const [values, setValues] = useState(initialStateValues);
    //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
-   const[recipeItems, setRecipeItems] = useState([]);
-  // const[recipeItems, setRecipeItems] = useState(JSON.parse(window.localStorage.getItem('tablaIngredientes')));
+   //const[recipeItems, setRecipeItems] = useState([]);
+   const[recipeItems, setRecipeItems] = useState(getValoresVentanaIngredientes());
     //valores iniciales de la imagen es null                     
    const [image, setImage] = useState(null);
-
-       //metodos para las imagenes
+  
+ 
+  //metodos para las imagenes
    // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
    const cambioImagen = e => {                                 
      try{
@@ -94,7 +103,7 @@ const FormularioRecetas = () => {
         }else{}
       }
       catch(error){
-        alert('465165'); 
+        alert('error de imagen '); 
        }     
   };
     function validarImagen() {    
@@ -109,7 +118,8 @@ const FormularioRecetas = () => {
             alert('La imagen se subio correctamente :)');            
             return true;      
           } else {
-            alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480');            
+            alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480'); 
+            setImage(null);           
             return false;               
           }
         };
@@ -129,73 +139,69 @@ const FormularioRecetas = () => {
      
      const agregarReceta=()=>{
       //comunicacion con la base de datos con la coleccion receta.doc,para id unico
-      //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc
-        if(recipeItems!=null){
-         recipeItems.map((recipeItem)=>{
+      //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
+        recipeItems.map((recipeItem)=>{
         db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
          })
-        }
          db.collection('receta').doc().set(values);
         }
 
 
     //validacion de los campos de texto
     const validarNombreReceta = (str) => {
-      var pattern = new RegExp("^.*[a-zA-Z]+.*$");
+      var pattern = new RegExp("[a-zA-Z]+");
       return !!pattern.test(str);
     };
     const validarDescripcionReceta = (str) => {
-      var pattern = new RegExp("^.*[a-zA-Z]+.*$");
-      return !!pattern.test(str);
-    };
+        var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");
+       
+        return !!pattern.test(str);
+      };
 
     const validarComplejidadReceta = (str) => {
       var pattern = new RegExp("^[1-9][0-9]*$");
       return !!pattern.test(str);
     };
-    
-
+     
+    const validarNumeroIngredientes=()=>{
+      if(recipeItems==[] || recipeItems.length<21){return true;}
+      else{return false;}
+    };
      //crear las filas de la tabla de ingredientes
     //hago un recorrido de las filas de los datos y las muestro en pantalla
     //se actualiza frecuentemente
-    const recipeTableRows=()=>{
-      console.log(recipeItems)
-      if(recipeItems!=null){
-        recipeItems.map(recipe=>(
-          <tr key={recipe.name}>
-          <td>{recipe.cantidad}</td>
-          <td>{recipe.unidades}</td>
-          <td>{recipe.name}</td>
-          <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
-          </tr>
-          ))
-        }
-    };
+    const recipeTableRows=()=>
+    recipeItems.map(recipe=>(
+      <tr key={recipe.name}>
+      <td>{recipe.cantidad}</td>
+      <td>{recipe.unidades}</td>
+      <td>{recipe.name}</td>
+      <td><button onClick={(e)=>deleteIngredient(e,recipe)} >eliminar</button> </td>
+      </tr>
+      ))
+  
      
               //crear nuevo ingrediente en la tabla
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
-                if(recipeItems!=null){
                   if(cantidad!='' && unidades!='' && ingredientName!=''){
                     if (!recipeItems.find(i=>i.name == ingredientName)) {
                     setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
-                        }
+                        //nota no debe usarse (1) problema de tiempos por eso esta la variable tablaAlmacen 
+                      //window.localStorage.setItem('tablaIngredientes',recipeItems);    
+                      var tablaAlmacen=recipeItems;
+                      window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
+                                                                          }
                      else{alert('coincidencia encontrada el la lista de items')}
                   }  
                   else{alert('no puede haber campos vacios')}
-             }
-                else{
-                  setRecipeItems([{cantidad:cantidad,unidades:unidades,name: ingredientName}]);
-               }
-               
               }
    
-
-                const deleteIngredient=(recipeItem)=>{
-                  //e.preventDefault();
+                const deleteIngredient=(e,recipeItem)=>{
+                  // e.preventDefault();
                    //console.log('antes'+recipeItems);
                    var contador=0;
                    var lista=recipeItems;
-                  // console.log(lista);
+                  //console.log(lista);
                     lista.map((ingrediente)=>{
                       if(recipeItem.name==ingrediente.name)
                       {console.log(ingrediente);
@@ -207,10 +213,7 @@ const FormularioRecetas = () => {
                     setRecipeItems(lista);
                    console.log(recipeItems)
                   var tablaAlmacen=recipeItems;
-         
-                    window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
-                
-            
+                window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
                 }
 
 
@@ -232,8 +235,7 @@ const FormularioRecetas = () => {
         window.localStorage.setItem('campocomplejidad',value.campocomplejidad);
         window.localStorage.setItem('campoCalorias',value.campoCalorias);
         window.localStorage.setItem('campoGrasas',value.campoGrasas);
-        window.localStorage.setItem('campoCarbohidratos',value.campoCarbohidratos);
-        window.localStorage.setItem('campoProteinas',value.campoProteinas);
+        window.localStorage.setItem('campoCarbohidratos',value.campoCarbohidratos);   
         }
       catch(error){console.error(error);
                   }
@@ -245,16 +247,22 @@ const FormularioRecetas = () => {
    const handleSubmit = e =>{
     if(!validarNombreReceta(values.camponombre)){alert("nombre no valido");}  
     else{
-      if(!validarNombre(values.camponombre)){alert("Receta ya registrada");}
+      if(!validarNombre(values.camponombre)){alert("nombre de receta ya registrada");}
       else{
         if(!validarDescripcionReceta(values.campodescripcion)){alert("descripcion no valida");}  
          else{if(!validarComplejidadReceta(values.campocomplejidad)){alert("la complejidad solo se mide con numeros");}
                 else{
-                    if(image===null){alert("debe agregar una imagen");}
-                    else{ e.preventDefault();
-                           console.log(values);
+                  if(!validarNumeroIngredientes()){alert('debe agregar por lo menos un ingrediente');}
+                    else{
+                           if(image!=null){alert("debe agregar una imagen");
+                           setImage(null);
+                          }
+                          else{
+                           // e.preventDefault();
                            agregarReceta(values);         
-                           subirImagen();
+                          // subirImagen();
+                          alert('receta registrada correctamente');
+                          }
                           } 
                   }
              }
@@ -305,15 +313,10 @@ const FormularioRecetas = () => {
                   <TableCell >Nombre del Ingrediente</TableCell>
                   </TableRow>
                   </TableHead>
-                <TableBody>{recipeTableRows()}</TableBody>
+                <TableBody >{recipeTableRows()}</TableBody>
               </Table>
             </TableContainer>
             </div>
-   
-        
-       
-
-          
           </Grid>
 
           <Grid item sm={12} xs={12}>

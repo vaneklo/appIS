@@ -56,9 +56,12 @@ const FormularioRecetas = () => {
     var bandera = true;
     var contador = 0;
     
-    listaNombresRegistrados.map((receta)=>{ if(receta.camponombre==nombre) {console.log(receta.camponombre); 
-    bandera=false; console.log("Error encontrado."); } contador++; });
-      return bandera;
+    listaNombresRegistrados.map((receta)=>{ 
+      if(receta.camponombre==nombre) {
+    console.log(receta.camponombre); 
+    bandera=false;} 
+    contador++; });
+    return bandera;
       
   }
    // bugs de los valores nulos arreglado

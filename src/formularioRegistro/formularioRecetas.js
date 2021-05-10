@@ -23,6 +23,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import { db } from './firebase';
 import { IngredientCreator } from './IngredientCreator';
+import { Refresh } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   formulario: {
@@ -49,8 +50,7 @@ const FormularioRecetas = () => {
     lista.push(obj)
     });
     setListaNombresRegistrados(lista)
-    console.log(lista[0].camponombre);
-    
+    console.log(lista[0].camponombre); 
     }
   const validarNombre=(nombre)=>{
     var bandera = true;
@@ -62,7 +62,6 @@ const FormularioRecetas = () => {
     bandera=false;} 
     contador++; });
     return bandera;
-      
   }
    // bugs de los valores nulos arreglado
   const getValoresVentanaIngredientes=()=>{
@@ -99,40 +98,38 @@ const FormularioRecetas = () => {
  
   //metodos para las imagenes
    // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-   const cambioImagen = e => {                                 
-     try{
-        if (validarImagen()) {
-          setImage(e.target.files[0]);
-        }else{}
-      }
-      catch(error){
-        alert('error de imagen '); 
-       }     
-  };
-    function validarImagen() {    
+  // const cambioImagen = e => {                                 
+ //    if (validarImagen()){setImage(e.target.files[0]);}
+    
+//  };
+    const cambioImagen=(e)=> {    
         var o = document.getElementById('archivo');
-        var foto = o.files[0];        
-
+        var foto=o.files[0];
+        console.log(e.target.files[0]);        
         var img = new Image();
+        img.src = URL.createObjectURL(foto); 
         img.onload = function dimension() {
           var tam720=this.width.toFixed(0)<=720 && this.height.toFixed(0)<= 720;
           var tam480=this.width.toFixed(0)>= 480 && this.height.toFixed(0)>= 480;
           if (tam720 && tam480) {
-            alert('La imagen se subio correctamente :)');            
-            return true;      
-          } else {
-            alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480'); 
-            setImage(null);           
-            return false;               
+            setImage(e.target.files[0]);
+            //return true;
+            console.log("listo");
+          } 
+          else {
+            window.location.reload(true);
+
+            alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480');          
+            //return false;               
           }
         };
-        img.src = URL.createObjectURL(foto);              
-        return false;      
+                     
+        //return false;      
     }
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
-    const storageRef=firebase.storage().ref(`images/${image.name}`).put(image);
+    const storageRef=firebase.storage().ref(`images/${values.camponombre}`).put(image);
     //setValues({...values,[name]:value}
     //values.urlImagen=storageRef.snapshot.downloadURL;
     console.log(storageRef.snapshot.getDownloadURL);
@@ -151,8 +148,8 @@ const FormularioRecetas = () => {
 
 
     //validacion de los campos de texto
-    const validarNombreReceta = (str) => {
-      var pattern = new RegExp("[a-zA-Z]+");
+    const validarNombreReceta=(str)=>{
+      var pattern = new RegExp("^[a-zA-Z ,.'-]+$");
       return !!pattern.test(str);
     };
     const validarDescripcionReceta = (str) => {
@@ -188,11 +185,12 @@ const FormularioRecetas = () => {
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
                   if(cantidad!='' && unidades!='' && ingredientName!=''){
                     if (!recipeItems.find(i=>i.name == ingredientName)) {
+                      var tablaAlmacen=[...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}];
+                      window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
                     setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
                         //nota no debe usarse (1) problema de tiempos por eso esta la variable tablaAlmacen 
                       //(1)window.localStorage.setItem('tablaIngredientes',recipeItems);    
-                      var tablaAlmacen=recipeItems;
-                      window.localStorage.setItem('tablaIngredientes',JSON.stringify(tablaAlmacen));
+
                                                                           }
                      else{alert('coincidencia encontrada el la lista de items')}
                   }  
@@ -257,13 +255,11 @@ const FormularioRecetas = () => {
                 else{
                   if(!validarNumeroIngredientes()){alert('debe agregar por lo menos un ingrediente');}
                     else{
-                           if(image!=null){alert("debe agregar una imagen");
-                           setImage(null);
-                          }
+                           if(image==null){alert("debe agregar una imagen");}
                           else{
                            // e.preventDefault();
                            agregarReceta(values);         
-                          // subirImagen();
+                           subirImagen();
                           alert('receta registrada correctamente');
                           }
                           } 
@@ -298,7 +294,7 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" name="archivo" id="archivo" accept=".jpge, .png, .jpg"onChange={cambioImagen} />
+            <input type="file" name="archivo" id="archivo" accept=".jpge, .png, .jpg" onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>

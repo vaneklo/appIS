@@ -1,16 +1,17 @@
 import './App.css';
-import Header from './componentes/Header'
-import Image from 'material-ui-image'
-import { Typography } from '@material-ui/core';
+
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  Link
+  Switch,
 } from 'react-router-dom';
+
 import Autocompletado from './componentes/Autocompletado';
-import SeccionFormulario from './formularioRegistro/SeccionFormulario';
 import Footer from './componentes/Footer';
+import Header from './componentes/Header';
+import SeccionFormulario from './formularioRegistro/SeccionFormulario';
+import PrevRecetas from './prevRecetas/PrevRecetas';
+
 function App() {
   return (
     <Router>
@@ -23,6 +24,9 @@ function App() {
         </Route>
         <Route path="/registrar">
           <SeccionFormulario />
+        </Route>
+        <Route path="/prevRecetas">
+          <PrevRecetas />
         </Route>
       </Switch>
 

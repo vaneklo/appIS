@@ -149,7 +149,6 @@ const getResultadoBusquedaRecetas=async()=>{
       </Grid>
     ))
   );
-
   return (
     <div className={classes.root}>
     {tarjetasRecetas()}

@@ -25,7 +25,7 @@ function App() {
         <Route path="/registrar">
           <SeccionFormulario />
         </Route>
-        <Route path="/prevRecetas">
+        <Route path="/previstaRecetas">
           <PrevRecetas />
         </Route>
       </Switch>

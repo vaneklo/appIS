@@ -81,7 +81,6 @@ const getResultadoBusquedaRecetas=async()=>{
     obj2.id=doc.id;
     arrayRecetas.push(obj2);
      }
-
      })
      console.log(arrayRecetas);
     setResultadoBusquedaRecetas(arrayRecetas);
@@ -139,8 +138,7 @@ const getResultadoBusquedaRecetas=async()=>{
               <CardActions>
                   <Button size="small" color="primary">
                     Ver Receta
-                  </Button>
-                 
+                  </Button> 
                 </CardActions>
             </Card>
           </Grid>

@@ -11,13 +11,12 @@ import Footer from './componentes/Footer';
 import Header from './componentes/Header';
 import SeccionFormulario from './formularioRegistro/SeccionFormulario';
 import PrevRecetas from './prevRecetas/PrevRecetas';
+import Receta from './receta/Receta';
 
 function App() {
   return (
     <Router>
-
       <Header />
-      
       <Switch>
         <Route exact path="/">
           <Autocompletado />
@@ -28,13 +27,12 @@ function App() {
         <Route path="/prevRecetas">
           <PrevRecetas />
         </Route>
+        <Route path="/receta">
+          <Receta/>
+        </Route>
       </Switch>
-
       <Footer />
-
     </Router>
-
   );
 }
-
 export default App;

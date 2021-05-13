@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   Button,
@@ -10,6 +11,7 @@ import {
   Grid,
 } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,10 +80,7 @@ export default function MediaCard() {
                     {`Carbohidratos : ${elem.carb}`}
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary">
-                      Ver Receta
-                    </Button>
-                   
+                <Button color="primary" size="small" component={Link} to="/receta" >Ver Receta</Button>                                      
                   </CardActions>
               </Card>
             </Grid>

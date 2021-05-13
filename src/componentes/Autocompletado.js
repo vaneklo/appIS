@@ -66,7 +66,7 @@ const Autocompletado = () => (
                   variant="contained"
                   color="primary"
                   disabled={isSubmitting}
-                  onClick={submitForm}
+                  onClick={submitForm}                  
                 >
                   Enviar
             </Button>

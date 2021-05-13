@@ -16,9 +16,7 @@ import {
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MuiTextField from '@material-ui/core/TextField';
-
 import { ingredientes } from '../data/datos';
-
 const Autocompletado = () =>{ 
   const[listaIngredientesUnicos,setListaIngredientesUnicos]=useState([{ingrediente:' '}]);
   useEffect(()=>{getListaIngredientes()},[])

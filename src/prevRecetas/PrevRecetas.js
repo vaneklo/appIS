@@ -77,7 +77,7 @@ export default function MediaCard() {
       setResultadoBusquedaRecetas(arrayRecetas);
       }
       const tarjetasRecetas=()=>(
-        ResultadoBusquedaRecetas.map((elem) => (
+        ResultadoBusquedaRecetas.map((elem) =>(
           <Grid
             container
             spacing={2}

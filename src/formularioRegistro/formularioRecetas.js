@@ -101,6 +101,7 @@ const FormularioRecetas = () => {
         console.log(e.target.files[0]);        
         var img = new Image();
         img.src = URL.createObjectURL(foto); 
+        console.log(img.src);
         img.onload = function dimension() {
           var tam720=this.width.toFixed(0)<=720 && this.height.toFixed(0)<= 720;
           var tam480=this.width.toFixed(0)>= 480 && this.height.toFixed(0)>= 480;
@@ -123,26 +124,24 @@ const FormularioRecetas = () => {
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
     const storageRef=firebase.storage();
-    const storageApply=storageRef.ref(`images/${values.camponombre}`).put(image);
+    //storageRef.ref('images').child(values.camponombre).getDownloadURL() 
+    const storageApply=storageRef.ref(`images/${values.camponombre}`).put(image).then(
+     // setUrlImagen(storageRef.ref('images').child(values.camponombre).getDownloadURL())    
+      
+    )
+    
     console.log(image)     
     alert("Registro exitoso");  
      };
-
-     
      const agregarReceta=()=>{
       //comunicacion con la base de datos con la coleccion receta.doc,para id unico
       //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
-        recipeItems.map((recipeItem)=>{
-        db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
-         })
-         db.collection('receta').doc().set({
-          camponombre:values.camponombre,
-          campodescripcion:values.campodescripcion,
-          campocomplejidad:values.campocomplejidad,
-          campoCalorias:values.campoCalorias,
-          campoCarbohidratos:values.campoCarbohidratos,
-          campoGrasas:values.campoGrasas,
-          url:urlImagen});
+         db.collection('receta').doc().set(values)
+  
+          recipeItems.map((recipeItem)=>{
+            db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
+             })
+
         }
 
 
@@ -179,7 +178,6 @@ const FormularioRecetas = () => {
       </tr>
       ))
   
-     
               //crear nuevo ingrediente en la tabla
               const createNewIngredient = (cantidad,unidades,ingredientName) => {
                   if(cantidad!='' && unidades!='' && ingredientName!=''){
@@ -293,7 +291,7 @@ const FormularioRecetas = () => {
           <Grid item sm={12} xs={12} >
             <div>Foto de la Receta:</div>
             <br />
-            <input type="file" name="archivo" id="archivo" accept=".jpge, .png, .jpg" onChange={cambioImagen} />
+            <input type="file" name="archivo" id="archivo" accept=".jpge,.png,.jpg" onChange={cambioImagen} />
           </Grid>
 
           <Grid item sm={12} xs={12}>

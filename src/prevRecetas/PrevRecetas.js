@@ -36,7 +36,7 @@ export default function MediaCard() {
   const listaIngredientesSolicitados=['queso'];
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
   useEffect(()=>{getResultadoBusquedaRecetas()},[])
-  
+  console.log('wdasdasdasdasdsad')
   const cumpleTodosIngredientes=(entero,nombreReceta,arreglo)=>{
   var contador=0;
   arreglo.map((item)=>{

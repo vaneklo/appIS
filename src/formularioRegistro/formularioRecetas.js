@@ -41,7 +41,6 @@ const FormularioRecetas = () => {
   useEffect(()=>{getNombre()},[])
   
   const getNombre=async()=>{
-    
     let obj;
     let lista=[]
     const querySnapshot=await db.collection("receta").get();
@@ -55,7 +54,6 @@ const FormularioRecetas = () => {
   const validarNombre=(nombre)=>{
     var bandera = true;
     var contador = 0;
-    
     listaNombresRegistrados.map((receta)=>{ 
       if(receta.camponombre==nombre) {
     console.log(receta.camponombre); 
@@ -63,6 +61,7 @@ const FormularioRecetas = () => {
     contador++; });
     return bandera;
   }
+
    // bugs de los valores nulos arreglado
   const getValoresVentanaIngredientes=()=>{
     const arreglo=JSON.parse(window.localStorage.getItem('tablaIngredientes'));
@@ -86,7 +85,6 @@ const FormularioRecetas = () => {
     campoGrasas:window.localStorage.getItem('campoGrasas'),
     campoCarbohidratos:window.localStorage.getItem('campoCarbohidratos'),
   };
-
    //valores iniciales de los campos de texto
    const [values, setValues] = useState(initialStateValues);
    //los valores iniciales de la tabla de ingredientes,la tabla estara vacia
@@ -94,14 +92,9 @@ const FormularioRecetas = () => {
    const[recipeItems, setRecipeItems] = useState(getValoresVentanaIngredientes());
     //valores iniciales de la imagen es null                     
    const [image, setImage] = useState(null);
-  
+   const[urlImagen,setUrlImagen]=useState('');
  
-  //metodos para las imagenes
-   // const cambioImagen = e => {if (e.target.files[0]) {setImage(e.target.files[0]);}};
-  // const cambioImagen = e => {                                 
- //    if (validarImagen()){setImage(e.target.files[0]);}
-    
-//  };
+
     const cambioImagen=(e)=> {    
         var o = document.getElementById('archivo');
         var foto=o.files[0];
@@ -129,11 +122,10 @@ const FormularioRecetas = () => {
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
-    const storageRef=firebase.storage().ref(`images/${values.camponombre}`).put(image);
-    //setValues({...values,[name]:value}
-    //values.urlImagen=storageRef.snapshot.downloadURL;
-    console.log(storageRef.snapshot.getDownloadURL);
-    alert("Registro exitoso");                   
+    const storageRef=firebase.storage();
+    const storageApply=storageRef.ref(`images/${values.camponombre}`).put(image);
+    console.log(image)     
+    alert("Registro exitoso");  
      };
 
      
@@ -143,7 +135,14 @@ const FormularioRecetas = () => {
         recipeItems.map((recipeItem)=>{
         db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
          })
-         db.collection('receta').doc().set(values);
+         db.collection('receta').doc().set({
+          camponombre:values.camponombre,
+          campodescripcion:values.campodescripcion,
+          campocomplejidad:values.campocomplejidad,
+          campoCalorias:values.campoCalorias,
+          campoCarbohidratos:values.campoCarbohidratos,
+          campoGrasas:values.campoGrasas,
+          url:urlImagen});
         }
 
 

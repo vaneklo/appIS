@@ -31,7 +31,8 @@ querySnapshot.forEach((doc) => {
      console.log('............ddddd');
     // console.log(resultado);
 
-     return resultado;    
+     return resultado;
+    
 }
 const ingredientes=listaIngredientes();
 //.then((item)=>{ 

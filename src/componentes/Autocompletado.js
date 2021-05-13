@@ -1,12 +1,14 @@
-import React from 'react';
-
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import {
   Field,
   Form,
   Formik,
 } from 'formik';
 import { Autocomplete } from 'formik-material-ui-lab';
-
+import {db} from '../formularioRegistro/firebase'
 import {
   Button,
   Container,
@@ -17,7 +19,40 @@ import MuiTextField from '@material-ui/core/TextField';
 
 import { ingredientes } from '../data/datos';
 
-const Autocompletado = () => (
+const Autocompletado = () =>{ 
+  const[listaIngredientesUnicos,setListaIngredientesUnicos]=useState([{ingrediente:' '}]);
+  useEffect(()=>{getListaIngredientes()},[])
+
+  const getListaIngredientes=async()=>{
+    var obj;    
+    var listaNombresUnicos=[];
+    var lista=[];
+    const querySnapshot=await db.collection("ingrediente-receta").get();
+    querySnapshot.forEach((doc) => { 
+        obj=doc.data();
+        obj.id=doc.id;
+        lista.push(obj);            }
+                        )
+                        lista.map((ingrediente)=>{
+                          if(listaNombresUnicos==[]){
+                                    listaNombresUnicos=[ingrediente.name];
+                                            }
+                          else{
+                             if(!listaNombresUnicos.includes(ingrediente.name)){
+                              var nuevaRespuesta=[...listaNombresUnicos,ingrediente.name];
+                              listaNombresUnicos=nuevaRespuesta;}
+                             
+                              }
+                          }
+                       )
+                       var resultado=[];
+   listaNombresUnicos.map((item)=>{  resultado=[...resultado,{ingrediente:item}];   })  
+      
+      
+      setListaIngredientesUnicos(resultado);
+    }
+
+const campoAutocompletado=()=>(
   <>
     <Typography variant="h2" component="h1" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
       ComeCon
@@ -44,7 +79,7 @@ const Autocompletado = () => (
                   multiple
                   noOptionsText='No existen coincidencias'
                   component={Autocomplete}
-                  options={ingredientes.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
+                  options={listaIngredientesUnicos.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
                   }
                   getOptionLabel={(option) => option.ingrediente}
                   style={{ width: '60vw' }}
@@ -66,7 +101,7 @@ const Autocompletado = () => (
                   variant="contained"
                   color="primary"
                   disabled={isSubmitting}
-                  onClick={submitForm}                  
+                  onClick={submitForm}
                 >
                   Enviar
             </Button>
@@ -80,4 +115,9 @@ const Autocompletado = () => (
   </>
 );
 
+return(
+    <div>{campoAutocompletado()}</div>
+  );
+
+};
 export default Autocompletado;

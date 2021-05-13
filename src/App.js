@@ -18,14 +18,15 @@ function App() {
 
       <Header />
       
-      <Switch>
+  
+<Switch>
         <Route exact path="/">
           <Autocompletado />
         </Route>
         <Route path="/registrar">
           <SeccionFormulario />
         </Route>
-        <Route path="/previstaRecetas">
+        <Route path="/PrevRecetas">
           <PrevRecetas />
         </Route>
       </Switch>

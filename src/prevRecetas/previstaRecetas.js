@@ -11,6 +11,7 @@ import React, {
     CardMedia,
     Grid,
   } from '@material-ui/core/';
+  import Receta from './Receta';
   import { makeStyles } from '@material-ui/core/styles';
   import {db} from '../formularioRegistro/firebase'
   const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,6 @@ import React, {
   /////////////////////////////////////////////////////////////////////
   
   const listaIngredientesSolicitados=['queso'];
-  
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
   useEffect(()=>{getResultadoBusquedaRecetas()},[])
   
@@ -59,11 +59,14 @@ import React, {
   
     var obj2;
     var arrayRecetas=[];
+    console.log("asaaa");
     const consultaCoincidencias=await db.collection("ingrediente-receta").where('name','in',listaIngredientesSolicitados).get();
+    console.log("asaaa");
+    console.log(consultaCoincidencias);
     consultaCoincidencias.forEach((doc) => { 
         obj=doc.data();
         obj.id=doc.id;
-        listaRecetas.push(obj);
+        listaRecetas.push(obj);         
         console.log(listaRecetas);
       })
       
@@ -150,8 +153,6 @@ import React, {
     return (
       <div className={classes.root}>
       {tarjetasRecetas()}
-      </div>
-      
-    );
-    
+      </div>      
+    );    
   }

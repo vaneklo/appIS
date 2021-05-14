@@ -108,7 +108,7 @@ export default function PrevRecetas() {
                 <Card className={classes.root}>
                     <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                         className={classes.cardMedia}
-                       image={'https://firebasestorage.googleapis.com/v0/b/fireabase-recetas-saludables.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=feee5184-603f-4d22-a2bb-c3ee7c58ad18'}
+                        image={'https://firebasestorage.googleapis.com/v0/b/fireabase-recetas-saludables.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=feee5184-603f-4d22-a2bb-c3ee7c58ad18'}
                       />
                       <CardHeader
                         title={`Receta : ${elem.camponombre}`}

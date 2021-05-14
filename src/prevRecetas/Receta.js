@@ -8,8 +8,16 @@ import React, {
 const Receta=()=> {
   console.log("oooopoppoop");
     const recetaEjemplo="pan";
-    const [ingredientesReceta,setIngredientesReceta]=useState([{}]);
-    const [detalleReceta, setDetalleReceta]=useState([{}]);
+    const [ingredientesReceta,setIngredientesReceta]=useState([]);
+    const [detalleReceta, setDetalleReceta]=useState([]);
+    //formato de detalleReceta
+//tendras una receta [nombreReceta1,calorias1,descripcion1]
+//formato de ingredientesReceta
+//tendras sus ingredientes[{nombreIngrediente1,cantidad1,unidad1,nombreReceta}
+//{nombreIngrediente2,cantidad2,unidad2,nombreReceta}
+//{nombreIngrediente3,cantidad3,unidad3,nombreReceta}
+//{nombreIngrediente4,cantidad4,unidad4,nombreReceta}
+//]
     useEffect(()=>{getDatosReceta()},[]);  
     const getDatosReceta=async()=>{
          var obj;

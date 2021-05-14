@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }));
-
 const FormularioRecetas = () => {
   const classes = useStyles();
 
@@ -61,7 +60,6 @@ const FormularioRecetas = () => {
     contador++; });
     return bandera;
   }
-
    // bugs de los valores nulos arreglado
   const getValoresVentanaIngredientes=()=>{
     const arreglo=JSON.parse(window.localStorage.getItem('tablaIngredientes'));
@@ -84,6 +82,7 @@ const FormularioRecetas = () => {
     campoCalorias:window.localStorage.getItem('campoCalorias'),
     campoGrasas:window.localStorage.getItem('campoGrasas'),
     campoCarbohidratos:window.localStorage.getItem('campoCarbohidratos'),
+   // urlImagenReceta:''
   };
    //valores iniciales de los campos de texto
    const [values, setValues] = useState(initialStateValues);
@@ -124,23 +123,25 @@ const FormularioRecetas = () => {
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
     //console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
-    const storageApply=firebase.storage().ref(`images/${values.camponombre}`).put(image);
-    
-    setUrlImagen(firebase.storage().ref('images').child(values.camponombre).getDownloadURL()).then(console.log(urlImagen))    
-    
+    const storageApply=firebase.storage().ref(`images/${values.camponombre}`).put(image)
+    .then(
+       //setUrlImagen(firebase.storage().ref('images').child(values.camponombre).getDownloadURL())
+       //console.log(firebase.storage().ref('images').child(values.camponombre).getDownloadURL())
+      //setValues({ ...values,urlImagenReceta:firebase.storage().ref('images').child(values.camponombre).getDownloadURL()})
+    )
     console.log(image)     
     alert("Registro exitoso");  
-     };
+    };
+
      const agregarReceta=()=>{
       //comunicacion con la base de datos con la coleccion receta.doc,para id unico
       //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
          db.collection('receta').doc().set(values)
-          db.collection('receta-imagen').doc.set({nombreReceta:values.nombreReceta,url:urlImagen})
+         // db.collection('receta-imagen').doc().set({nombreReceta:values.nombreReceta,url:urlImagen})
           recipeItems.map((recipeItem)=>{
             db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
-             })
+          })
         }
-
     //validacion de los campos de texto
     const validarNombreReceta=(str)=>{
       var pattern = new RegExp("^[a-zA-Z ,.'-]+$");
@@ -183,8 +184,7 @@ const FormularioRecetas = () => {
                     setRecipeItems([...recipeItems, {cantidad:cantidad,unidades:unidades,name: ingredientName}]);
                         //nota no debe usarse (1) problema de tiempos por eso esta la variable tablaAlmacen 
                       //(1)window.localStorage.setItem('tablaIngredientes',recipeItems);    
-
-                                                                          }
+                                                                                  }
                      else{alert('coincidencia encontrada el la lista de items')}
                   }  
                   else{alert('no puede haber campos vacios')}
@@ -219,7 +219,7 @@ const FormularioRecetas = () => {
       const{name,value}=e.target;
       setLocalStorageRecetas({...values,[name]:value})
       };
- 
+
       //almacenamiento dentro de la ventana,persiste a la actualziacion
      const setLocalStorageRecetas=value=>{
       try{
@@ -230,6 +230,7 @@ const FormularioRecetas = () => {
         window.localStorage.setItem('campoCalorias',value.campoCalorias);
         window.localStorage.setItem('campoGrasas',value.campoGrasas);
         window.localStorage.setItem('campoCarbohidratos',value.campoCarbohidratos);   
+
         }
       catch(error){console.error(error);
                   }
@@ -250,9 +251,9 @@ const FormularioRecetas = () => {
                     else{
                            if(image==null){alert("debe agregar una imagen");}
                           else{
-                           // e.preventDefault();
-                           agregarReceta(values);         
+                           // e.preventDefault();       
                            subirImagen();
+                           agregarReceta(values); 
                           alert('receta registrada correctamente');
                           }
                           } 

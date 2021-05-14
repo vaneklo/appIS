@@ -1,4 +1,5 @@
 import React from 'react';
+import Modal from '../componentes/Modal'
 import {
   Button,
   Card,
@@ -6,7 +7,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Grid,
+  Grid
 } from '@material-ui/core/';
 import Receta from './Receta';
 import { makeStyles } from '@material-ui/core/styles';
@@ -45,6 +46,10 @@ export default function MediaCard() {
     ],
     id: [1]};
 
+    const clickModal = () => {
+
+    }
+
     return (         
       <div className={classes.root}>
         {data.id.map((elem) => (
@@ -73,11 +78,8 @@ export default function MediaCard() {
                       {`Carbohidratos : ${elem.carb}`}
                   </CardContent>
                   <CardActions>
-                      <Button size="small" color="primary">
-                        Ver Receta
-                      </Button>
-                     
-                    </CardActions>
+                    <Modal />      
+                  </CardActions>
                 </Card>
               </Grid>
             ))}

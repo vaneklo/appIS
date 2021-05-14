@@ -12,10 +12,11 @@ import {
   CardMedia,
   Grid
 } from '@material-ui/core/';
-import Receta from './Receta';
+//import Receta from './Receta';
 import { makeStyles } from '@material-ui/core/styles';
 import {db} from '../formularioRegistro/firebase';
-
+import firebase from 'firebase';
+import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -25,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
  
 
 export default function PrevRecetas() {
+  console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
   const classes = useStyles();
   const clickModal = () => {
-
   }
   //usar variable de ventana para que al presionar f5 no se pierda la info
   const getValoresInicialesListaIngredientesSolicitados=()=>{
@@ -49,10 +50,11 @@ export default function PrevRecetas() {
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
   useEffect(()=>{getResultadoBusquedaRecetas()},[])
   
-  const cumpleTodosIngredientes=(entero,nombreReceta,arreglo)=>{
+  const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
   arreglo.map((item)=>{
-  if(nombreReceta=item.nombreReceta){contador++;}})
+  if(nombreIngrediente=item.name && nombreReceta==item.nombreReceta){contador++;}})
+
   if (contador==entero){return true;}
   else{return false;} }
   const getResultadoBusquedaRecetas=async()=>{
@@ -67,17 +69,17 @@ export default function PrevRecetas() {
     consultaCoincidencias.forEach((doc) => { 
         obj=doc.data();
         obj.id=doc.id;
-        listaRecetas.push(obj);         
-        console.log(listaRecetas);
+        listaRecetas.push(obj);          
       })
-      
+      console.log(listaRecetas);
       listaRecetas.map((receta)=>{
-         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.nombreReceta,listaRecetas)){
+         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
+           console.log('si')
           listaNombresRecetas.push(receta.nombreReceta);
-          console.log('cumple');
          }
          })
-     const consultarDatosRecetas= await db.collection("receta").where('camponombre','in',listaNombresRecetas).get();
+        console.log(listaNombresRecetas)
+    const consultarDatosRecetas= await db.collection("receta").where('camponombre','in',listaNombresRecetas).get();
      consultarDatosRecetas.forEach((doc) => { 
        if(consultarDatosRecetas!=null){
       console.log(consultarDatosRecetas)
@@ -87,10 +89,10 @@ export default function PrevRecetas() {
        }
        })
        
-      setResultadoBusquedaRecetas(arrayRecetas);
-      console.log(ResultadoBusquedaRecetas);
+     setResultadoBusquedaRecetas(arrayRecetas);
+     console.log(ResultadoBusquedaRecetas);
       }
-
+      
       ///////////////////////////
       const tarjetasRecetas=()=>(
         ResultadoBusquedaRecetas.map((elem) => (
@@ -105,7 +107,7 @@ export default function PrevRecetas() {
                 <Card className={classes.root}>
                     <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                         className={classes.cardMedia}
-                       image={ "https://images.unsplash.com/photo-1564198879220-63f2734f7cec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2072&q=80" }
+                       image={'https://firebasestorage.googleapis.com/v0/b/fireabase-recetas-saludables.appspot.com/o/images%2Fviernescatorce?alt=media&token=feee5184-603f-4d22-a2bb-c3ee7c58ad18'}
                       />
                       <CardHeader
                         title={`Receta : ${elem.camponombre}`}
@@ -121,7 +123,7 @@ export default function PrevRecetas() {
                     </CardActions>
                 </Card>
               </Grid>
-            )
+            
           </Grid>
         ))
       );

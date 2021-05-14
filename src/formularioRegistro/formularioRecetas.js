@@ -123,12 +123,9 @@ const FormularioRecetas = () => {
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
-    const storageRef=firebase.storage();
-    //storageRef.ref('images').child(values.camponombre).getDownloadURL() 
-    const storageApply=storageRef.ref(`images/${values.camponombre}`).put(image).then(
-     // setUrlImagen(storageRef.ref('images').child(values.camponombre).getDownloadURL())    
-      
-    )
+    //console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
+    const storageApply=firebase.storage().ref(`images/${values.camponombre}`).put(image);
+    setUrlImagen(firebase.storage().ref('images').child(values.camponombre).getDownloadURL()).then(console.log(urlImagen))    
     
     console.log(image)     
     alert("Registro exitoso");  
@@ -137,13 +134,11 @@ const FormularioRecetas = () => {
       //comunicacion con la base de datos con la coleccion receta.doc,para id unico
       //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
          db.collection('receta').doc().set(values)
-  
+          db.collection('receta-imagen').doc.set({nombreReceta:values.nombreReceta,url:urlImagen})
           recipeItems.map((recipeItem)=>{
             db.collection('ingrediente-receta').doc().set({nombreReceta:values.camponombre,cantidad:recipeItem.cantidad,unidades:recipeItem.unidades ,name:recipeItem.name}); 
              })
-
         }
-
 
     //validacion de los campos de texto
     const validarNombreReceta=(str)=>{

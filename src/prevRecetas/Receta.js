@@ -6,7 +6,6 @@ import React, {
 
   
 const Receta=()=> {
-  
   console.log("oooopoppoop");
     const recetaEjemplo="pan";
     const [ingredientesReceta,setIngredientesReceta]=useState([{}]);

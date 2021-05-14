@@ -7,6 +7,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import Receta from '../prevRecetas/Receta';
 
 const styles = (theme) => ({
   root: {
@@ -44,6 +45,7 @@ const DialogContent = withStyles((theme) => ({
 
 
 export default function Modal() {
+  console.log('mht')
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

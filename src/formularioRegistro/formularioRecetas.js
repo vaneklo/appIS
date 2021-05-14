@@ -125,6 +125,7 @@ const FormularioRecetas = () => {
   const subirImagen = () => {
     //console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
     const storageApply=firebase.storage().ref(`images/${values.camponombre}`).put(image);
+    
     setUrlImagen(firebase.storage().ref('images').child(values.camponombre).getDownloadURL()).then(console.log(urlImagen))    
     
     console.log(image)     

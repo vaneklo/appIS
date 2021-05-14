@@ -41,8 +41,7 @@ console.log("oooopoppoop");
       setDetalleReceta(lista2);
   }
   return (
-    <div>
-             
+    <div>   
     </div>
   );
 }

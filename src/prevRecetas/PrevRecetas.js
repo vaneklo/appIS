@@ -77,6 +77,7 @@ export default function PrevRecetas() {
            console.log('si')
           listaNombresRecetas.push(receta.nombreReceta);
          }
+         else{console.log('no')}
          })
         console.log(listaNombresRecetas)
     const consultarDatosRecetas= await db.collection("receta").where('camponombre','in',listaNombresRecetas).get();

@@ -2,21 +2,23 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Modal from '../componentes/Modal'
+
+import firebase from 'firebase';
+
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
-  Grid
+  Grid,
 } from '@material-ui/core/';
 //import Receta from './Receta';
 import { makeStyles } from '@material-ui/core/styles';
-import {db} from '../formularioRegistro/firebase';
-import firebase from 'firebase';
-import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
+
+import Modal from '../componentes/Modal';
+import { db } from '../formularioRegistro/firebase';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrevRecetas() {
   console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
   const classes = useStyles();
+  
   const clickModal = () => {
   }
   //usar variable de ventana para que al presionar f5 no se pierda la info
@@ -96,15 +99,11 @@ export default function PrevRecetas() {
       
       ///////////////////////////
       const tarjetasRecetas=()=>(
-        ResultadoBusquedaRecetas.map((elem) => (
-          <Grid
-            container
-            spacing={2}
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-          >
-            <Grid item xs={3} key={ResultadoBusquedaRecetas.id}>
+        
+        
+         
+            ResultadoBusquedaRecetas.map((elem) => (
+            <Grid  item xs={3} key={ResultadoBusquedaRecetas.id}>
                 <Card className={classes.root}>
                     <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                         className={classes.cardMedia}
@@ -124,12 +123,20 @@ export default function PrevRecetas() {
                     </CardActions>
                 </Card>
               </Grid>
-          </Grid>
-        ))
+         
+          ))
+       
       );
     return (         
-      <div className={classes.root}>
+   
+      <Grid
+      container
+      spacing={4}
+      direction="row"
+      justify="flex-start"
+      alignItems="flex-start"
+    >
       {tarjetasRecetas()}
-      </div>              
+      </Grid>  
     );
 }

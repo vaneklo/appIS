@@ -31,7 +31,7 @@ var lisIngredientes;
  
 
 export default function PrevRecetas(props) {
-  console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
+  console.log(firebase.storage().ref('images').child('Pollo a la broaster').getDownloadURL());
   const classes = useStyles();
   
   const clickModal = () => {
@@ -113,7 +113,7 @@ export default function PrevRecetas(props) {
                 <Card className={classes.root}>
                     <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                         className={classes.cardMedia}
-                        image={'https://firebasestorage.googleapis.com/v0/b/fireabase-recetas-saludables.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=feee5184-603f-4d22-a2bb-c3ee7c58ad18'}
+                        image={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'}
                       /> 
                       <CardHeader
                         title={`Receta : ${elem.camponombre}`}
@@ -125,7 +125,7 @@ export default function PrevRecetas(props) {
                       {`Carbohidratos : ${elem.campoCarbohidratos}`}
                   </CardContent>
                   <CardActions>
-                     <Modal ingredientes={lisIngredientes} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
+                     <Modal ingredientes={lisIngredientes} imagen={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
                     </CardActions>
                 </Card>
               </Grid>

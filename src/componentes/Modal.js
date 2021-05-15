@@ -67,7 +67,7 @@ export default function Modal(props) {
           Receta: {props.nombre}
         </DialogTitle>
         <DialogContent dividers>
-        <Paper variant="outlined"><img src="url" /> </Paper>
+        <Paper variant="outlined"><img src={props.imagen} /> </Paper>
         <Typography gutterBottom>
             Complejidad: {props.complejidad}
           </Typography>

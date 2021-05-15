@@ -52,7 +52,7 @@ export default function PrevRecetas(props) {
 
   ////////////////
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
-  useEffect(()=>{getResultadoBusquedaRecetas()},[listaIngredientesSolicitados])
+  useEffect(()=>{getResultadoBusquedaRecetas()},[...listaIngredientesSolicitados])
   
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;

@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Receta from '../prevRecetas/Receta';
+import Paper from '@material-ui/core/Paper';
+
 
 const styles = (theme) => ({
   root: {
@@ -65,9 +67,26 @@ export default function Modal(props) {
           Receta: {props.nombre}
         </DialogTitle>
         <DialogContent dividers>
+        <Paper variant="outlined"><img src="url" /> </Paper>
+        <Typography gutterBottom>
+            Complejidad: {props.complejidad}
+          </Typography>
+          <Typography gutterBottom>
+            Calorias: {props.calorias} <br/>
+            Grasas saturadas: {props.grasas} <br/>
+            Carbohidratos: {props.carbohidratos} <br/>
+          </Typography>
+          <Typography variant='h6' component='h2' gutterBottom>
+            Ingredientes:
+          </Typography>
+          {props.ingredientes}
+        <Typography variant='h6' component='h2' gutterBottom>
+            Pasos de elaboración:
+          </Typography>
           <Typography gutterBottom>
             {props.descripcion}
           </Typography>
+
         </DialogContent>
       </Dialog>
     </div>

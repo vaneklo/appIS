@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4)
   }
 }));
+
+var lisIngredientes;
  
 
 export default function PrevRecetas(props) {
@@ -52,7 +54,10 @@ export default function PrevRecetas(props) {
 
   ////////////////
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
-  useEffect(()=>{getResultadoBusquedaRecetas()},[...listaIngredientesSolicitados])
+  useEffect(()=>{
+    lisIngredientes = listaIngredientesSolicitados;
+    getResultadoBusquedaRecetas();
+  },[...listaIngredientesSolicitados])
   
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
@@ -120,7 +125,7 @@ export default function PrevRecetas(props) {
                       {`Carbohidratos : ${elem.campoCarbohidratos}`}
                   </CardContent>
                   <CardActions>
-                     <Modal nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
+                     <Modal ingredientes={lisIngredientes} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
                     </CardActions>
                 </Card>
               </Grid>

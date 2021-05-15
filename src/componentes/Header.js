@@ -30,7 +30,6 @@ export default function ButtonAppBar() {
                         <Typography variant="h6" className={classes.title}></Typography>
                         <Button color="inherit" component={Link} to="/" >Inicio</Button>
                         <Button color="inherit" component={Link} to="/registrar" >Recetas</Button>
-                        <Button color="inherit" component={Link} to="/prevRecetas" >prev</Button>
                     </Toolbar>
                 </AppBar>
             </div>

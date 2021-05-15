@@ -17,7 +17,12 @@ import {
 import Box from '@material-ui/core/Box';
 import MuiTextField from '@material-ui/core/TextField';
 import { ingredientes } from '../data/datos';
+import PrevRecetas from '../prevRecetas/PrevRecetas';
+
+
 const Autocompletado = () =>{ 
+  const [elementos, setElementos] = useState(['queso']);
+
   const[listaIngredientesUnicos,setListaIngredientesUnicos]=useState([{ingrediente:' '}]);
   useEffect(()=>{getListaIngredientes()},[])
 
@@ -63,8 +68,15 @@ const campoAutocompletado=()=>(
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
+
         }, 500);
+        setElementos(() => {
+          const buscar = values.autocomplete.map(elem => elem.ingrediente);
+          return buscar;
+        }
+
+        );
+        
       }}
     >
       {({ submitForm, isSubmitting, touched, errors }) => (
@@ -101,7 +113,7 @@ const campoAutocompletado=()=>(
                   disabled={isSubmitting}
                   onClick={submitForm}
                 >
-                  Enviar
+                  Buscar
             </Button>
               </Box>
             </Box>
@@ -110,11 +122,15 @@ const campoAutocompletado=()=>(
         </Container>
       )}
     </Formik>
+
   </>
 );
 
 return(
-    <div>{campoAutocompletado()}</div>
+    <div>
+      {campoAutocompletado()}
+      <PrevRecetas buscar={elementos}/>
+    </div>
   );
 
 };

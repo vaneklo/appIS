@@ -5,6 +5,7 @@ import React, {
 
 import firebase from 'firebase';
 
+
 import {
   Card,
   CardActions,
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
  
 
-export default function PrevRecetas() {
+export default function PrevRecetas(props) {
   console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
   const classes = useStyles();
   
@@ -46,12 +47,12 @@ export default function PrevRecetas() {
   /////////////////////////////////////////////////////////////////////
 
 ///////este es el parametro de busqueda de base de datos
-  const listaIngredientesSolicitados=['queso'];
+  const listaIngredientesSolicitados=[...props.buscar];
 ///cambialo por el valor de props 
 
   ////////////////
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
-  useEffect(()=>{getResultadoBusquedaRecetas()},[])
+  useEffect(()=>{getResultadoBusquedaRecetas()},[listaIngredientesSolicitados])
   
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
@@ -96,10 +97,10 @@ export default function PrevRecetas() {
      setResultadoBusquedaRecetas(arrayRecetas);
      console.log(ResultadoBusquedaRecetas);
       }
-      
+      console.log(ResultadoBusquedaRecetas);
+
       ///////////////////////////
       const tarjetasRecetas=()=>(
-        
         
          
             ResultadoBusquedaRecetas.map((elem) => (
@@ -119,7 +120,7 @@ export default function PrevRecetas() {
                       {`Carbohidratos : ${elem.campoCarbohidratos}`}
                   </CardContent>
                   <CardActions>
-                     <Modal />
+                     <Modal nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
                     </CardActions>
                 </Card>
               </Grid>

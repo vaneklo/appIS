@@ -4,8 +4,6 @@ import React, {
 } from 'react';
 
 import firebase from 'firebase';
-
-
 import {
   Card,
   CardActions,
@@ -85,7 +83,7 @@ export default function PrevRecetas(props) {
          if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
            console.log('si')
           listaNombresRecetas.push(receta.nombreReceta);
-         }
+        }
          else{console.log('no')}
          })
         console.log(listaNombresRecetas)

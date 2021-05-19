@@ -19,12 +19,12 @@ export const IngredientCreator = props => {
 
   //validacion de los campos de texto
   const validarUnidad = (str) => {
-    var pattern = new RegExp("[a-zA-Z]+");
+    var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
     return !!pattern.test(str);
   };
   //validacion de los campos de texto
   const validarNombre = (str) => {
-    var pattern = new RegExp("[a-zA-Z]+");
+    var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
     return !!pattern.test(str);
   };
 
@@ -33,26 +33,31 @@ export const IngredientCreator = props => {
     e.preventDefault();
     if (validarUnidad(newUnidad)) {
       if (validarNombre(newIngredient)) {
+           if(newCantidad>0){
         props.agregarIngrediente(newCantidad, newUnidad, newIngredient);
         setNewCantidad('');
         setNewUnidad('');
         setNewIngredient('');
+           }
+          else{
+              alert('las unidades deben ser numeros positivos')
+          }
       }
-      else { alert('el nombre debe tener solo caracteres de la a la z'); }
-
+      else { alert('el nombre debe tener solo caracteres de la a la z y no debe estar vacia'); }
     }
-    else { alert('la unidad debe tener solo caracteres de la a la z'); }
+    else { alert('la unidad debe tener solo caracteres de la a la z y no debe estar vacia'); }
   }
   return (
     <Grid container spacing={1}>
       <Grid item xs={3}>
         <Input
           type="number"
-          value={newCantidad}
-          placeholder='cantidad'
+          aria-valuemin='0'
+          minLength='0'
+          maxLength='5'
           min='1'
-          minLength="1"
-          maxLength="5"
+          value={newCantidad}
+          placeholder='cantidad'          
           onChange={updateNewCantidadValue}
         />
       </Grid>

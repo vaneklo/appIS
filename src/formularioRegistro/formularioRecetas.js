@@ -123,26 +123,15 @@ const FormularioRecetas = () => {
       }
       else {
         window.location.reload(true);
-
-        alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480');
-        //return false;               
+        alert('Las medidas deben ser: menor a 720x720 o mayor a 480x480');             
       }
-    };
-
-    //return false;      
+    };     
   }
 
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
-    //console.log(firebase.storage().ref('images').child('viernescatorce').getDownloadURL())
     const storageApply = firebase.storage().ref(`images/${values.camponombre}`).put(image)
-      .then(
-        //setUrlImagen(firebase.storage().ref('images').child(values.camponombre).getDownloadURL())
-        //console.log(firebase.storage().ref('images').child(values.camponombre).getDownloadURL())
-        //setValues({ ...values,urlImagenReceta:firebase.storage().ref('images').child(values.camponombre).getDownloadURL()})
-      )
     console.log(image)
-    alert("Registro exitoso");
   };
 
   const agregarReceta = () => {
@@ -156,12 +145,11 @@ const FormularioRecetas = () => {
   }
   //validacion de los campos de texto
   const validarNombreReceta = (str) => {
-    var pattern = new RegExp("^[a-zA-Z ,.'-]+$");
+    var pattern = new RegExp("^[a-zA-Z]+\\.?");
     return !!pattern.test(str);
   };
   const validarDescripcionReceta = (str) => {
     var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");
-
     return !!pattern.test(str);
   };
 
@@ -171,9 +159,12 @@ const FormularioRecetas = () => {
   };
 
   const validarNumeroIngredientes = () => {
-    if (recipeItems == [] || recipeItems.length < 21) { return true; }
+    if (recipeItems.length>0 && recipeItems.length<21 ) { 
+      console.log(recipeItems)
+      return true; }
     else { return false; }
   };
+  
   //crear las filas de la tabla de ingredientes
   //hago un recorrido de las filas de los datos y las muestro en pantalla
   //se actualiza frecuentemente
@@ -220,6 +211,7 @@ const FormularioRecetas = () => {
     console.log(recipeItems)
     var tablaAlmacen = recipeItems;
     window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
+    window.location.reload(true);
   }
 
 
@@ -253,15 +245,17 @@ const FormularioRecetas = () => {
 
   //controlo los cambios evitando que la pagina se recarge e informo de los valores de los campos de texto
   const handleSubmit = e => {
-    if (!validarNombreReceta(values.camponombre)) { alert("nombre no valido"); }
+    if (!validarNombreReceta(values.camponombre)) { alert("el nombre debe estar compuesto de caracteres de la 'a' a la 'z' y no puede estar vacio"); }
     else {
-      if (!validarNombre(values.camponombre)) { alert("nombre de receta ya registrada"); }
+      if (!validarNombre(values.camponombre)) {
+        console.log(values.camponombre);
+        alert("nombre de receta ya registrada"); }
       else {
         if (!validarDescripcionReceta(values.campodescripcion)) { alert("descripcion no valida"); }
         else {
           if (!validarComplejidadReceta(values.campocomplejidad)) { alert("la complejidad solo se mide con numeros"); }
           else {
-            if (!validarNumeroIngredientes()) { alert('debe agregar por lo menos un ingrediente'); }
+            if (!validarNumeroIngredientes()) { alert('debe agregar por lo menos un ingrediente y no mas de veinte'); }
             else {
               if (image == null) { alert("debe agregar una imagen"); }
               else {
@@ -299,7 +293,6 @@ const FormularioRecetas = () => {
               value={values.camponombre}
             />
           </Grid>
-
           <Grid item sm={12} xs={12} >
             <Typography variant="subtitle1">Foto de la Receta:</Typography>
             <input type="file" name="archivo" id="archivo" accept=".jpge,.png,.jpg" onChange={cambioImagen} hidden/>

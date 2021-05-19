@@ -9,7 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Receta from '../prevRecetas/Receta';
 import Paper from '@material-ui/core/Paper';
-
+import { useState,useEffect } from 'react';
+import {db} from '../formularioRegistro/firebase';
 
 const styles = (theme) => ({
   root: {
@@ -48,6 +49,11 @@ const DialogContent = withStyles((theme) => ({
 
 export default function Modal(props) {
   console.log('mht')
+  
+  const [ingredientesReceta,setIngredientesReceta]=useState([]);
+  const [detalleReceta, setDetalleReceta]=useState([]);
+  useEffect(()=>{getDatosReceta()},[]);
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -56,7 +62,38 @@ export default function Modal(props) {
   const handleClose = () => {
     setOpen(false);
   };
+   const getDatosReceta=async()=>{
+            var obj;
+            var lista=[];         
+   const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',props.nombre).get();
+   consultaIngredientes.forEach((doc) => { 
+       obj=doc.data();
+       obj.id=doc.id;
+       lista.push(obj);
+     })
+      setIngredientesReceta(lista);
+    var obj2;
+    var lista2=[];   
+   const consultaDetalleReceta=await db.collection("receta").where('camponombre','==',props.nombre).get();
+   consultaDetalleReceta.forEach((doc) => { 
+       obj2=doc.data();
+       obj2.id=doc.id;
+       lista2.push(obj);
+     })
+   setDetalleReceta(lista2);
 
+   console.log('lista de ingredientes')
+   console.log(ingredientesReceta)
+    console.log(detalleReceta)
+}
+ const getListaIngredientes=()=>{
+var respuesta='';
+ingredientesReceta.map((item)=>
+  respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
+console.log(respuesta)
+return respuesta;
+
+ }
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -72,14 +109,14 @@ export default function Modal(props) {
             Complejidad: {props.complejidad}
           </Typography>
           <Typography gutterBottom>
-            Calorias: {props.calorias} <br/>
-            Grasas saturadas: {props.grasas} <br/>
-            Carbohidratos: {props.carbohidratos} <br/>
+            Calorias: {props.calorias +' kcal'} <br/>
+            Grasas saturadas: {props.grasas+' gr'} <br/>
+            Carbohidratos: {props.carbohidratos+' gr'} <br/>
           </Typography>
           <Typography variant='h6' component='h2' gutterBottom>
             Ingredientes:
           </Typography>
-          {props.ingredientes}
+          {getListaIngredientes()}
         <Typography variant='h6' component='h2' gutterBottom>
             Pasos de elaboración:
           </Typography>

@@ -21,7 +21,7 @@ import PrevRecetas from '../prevRecetas/PrevRecetas';
 
 
 const Autocompletado = () =>{ 
-  const [elementos, setElementos] = useState(['queso']);
+  const [elementos, setElementos] = useState(['ninguno']);
 
   const[listaIngredientesUnicos,setListaIngredientesUnicos]=useState([{ingrediente:' '}]);
   useEffect(()=>{getListaIngredientes()},[])

@@ -51,8 +51,8 @@ const DialogContent = withStyles((theme) => ({
 
 
 export default function Modal(props) {
-  console.log('mht')
-  
+  var nombreReceta=props.nombre
+  console.log(nombreReceta)
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
   useEffect(()=>{getDatosReceta()},[]);
@@ -67,36 +67,37 @@ export default function Modal(props) {
   };
    const getDatosReceta=async()=>{
             var obj;
-            var lista=[];         
-   const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',props.nombre).get();
-   consultaIngredientes.forEach((doc) => { 
+            var lista=[];      
+   const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',nombreReceta).get();
+   consultaIngredientes.forEach((doc) =>{ 
        obj=doc.data();
        obj.id=doc.id;
        lista.push(obj);
      })
       setIngredientesReceta(lista);
+      
+      console.log(ingredientesReceta)
     var obj2;
     var lista2=[];   
-   const consultaDetalleReceta=await db.collection("receta").where('camponombre','==',props.nombre).get();
+   const consultaDetalleReceta=await db.collection("receta").where('camponombre','==',nombreReceta).get();
    consultaDetalleReceta.forEach((doc) => { 
        obj2=doc.data();
        obj2.id=doc.id;
        lista2.push(obj);
      })
    setDetalleReceta(lista2);
-
-   console.log('lista de ingredientes')
-   console.log(ingredientesReceta)
+   
     console.log(detalleReceta)
 }
- const getListaIngredientes=()=>{
+const getListaIngredientes=()=>{
+  console.log('getListaIngredientes')
 var respuesta='';
 ingredientesReceta.map((item)=>
   respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
 console.log(respuesta)
 return respuesta;
+}
 
- }
   return (
     <div>
       <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} variant="outlined" color="primary" onClick={handleClickOpen}>

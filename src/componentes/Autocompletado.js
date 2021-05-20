@@ -129,7 +129,8 @@ const campoAutocompletado=()=>(
 
   </>
 );
-
+//de inicio el prev recetas esta vacio
+// al pulsar el boton BUSCAR que se borre el contenido de prev recetas,que regrese a un estado inicial
 return(
     <div>
       {campoAutocompletado()}

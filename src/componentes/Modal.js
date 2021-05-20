@@ -1,16 +1,19 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import Receta from '../prevRecetas/Receta';
 import Paper from '@material-ui/core/Paper';
-import { useState,useEffect } from 'react';
-import {db} from '../formularioRegistro/firebase';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+
+import { db } from '../formularioRegistro/firebase';
 
 const styles = (theme) => ({
   root: {
@@ -96,7 +99,7 @@ return respuesta;
  }
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} variant="outlined" color="primary" onClick={handleClickOpen}>
         Ver receta
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>

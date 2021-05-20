@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+
 import {
   Button,
-  Input,
-  Container
+  TextField,
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-
 
 export const IngredientCreator = props => {
   const [newCantidad, setNewCantidad] = useState("");
@@ -50,19 +49,21 @@ export const IngredientCreator = props => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={3}>
-        <Input
-          type="number"
-          aria-valuemin='0'
-          minLength='0'
-          maxLength='5'
-          min='1'
+      <TextField
+        type="number"
+        InputProps={{ inputProps: { min: 1 } }}
+       
           value={newCantidad}
-          placeholder='cantidad'          
+          placeholder='cantidad'
+          min='1'
+          minLength="1"
+          maxLength="5"
           onChange={updateNewCantidadValue}
         />
       </Grid>
       <Grid item xs={3}>
-        <Input
+        <TextField
+        InputProps={{ inputProps: { maxLength: 10 } }}
           type="text"
           maxLength="10"
           placeholder='unidad'
@@ -71,7 +72,8 @@ export const IngredientCreator = props => {
         />
       </Grid>
       <Grid item xs={3}>
-        <Input
+        <TextField
+        InputProps={{ inputProps: { maxLength: 15 } }}
           type="text"
           placeholder='ingrediente'
           maxLength="15"
@@ -80,8 +82,8 @@ export const IngredientCreator = props => {
         />
       </Grid>
       <Grid item xs={3}>
-        <Button variant="outlined" color="primary" onClick={createNewIngredient}>agregar</Button>
-      </Grid>
+        <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} 
+        onClick={createNewIngredient}>agregar</Button></Grid>
 
     </Grid>
   );

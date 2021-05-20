@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 
 import firebase from 'firebase';
+
 import {
   Card,
   CardActions,
@@ -21,12 +22,19 @@ import { db } from '../formularioRegistro/firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
+    height: "600px",
+    backgroundColor:'#f5efd7',
   }
 }));
 
 var lisIngredientes;
  
+function changeBackground(color) {
+  document.body.style.background = color;
+}
+
+window.addEventListener("load",function() { changeBackground('#bdecb6') });
 
 export default function PrevRecetas(props) {
   console.log(firebase.storage().ref('images').child('Pollo a la broaster').getDownloadURL());
@@ -83,7 +91,7 @@ export default function PrevRecetas(props) {
          if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
            console.log('si')
           listaNombresRecetas.push(receta.nombreReceta);
-        }
+         }
          else{console.log('no')}
          })
         console.log(listaNombresRecetas)
@@ -114,7 +122,7 @@ export default function PrevRecetas(props) {
                         image={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'}
                       /> 
                       <CardHeader
-                        title={`Receta : ${elem.camponombre}`}
+                        title={`${elem.camponombre}`}
                         subheader={`Complejidad : ${elem.campocomplejidad}`}
                       />
                       <CardContent>

@@ -8,10 +8,10 @@ import firebase from 'firebase';
 import {
   Button,
   Container,
-  TextField,
-  Typography,
   IconButton,
-  Tooltip
+  TextField,
+  Tooltip,
+  Typography,
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -20,14 +20,11 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PhotoCamera } from "@material-ui/icons";
-
+import { PhotoCamera } from '@material-ui/icons';
 
 import { db } from './firebase';
 import { IngredientCreator } from './IngredientCreator';
-import { Refresh } from '@material-ui/icons';
 
 var archivo;
 
@@ -174,8 +171,11 @@ const FormularioRecetas = () => {
         <TableCell>{recipe.cantidad}</TableCell>
         <TableCell>{recipe.unidades}</TableCell>
         <TableCell>{recipe.name}</TableCell>
-        <TableCell><Button onClick={(e) => deleteIngredient(e.target, recipe)} variant="outlined" color="primary" >eliminar</Button> </TableCell>
-      </TableRow>
+        <TableCell><Button 
+        style={{backgroundColor: "#20603d", color:"#ffffff"}} 
+        onClick={(e) => deleteIngredient(e.target, recipe)} type="submit"
+       >eliminar</Button> </TableCell>
+       </TableRow>
     ))
 
   //crear nuevo ingrediente en la tabla
@@ -319,13 +319,7 @@ const FormularioRecetas = () => {
               <IngredientCreator agregarIngrediente={createNewIngredient} />
               <TableContainer component={Paper}>
                 <Table >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell >cantidad</TableCell>
-                      <TableCell >unidades</TableCell>
-                      <TableCell >Nombre del Ingrediente</TableCell>
-                    </TableRow>
-                  </TableHead>
+                  
                   <TableBody >{recipeTableRows()}</TableBody>
                 </Table>
               </TableContainer>
@@ -398,8 +392,16 @@ const FormularioRecetas = () => {
           </Grid>
 
           <Grid item sm={12} xs={12} align="center">
-            <Button variant="contained" color="primary" onClick={handleSubmit}>Registrar Receta</Button>
-          </Grid>
+          <Button 
+            style={{
+              backgroundColor: "#20603d",
+             
+          }}
+            variant="contained" 
+            color="primary" 
+            onClick={handleSubmit}>
+              Registrar Receta
+              </Button></Grid>
 
         </Grid>
       </form>

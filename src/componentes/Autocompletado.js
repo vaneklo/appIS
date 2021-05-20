@@ -2,13 +2,14 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+
 import {
   Field,
   Form,
   Formik,
 } from 'formik';
 import { Autocomplete } from 'formik-material-ui-lab';
-import {db} from '../formularioRegistro/firebase'
+
 import {
   Button,
   Container,
@@ -16,9 +17,9 @@ import {
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import MuiTextField from '@material-ui/core/TextField';
-import { ingredientes } from '../data/datos';
-import PrevRecetas from '../prevRecetas/PrevRecetas';
 
+import { db } from '../formularioRegistro/firebase';
+import PrevRecetas from '../prevRecetas/PrevRecetas';
 
 const Autocompletado = () =>{ 
   const [elementos, setElementos] = useState(['ninguno']);
@@ -108,6 +109,9 @@ const campoAutocompletado=()=>(
             <Box display="flex" justifyContent="center" >
               <Box margin={1} >
                 <Button
+                style={{
+                  backgroundColor: "#20603d",
+              }}
                   variant="contained"
                   color="primary"
                   disabled={isSubmitting}

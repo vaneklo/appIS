@@ -2,7 +2,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {db} from '../formularioRegistro/firebase';
+
+import { db } from '../formularioRegistro/firebase';
 
 const Receta=()=> {
 console.log("oooopoppoop");

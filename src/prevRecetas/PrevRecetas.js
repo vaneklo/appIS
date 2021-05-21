@@ -57,6 +57,8 @@ export default function PrevRecetas(props) {
   
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
+  console.log("juuan pasadsa");
+  console.log(arreglo);
   arreglo.map((item)=>{
   if(nombreIngrediente=item.name && nombreReceta==item.nombreReceta){contador++;}})
   if (contador==entero){return true;}
@@ -136,8 +138,8 @@ export default function PrevRecetas(props) {
 
       //recetas que tengan el 100 por ciento
       listaRecetas.map((receta)=>{
-         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
-           console.log('si 100')
+         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){          
+          console.log('si 100')
            listaNombresRecetas100porciento.push(receta.nombreReceta);   
            //obtener sus datos y agregarlo al arreglo
           //recetasTotales.indexOf(receta.nombreReceta)

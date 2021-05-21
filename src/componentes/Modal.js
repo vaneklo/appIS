@@ -93,8 +93,9 @@ const getListaIngredientes=()=>{
   console.log('getListaIngredientes')
 var respuesta='';
 ingredientesReceta.map((item)=>
-  respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
+  respuesta=respuesta+'-'+item.cantidad+' '+item.unidades+' de '+item.name+"\n")
 console.log(respuesta)
+console.log("resssss")
 return respuesta;
 }
 

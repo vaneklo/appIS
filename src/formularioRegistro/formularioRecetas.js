@@ -146,8 +146,15 @@ const FormularioRecetas = () => {
     return !!pattern.test(str);
   };
   const validarDescripcionReceta = (str) => {
-    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");
+    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");    
     return !!pattern.test(str);
+  };
+
+  const validarTamDescripcion = (str) => {
+    console.log(str.length);
+    console.log(str.length>100 && str.length<=5000);
+    var tamValido=str.length>100 && str.length<=5000;
+    return tamValido;
   };
 
   const validarComplejidadReceta = (str) => {
@@ -255,14 +262,17 @@ const FormularioRecetas = () => {
         else {
           if (!validarComplejidadReceta(values.campocomplejidad)) { alert("la complejidad solo se mide con numeros"); }
           else {
-            if (!validarNumeroIngredientes()) { alert('debe agregar por lo menos un ingrediente y no mas de veinte'); }
-            else {
-              if (image == null) { alert("debe agregar una imagen"); }
-              else {
-                // e.preventDefault();       
-                subirImagen();
-                agregarReceta(values);
-                alert('receta registrada correctamente');
+            if(!validarTamDescripcion(values.campodescripcion)){  alert("La cantidad de carateres debe ser de 100 a 5000 caracteres");          }
+            else{
+              if (!validarNumeroIngredientes(values.campocomplejidad)) { alert('debe agregar por lo menos un ingrediente y no mas de veinte'); }
+                else {
+                if (image == null) { alert("debe agregar una imagen"); }
+                else {
+                  // e.preventDefault();       
+                  subirImagen();
+                  agregarReceta(values);
+                  alert('receta registrada correctamente');
+                }
               }
             }
           }

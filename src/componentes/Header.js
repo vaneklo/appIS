@@ -27,7 +27,8 @@ export default function ButtonAppBar() {
             <div className={classes.root}>
                 <AppBar style={{ background: '#20603d' }} position="static">
                     <Toolbar>
-                        <Typography variant="h6" className={classes.title}></Typography>
+                        <Typography variant="h6" className={classes.title}>ComeCon</Typography>
+                        
                         <Button color="inherit" component={Link} to="/" >Inicio</Button>
                         <Button color="inherit" component={Link} to="/registrar" >Recetas</Button>
                     </Toolbar>

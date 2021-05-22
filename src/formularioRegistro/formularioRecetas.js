@@ -30,9 +30,10 @@ var archivo;
 
 const useStyles = makeStyles((theme) => ({
   formulario: {
-    border: '1px solid gray',
+    border: '1px solid black',
     padding: '10px',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    variant:'filled'
   }
 
 }));
@@ -283,7 +284,7 @@ const FormularioRecetas = () => {
 
 
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth='sm' >
       <Typography variant="h4" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
         Registro de recetas
       </Typography>

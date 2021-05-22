@@ -13,6 +13,7 @@ import SeccionFormulario from './formularioRegistro/SeccionFormulario';
 
 function App() {
   return (
+    
     <Router>
 
       <Header />

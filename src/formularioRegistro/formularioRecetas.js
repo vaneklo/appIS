@@ -147,7 +147,7 @@ const FormularioRecetas = () => {
     return !!pattern.test(str);
   };
   const validarDescripcionReceta = (str) => {
-    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");    
+    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h\r\n\<br />]+");    
     return !!pattern.test(str);
   };
 
@@ -159,7 +159,7 @@ const FormularioRecetas = () => {
   };
 
   const validarComplejidadReceta = (str) => {
-    var pattern = new RegExp("^[1-9][0-9]*$");
+    var pattern = new RegExp("^[1-5][0-5]*$");
     return !!pattern.test(str);
   };
 

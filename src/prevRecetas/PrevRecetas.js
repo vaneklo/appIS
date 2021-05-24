@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
+import firebase from 'firebase';
 import {
   Card,
   CardActions,
@@ -50,7 +50,7 @@ function changeBackground(color) {
 window.addEventListener("load",function() { changeBackground('#bdecb6') });*/
 
 export default function PrevRecetas(props) {
- // console.log(firebase.storage().ref('images').child('Pollo a la broaster').getDownloadURL());
+  console.log(firebase.storage().ref('images').child('Hamburguesas vegetales').getDownloadURL());
   const classes = useStyles();
   const clickModal = () => {
   }
@@ -124,6 +124,7 @@ export default function PrevRecetas(props) {
     var ArregloRecetas50=[];
     var ArregloRecetas1=[];
     var ArregloRecetas75=[];
+    
     //la consulta en general
     const consultaCoincidencias=await db.collection("ingrediente-receta").where('name','in',listaIngredientesSolicitados).get();
     const consultaTotal=await db.collection("receta").orderBy("campocomplejidad", "asc").get()
@@ -280,7 +281,26 @@ export default function PrevRecetas(props) {
       if(complejA>complejB){return 1;}
       return 0;
      }) 
+
+     ArregloRecetas1.sort((a,b)=>
+     {
+      const nomA=a.camponombre.toLowerCase();
+      const nomB=b.camponombre.toLowerCase();
+      if(nomA<nomB){return -1;}
+      if(nomA>nomB){return 1;}
+      return 0;
+     })
+
+     ArregloRecetas1.sort((a,b)=>
+     {
+       const complejA=a.campocomplejidad;
+       const complejB=b.campocomplejidad;
+      if(complejA<complejB){return -1;}
+      if(complejA>complejB){return 1;}
+      return 0;
+     }) 
   
+
     setResultadoBusquedaRecetas(ArregloRecetas100);
      if(ArregloRecetas50.length!=0){setResultadoBusquedaRecetas50(ArregloRecetas50);     }
     else{
@@ -299,7 +319,7 @@ export default function PrevRecetas(props) {
                 <Card className={classes.root}>
                     <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                         className={classes.cardMedia}
-                        image={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'}
+                        image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'}
                       /> 
                       <CardHeader
                         title={`${elem.camponombre}`}
@@ -311,7 +331,7 @@ export default function PrevRecetas(props) {
                       {`Carbohidratos : ${elem.campoCarbohidratos}`}
                   </CardContent>
                   <CardActions>
-                     <Modal ingredientes={lisIngredientes} imagen={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
+                     <Modal ingredientes={lisIngredientes} imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
                     </CardActions>
                 </Card>
               </Grid>
@@ -325,7 +345,7 @@ export default function PrevRecetas(props) {
             <Card className={classes.root}>
                 <CardMedia style = {{ height: 0, paddingTop: '56%'}}
                     className={classes.cardMedia}
-                    image={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'}
+                    image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'}
                   /> 
                   <CardHeader
                     title={`${elem.camponombre}`}
@@ -337,7 +357,7 @@ export default function PrevRecetas(props) {
                   {`Carbohidratos : ${elem.campoCarbohidratos}`}
               </CardContent>
               <CardActions>
-                 <Modal ingredientes={lisIngredientes} imagen={'https://firebasestorage.googleapis.com/v0/b/recetas-saludables-69ee9.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=29474796-b79f-4657-b87a-21ae8097e5de'} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
+                 <Modal ingredientes={lisIngredientes} image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} complejidad={elem.campocomplejidad} calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} nombre={elem.camponombre} descripcion={elem.campodescripcion}/>
                 </CardActions>
             </Card>
           </Grid>

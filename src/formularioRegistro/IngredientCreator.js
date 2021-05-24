@@ -23,10 +23,10 @@ export const IngredientCreator = props => {
   };
   //validacion de los campos de texto
   const validarNombre = (str) => {
-    var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
+    var pattern = new RegExp("^([a-zñáéíóú ]+)+$");
+   // var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
     return !!pattern.test(str);
   };
-
 
   const createNewIngredient = (e) => {
     e.preventDefault();

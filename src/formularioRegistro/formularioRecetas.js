@@ -57,13 +57,13 @@ const FormularioRecetas = () => {
   }
   const validarNombre = (nombre) => {
     var bandera = true;
-    var contador = 0;
     listaNombresRegistrados.map((receta) => {
+      console.log(receta.camponombre);
+      console.log(nombre);
       if (receta.camponombre == nombre) {
-        console.log(receta.camponombre);
+        console.log('coincidencia encontrada');
         bandera = false;
       }
-      contador++;
     });
     return bandera;
   }
@@ -143,7 +143,7 @@ const FormularioRecetas = () => {
   }
   //validacion de los campos de texto
   const validarNombreReceta = (str) => {
-    var pattern = new RegExp("^[a-zA-Z]+\\.?");
+    var pattern = new RegExp("^[a-zA-Zñáéíóú]+\\.?");
     return !!pattern.test(str);
   };
   const validarDescripcionReceta = (str) => {
@@ -293,7 +293,7 @@ const FormularioRecetas = () => {
         <Grid container spacing={3}>
           <Grid item sm={12} xs={12}>
             <TextField
-              required
+              
               label="Nombre de la receta"
               InputProps={{ inputProps: { maxLength: 35 } }}
               defaultValue=""

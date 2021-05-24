@@ -66,15 +66,31 @@ export default function Modal(props) {
     setOpen(false);
   };
    const getDatosReceta=async()=>{
-            var obj;
-            var lista=[];      
-   const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',nombreReceta).get();
-   consultaIngredientes.forEach((doc) =>{ 
-       obj=doc.data();
-       obj.id=doc.id;
-       lista.push(obj);
+      //      var obj;
+    //        var lista=[];      
+  // const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',nombreReceta).get();
+  // consultaIngredientes.forEach((doc) =>{ 
+      // obj=doc.data();
+      // obj.id=doc.id;
+     //  lista.push(obj);
+   //  })
+
+     var objt;
+     var listat=[];      
+     const consultaTodosIngredientes=await db.collection("ingrediente-receta").get();
+     consultaTodosIngredientes.forEach((doc) =>{ 
+     objt=doc.data();
+     objt.id=doc.id;
+     listat.push(objt);
+
      })
-      setIngredientesReceta(lista);
+    
+    // var respuesta='';
+    // lista.map((item)=>
+    // respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
+
+
+    setIngredientesReceta(listat);
       
       console.log(ingredientesReceta)
     var obj2;
@@ -83,20 +99,37 @@ export default function Modal(props) {
    consultaDetalleReceta.forEach((doc) => { 
        obj2=doc.data();
        obj2.id=doc.id;
-       lista2.push(obj);
+       lista2.push(obj2);
      })
    setDetalleReceta(lista2);
    
     console.log(detalleReceta)
 }
-const getListaIngredientes=()=>{
-  console.log('getListaIngredientes')
+
+//const getListaIngredientes=()=>{
+//  console.log('getListaIngredientes')
+//var respuesta='';
+//ingredientesReceta.map((item)=>
+ /// respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
+//console.log(respuesta)
+//return respuesta;
+//}
+
+
+// filtrar y recorrer
+const getIngredientes=(nombreReceta)=>{
+const ingredientesDeReceta=ingredientesReceta.filter((item)=>{
+if(item.nombreReceta==nombreReceta){return true;}
+else {return false;}
+})
+
 var respuesta='';
-ingredientesReceta.map((item)=>
-  respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
-console.log(respuesta)
+ingredientesDeReceta.map((item)=>
+respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name
+)
 return respuesta;
 }
+
 
   return (
     <div>
@@ -108,7 +141,8 @@ return respuesta;
           Receta: {props.nombre}
         </DialogTitle>
         <DialogContent dividers>
-        <Paper variant="outlined"><img src={props.imagen} /> </Paper>
+        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'
+        } /> </Paper>
         <Typography gutterBottom>
             Complejidad: {props.complejidad}
           </Typography>
@@ -120,7 +154,7 @@ return respuesta;
           <Typography variant='h6' component='h2' gutterBottom>
             Ingredientes:
           </Typography>
-          {getListaIngredientes()}
+          {getIngredientes(props.nombre)}
         <Typography variant='h6' component='h2' gutterBottom>
             Pasos de elaboración:
           </Typography>

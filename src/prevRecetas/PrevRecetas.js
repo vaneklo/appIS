@@ -179,8 +179,9 @@ export default function PrevRecetas(props) {
           var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
           console.log(index)
           if(!ArregloRecetas50.includes(recetasTotales[index])){ArregloRecetas50.push(recetasTotales[index])}
-
-          listaNombresRecetas50porciento.push(receta.nombreReceta);
+               if(ArregloRecetas100.includes((recetasTotales[index]))){
+                listaNombresRecetas50porciento.push(receta.nombreReceta);
+               }     
                }
       }
       else{console.log('no 50 ')}
@@ -196,7 +197,8 @@ export default function PrevRecetas(props) {
           if(!listaNombresRecetas1.includes(receta.nombreReceta)){
             var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
             console.log(index)
-            if(!ArregloRecetas1.includes(recetasTotales[index])){ArregloRecetas1.push(recetasTotales[index])}
+            if(!ArregloRecetas1.includes(recetasTotales[index])){
+              ArregloRecetas1.push(recetasTotales[index])}
             listaNombresRecetas1.push(receta.nombreReceta);}
      })
      console.log('lista de 1ccccccccccccccccccccccccccccccccccc')
@@ -240,13 +242,50 @@ export default function PrevRecetas(props) {
      // const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
     //  const[ResultadoBusquedaRecetas50,setResultadoBusquedaRecetas50]=useState([]);
      // const[ResultadoBusquedaRecetas1,setResultadoBusquedaRecetas1]=useState([]);
+     ArregloRecetas100.sort((a,b)=>
+     {
+      const nomA=a.camponombre.toLowerCase();
+      const nomB=b.camponombre.toLowerCase();
+      if(nomA<nomB){return -1;}
+      if(nomA>nomB){return 1;}
+      return 0;
+     })
 
-     
+     ArregloRecetas100.sort((a,b)=>
+     {
+      const complejA=a.campocomplejidad;
+      const complejB=b.campocomplejidad;
+      console.log('campos de complejidad')
+      console.log(complejA)
+      console.log(complejB)
+      if(complejA<complejB){return -1;}
+      if(complejA>complejB){return 1;}
+      return 0;
+     }) 
+
+     ArregloRecetas50.sort((a,b)=>
+     {
+      const nomA=a.camponombre.toLowerCase();
+      const nomB=b.camponombre.toLowerCase();
+      if(nomA<nomB){return -1;}
+      if(nomA>nomB){return 1;}
+      return 0;
+     })
+
+     ArregloRecetas50.sort((a,b)=>
+     {
+       const complejA=a.campocomplejidad;
+       const complejB=b.campocomplejidad;
+      if(complejA<complejB){return -1;}
+      if(complejA>complejB){return 1;}
+      return 0;
+     }) 
+  
     setResultadoBusquedaRecetas(ArregloRecetas100);
-    setResultadoBusquedaRecetas50(ArregloRecetas50);
-    setResultadoBusquedaRecetas1(ArregloRecetas1);
-
-
+     if(ArregloRecetas50.length!=0){setResultadoBusquedaRecetas50(ArregloRecetas50);     }
+    else{
+      setResultadoBusquedaRecetas50(ArregloRecetas1);}
+    
 
     //setResultadoBusquedaRecetas100(ArregloRecetas100);
     

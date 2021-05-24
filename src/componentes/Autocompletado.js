@@ -98,7 +98,9 @@ const campoAutocompletado=()=>(
                   multiple
                   noOptionsText='No existen coincidencias'
                   component={Autocomplete}
-                  options={listaIngredientesUnicos.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
+                  options={listaIngredientesUnicos.sort((a,b) => {
+                    if(a.ingrediente!=undefined && b.ingrediente!=undefined){a.ingrediente.localeCompare(b.ingrediente)}
+                                 })
                   }
                   getOptionLabel={(option) => option.ingrediente}
                   style={{ width: '60vw' }}

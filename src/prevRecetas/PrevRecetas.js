@@ -50,7 +50,6 @@ function changeBackground(color) {
 window.addEventListener("load",function() { changeBackground('#bdecb6') });*/
 
 export default function PrevRecetas(props) {
-  console.log(firebase.storage().ref('images').child('Hamburguesas vegetales').getDownloadURL());
   const classes = useStyles();
   const clickModal = () => {
   }
@@ -85,7 +84,6 @@ export default function PrevRecetas(props) {
         }})
     if ((contador==entero/2 ||contador==(entero/2)+0.5  ||contador==(entero/2)+1 ) && (contador!=entero)){return true;}
     else{
-      console.log('nononoono')
       return false;}}
   
   const cumpleMayoria=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
@@ -94,7 +92,6 @@ export default function PrevRecetas(props) {
         if(nombreIngrediente=item.name && nombreReceta==item.nombreReceta){contador++;}})
         if ((contador==entero-1 ||contador==entero-2 ||contador==entero-3 ) && (contador!=entero/2 ||contador!=(entero/2)+1 ||contador!=(entero/2)+0.5 )){return true;}
         else{
-          console.log('nononoono')
           return false;}}
 
   const getDatosReceta=async(nombre)=>{
@@ -135,9 +132,7 @@ export default function PrevRecetas(props) {
      recetasTotales.push(objt);
                               }
                                      })
-     console.log('todoooooo')                                  
-     console.log(recetasTotales);
-     console.log('todoooooo')
+   
       
     consultaCoincidencias.forEach((doc) => { 
         obj=doc.data();
@@ -145,85 +140,67 @@ export default function PrevRecetas(props) {
         listaRecetas.push(obj);
       })
 
-      console.log('consultar coincidencias')  
-      console.log(listaRecetas);
-      console.log('consultar coincidencias') 
+     
 
       //recetas que tengan el 100 por ciento
       listaRecetas.map((receta)=>{
          if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
-           console.log('si 100')
            listaNombresRecetas100porciento.push(receta.nombreReceta);   
            //obtener sus datos y agregarlo al arreglo
           //recetasTotales.indexOf(receta.nombreReceta)
-          console.log(receta.nombreReceta)
           var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
-          console.log(index)
           //agrego todos los datos de la receta que cumple el 100 porciento
              if(!ArregloRecetas100.includes(recetasTotales[index])){
            ArregloRecetas100.push(recetasTotales[index])}
          }
-         else{console.log('no 100')}
          })
-        console.log('lista al 100aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ')
-        console.log(listaNombresRecetas100porciento)
-        console.log(ArregloRecetas100)
-        console.log('lista al 100 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+      
      //recetas que tengan el 100 por ciento
 
      //recetas que tengan el 50 por ciento
      listaRecetas.map((receta)=>{
-       console.log(listaIngredientesSolicitados.length/2)
       if(cumpleMitadIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
         if(!listaNombresRecetas50porciento.includes(receta.nombreReceta)){
-          console.log('si 50 ');
           var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
-          console.log(index)
           if(!ArregloRecetas50.includes(recetasTotales[index])){ArregloRecetas50.push(recetasTotales[index])}
                if(ArregloRecetas100.includes((recetasTotales[index]))){
                 listaNombresRecetas50porciento.push(receta.nombreReceta);
                }     
                }
       }
-      else{console.log('no 50 ')}
+      else{
+
+      }
       })
-      console.log('lista de 50bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
-      console.log(ArregloRecetas50)
-      console.log('lista de 50bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+      
     //recetas que tengan el 50 por ciento
 
     //recetas que tengan 1 ingrediente
     listaRecetas.map((receta)=>{
-      console.log('1')
           if(!listaNombresRecetas1.includes(receta.nombreReceta)){
             var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
-            console.log(index)
             if(!ArregloRecetas1.includes(recetasTotales[index])){
               ArregloRecetas1.push(recetasTotales[index])}
             listaNombresRecetas1.push(receta.nombreReceta);}
      })
-     console.log('lista de 1ccccccccccccccccccccccccccccccccccc')
-     console.log(ArregloRecetas1)
-     console.log('lista de 1ccccccccccccccccccccccccccc')
+  
     //recetas que tengan 1 ingrediente
 
     //recetas que tengan el 75 y mas por ciento
        listaRecetas.map((receta)=>{
-        console.log(75)
        if(cumpleMayoria(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
          if(!listaNombresRecetas75porciento.includes(receta.nombreReceta)){
           listaNombresRecetas75porciento.push(receta.nombreReceta);
           var index = recetasTotales.map(item=>item.camponombre).indexOf(receta.nombreReceta)
-          console.log(index)
           if(!ArregloRecetas75.includes(recetasTotales[index])){ArregloRecetas75.push(recetasTotales[index])      }
           
-           console.log('si 75 ');}
+           ;}
        }
-       else{console.log('no 75 ')}
+       else{
+         
+       }
        })
-       console.log('lista de 75ddddddddddddddddddddddddddddddd')
-       console.log(ArregloRecetas75)
-       console.log('lista de 75dddddddddddddddddddddddd')
+       
      //recetas que tengan el 75 y mas por ciento
 
 
@@ -234,7 +211,6 @@ export default function PrevRecetas(props) {
      //const consultarDatosRecetas100= await db.collection("receta").orderBy("campocomplejidad", "asc").where('camponombre','in',listaNombresRecetas100porciento).get();
      //consultarDatosRecetas100.forEach((doc) => { 
       // if(consultarDatosRecetas100!=null){
-      //console.log(consultarDatosRecetas100)
       //obj2=doc.data();
       //obj2.id=doc.id;
       //arrayRecetas100.push(obj2);
@@ -256,9 +232,7 @@ export default function PrevRecetas(props) {
      {
       const complejA=a.campocomplejidad;
       const complejB=b.campocomplejidad;
-      console.log('campos de complejidad')
-      console.log(complejA)
-      console.log(complejB)
+     
       if(complejA<complejB){return -1;}
       if(complejA>complejB){return 1;}
       return 0;
@@ -309,7 +283,6 @@ export default function PrevRecetas(props) {
 
     //setResultadoBusquedaRecetas100(ArregloRecetas100);
     
-    console.log(ResultadoBusquedaRecetas)
 
     }
       

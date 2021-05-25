@@ -53,15 +53,12 @@ const FormularioRecetas = () => {
       lista.push(obj)
     });
     setListaNombresRegistrados(lista)
-    console.log(lista[0].camponombre);
   }
   const validarNombre = (nombre) => {
     var bandera = true;
     listaNombresRegistrados.map((receta) => {
-      console.log(receta.camponombre);
-      console.log(nombre);
+     
       if (receta.camponombre == nombre) {
-        console.log('coincidencia encontrada');
         bandera = false;
       }
     });
@@ -107,17 +104,14 @@ const FormularioRecetas = () => {
     archivo = e.target.files[0];
 
     var foto = o.files[0];
-    console.log(e.target.files[0]);
     var img = new Image();
     img.src = URL.createObjectURL(foto);
-    console.log(img.src);
     img.onload = function dimension() {
       var tam720 = this.width.toFixed(0) <= 720 && this.height.toFixed(0) <= 720;
       var tam480 = this.width.toFixed(0) >= 480 && this.height.toFixed(0) >= 480;
       if (tam720 && tam480) {
         setImage(e.target.files[0]);
         //return true;
-        console.log("listo");
       }
       else {
         window.location.reload(true);
@@ -129,7 +123,7 @@ const FormularioRecetas = () => {
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
     const storageApply = firebase.storage().ref(`images/${values.camponombre}`).put(image)
-    console.log(image)
+   
   };
 
   const agregarReceta = () => {
@@ -152,8 +146,7 @@ const FormularioRecetas = () => {
   };
 
   const validarTamDescripcion = (str) => {
-    console.log(str.length);
-    console.log(str.length>100 && str.length<=5000);
+    
     var tamValido=str.length>100 && str.length<=5000;
     return tamValido;
   };
@@ -165,7 +158,7 @@ const FormularioRecetas = () => {
 
   const validarNumeroIngredientes = () => {
     if (recipeItems.length>0 && recipeItems.length<21 ) { 
-      console.log(recipeItems)
+      
       return true; }
     else { return false; }
   };
@@ -203,20 +196,15 @@ const FormularioRecetas = () => {
 
   const deleteIngredient = (e, recipeItem) => {
     // e.preventDefault();
-    //console.log('antes'+recipeItems);
     var contador = 0;
     var lista = recipeItems;
-    //console.log(lista);
     lista.map((ingrediente) => {
       if (recipeItem.name == ingrediente.name) {
-        console.log(ingrediente);
         lista.splice(contador, 1);
-        console.log(lista);
       }
       contador++;
     });
     setRecipeItems(lista);
-    console.log(recipeItems)
     var tablaAlmacen = recipeItems;
     window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
     window.location.reload(true);
@@ -245,7 +233,6 @@ const FormularioRecetas = () => {
 
     }
     catch (error) {
-      console.error(error);
     }
   }
 
@@ -256,7 +243,6 @@ const FormularioRecetas = () => {
     if (!validarNombreReceta(values.camponombre)) { alert("el nombre debe estar compuesto de caracteres de la 'a' a la 'z' y no puede estar vacio"); }
     else {
       if (!validarNombre(values.camponombre)) {
-        console.log(values.camponombre);
         alert("nombre de receta ya registrada"); }
       else {
         if (!validarDescripcionReceta(values.campodescripcion)) { alert("descripcion no valida"); }

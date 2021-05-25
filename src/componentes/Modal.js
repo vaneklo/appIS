@@ -52,7 +52,7 @@ const DialogContent = withStyles((theme) => ({
 
 export default function Modal(props) {
   var nombreReceta=props.nombre
-  console.log(nombreReceta)
+ 
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
   useEffect(()=>{getDatosReceta()},[]);
@@ -92,7 +92,7 @@ export default function Modal(props) {
 
     setIngredientesReceta(listat);
       
-      console.log(ingredientesReceta)
+     
     var obj2;
     var lista2=[];   
    const consultaDetalleReceta=await db.collection("receta").where('camponombre','==',nombreReceta).get();
@@ -103,15 +103,15 @@ export default function Modal(props) {
      })
    setDetalleReceta(lista2);
    
-    console.log(detalleReceta)
+    
 }
 
 //const getListaIngredientes=()=>{
-//  console.log('getListaIngredientes')
+//  
 //var respuesta='';
 //ingredientesReceta.map((item)=>
  /// respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
-//console.log(respuesta)
+//
 //return respuesta;
 //}
 

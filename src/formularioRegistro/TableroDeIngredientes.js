@@ -56,7 +56,6 @@ const TableroDeIngredientes =(props)=> {
     };
 
     const deleteIngredient=()=>{
-    console.log('item eliminado'); 
     }
 
     return (

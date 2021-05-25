@@ -28,15 +28,14 @@ querySnapshot.forEach((doc) => {
      )
     
      listaNombresUnicos.map((item)=>{  resultado=[...resultado,{ingrediente:item}];   })
-     console.log('............ddddd');
-    // console.log(resultado);
+    
 
      return resultado;
     
 }
 const ingredientes=listaIngredientes();
 //.then((item)=>{ 
- //   console.log(item);
+ 
   //  } 
    // );
 

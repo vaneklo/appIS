@@ -31,6 +31,9 @@ export default function ButtonAppBar() {
                         
                         <Button color="inherit" component={Link} to="/" >Inicio</Button>
                         <Button color="inherit" component={Link} to="/registrar" >Recetas</Button>
+                        <Button color="inherit" component={Link} to="/usuario" >RegUsuario</Button>
+                        <Button color="inherit" component={Link} to="/admin" >RegAdmin</Button>
+
                     </Toolbar>
                 </AppBar>
             </div>

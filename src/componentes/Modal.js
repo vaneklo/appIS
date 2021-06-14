@@ -123,11 +123,22 @@ if(item.nombreReceta==nombreReceta){return true;}
 else {return false;}
 })
 
-var respuesta='';
-ingredientesDeReceta.map((item)=>
-respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name
+//console.log(ingredientesDeReceta)
+//var respuesta='';
+//ingredientesDeReceta.map((item)=>
+//respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name
+//)
+return (
+   ingredientesDeReceta.map((item)=>
+  <div>
+
+      <label key={item.cantidad+item.nombre}>{'-'+item.cantidad+' '+item.unidades+' de '+item.name}</label>
+       <br></br>
+       
+  </div>
+  )
+
 )
-return respuesta;
 }
 
 

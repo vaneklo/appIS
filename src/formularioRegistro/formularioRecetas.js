@@ -21,7 +21,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-import { PhotoCamera } from '@material-ui/icons';
+import { IndeterminateCheckBoxSharp, PhotoCamera } from '@material-ui/icons';
 
 import { db } from './firebase';
 import { IngredientCreator } from './IngredientCreator';
@@ -129,7 +129,13 @@ const FormularioRecetas = () => {
   const agregarReceta = () => {
     //comunicacion con la base de datos con la coleccion receta.doc,para id unico
     //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
-    db.collection('receta').doc().set(values)
+    db.collection('receta').doc().set({camponombre:values.camponombre,campodescripcion:values.campodescripcion,
+  campocomplejidad:values.campocomplejidad,
+  campoCalorias:values.campoCalorias,
+  campoGrasas:values.campoGrasas,
+  campoCarbohidratos:values.campoCarbohidratos,
+  campoCantidadIngredientes:recipeItems.length})
+
     // db.collection('receta-imagen').doc().set({nombreReceta:values.nombreReceta,url:urlImagen})
     recipeItems.map((recipeItem) => {
       db.collection('ingrediente-receta').doc().set({ nombreReceta: values.camponombre, cantidad: recipeItem.cantidad, unidades: recipeItem.unidades, name: recipeItem.name });
@@ -172,9 +178,10 @@ const FormularioRecetas = () => {
         <TableCell>{recipe.cantidad}</TableCell>
         <TableCell>{recipe.unidades}</TableCell>
         <TableCell>{recipe.name}</TableCell>
-        <TableCell><Button 
+        <TableCell>
+        <Button 
         style={{backgroundColor: "#20603d", color:"#ffffff"}} 
-        onClick={(e) => deleteIngredient(e.target, recipe)} type="submit"
+        onClick={()=>{deleteIngredient(recipe)}} 
        >eliminar</Button> </TableCell>
        </TableRow>
     ))
@@ -194,20 +201,22 @@ const FormularioRecetas = () => {
     else { alert('no puede haber campos vacios') }
   }
 
-  const deleteIngredient = (e, recipeItem) => {
+  const deleteIngredient = ( recipeItem) => {
     // e.preventDefault();
-    var contador = 0;
-    var lista = recipeItems;
-    lista.map((ingrediente) => {
-      if (recipeItem.name == ingrediente.name) {
-        lista.splice(contador, 1);
-      }
-      contador++;
-    });
-    setRecipeItems(lista);
-    var tablaAlmacen = recipeItems;
-    window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
-    window.location.reload(true);
+    var index = recipeItems.map(item=>item.name).indexOf(recipeItem.name)
+
+     console.log(recipeItem)
+     console.log(index)
+     setRecipeItems(nuevalista=>{
+       if(index==0){nuevalista.splice(0,1)}
+      else{ nuevalista.splice(index,index)}
+
+     var tablaAlmacen = nuevalista;
+     console.log(tablaAlmacen)
+      window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
+      return [...nuevalista];
+    })
+ 
   }
 
 

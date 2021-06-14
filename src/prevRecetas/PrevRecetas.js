@@ -50,24 +50,29 @@ function changeBackground(color) {
 window.addEventListener("load",function() { changeBackground('#bdecb6') });*/
 
 export default function PrevRecetas(props) {
+  const[listaIngredientesSolicitados,setListaIngredientesSolicitados]=useState(props.buscar);
   const classes = useStyles();
   const clickModal = () => {
   }
 
 ///////este es el parametro de busqueda de base de datos
-  const listaIngredientesSolicitados=[...props.buscar];
+//const listaIngredientesSolicitados=[...props.buscar];
+
 ///cambialo por el valor de props 
 
+  const[verEncabezado100,setVerEncabezado100]=useState(true);
+  const[verEncabezadoRecomendaciones,setVerEncabezadoRecomendaciones]=useState(true);
 
   const[ResultadoBusquedaRecetas,setResultadoBusquedaRecetas]=useState([]);
   const[ResultadoBusquedaRecetas50,setResultadoBusquedaRecetas50]=useState([]);
   const[ResultadoBusquedaRecetas1,setResultadoBusquedaRecetas1]=useState([]);
-
-  useEffect(()=>{
-    lisIngredientes = listaIngredientesSolicitados;
-    getResultadoBusquedaRecetas();
-  },[...listaIngredientesSolicitados])
+ useEffect(()=>setListaIngredientesSolicitados(props.buscar),[props.buscar]);
+ useEffect(()=>getResultadoBusquedaRecetas(),[props.buscar,listaIngredientesSolicitados]);
   
+
+
+
+
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
   arreglo.map((item)=>{
@@ -132,16 +137,12 @@ export default function PrevRecetas(props) {
      recetasTotales.push(objt);
                               }
                                      })
-   
-      
     consultaCoincidencias.forEach((doc) => { 
         obj=doc.data();
         obj.id=doc.id;
         listaRecetas.push(obj);
       })
-
-     
-
+   
       //recetas que tengan el 100 por ciento
       listaRecetas.map((receta)=>{
          if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
@@ -154,7 +155,10 @@ export default function PrevRecetas(props) {
            ArregloRecetas100.push(recetasTotales[index])}
          }
          })
-      
+         //console.log(ArregloRecetas100);
+        // setVerEncabezado100(false);
+       //  if(ArregloRecetas100.length<1){return setVerEncabezado100(false);}
+         
      //recetas que tengan el 100 por ciento
 
      //recetas que tengan el 50 por ciento
@@ -167,7 +171,7 @@ export default function PrevRecetas(props) {
                 listaNombresRecetas50porciento.push(receta.nombreReceta);
                }     
                }
-      }
+             }
       else{
 
       }
@@ -183,7 +187,6 @@ export default function PrevRecetas(props) {
               ArregloRecetas1.push(recetasTotales[index])}
             listaNombresRecetas1.push(receta.nombreReceta);}
      })
-  
     //recetas que tengan 1 ingrediente
 
     //recetas que tengan el 75 y mas por ciento
@@ -233,6 +236,15 @@ export default function PrevRecetas(props) {
       const complejA=a.campocomplejidad;
       const complejB=b.campocomplejidad;
      
+      if(complejA<complejB){return -1;}
+      if(complejA>complejB){return 1;}
+      return 0;
+     }) 
+
+     ArregloRecetas100.sort((a,b)=>
+     {
+      const complejA=a.campoCantidadIngredientes;
+      const complejB=b.campoCantidadIngredientes;
       if(complejA<complejB){return -1;}
       if(complejA>complejB){return 1;}
       return 0;
@@ -337,11 +349,10 @@ export default function PrevRecetas(props) {
      
       ))
   );
-
+     /*agrege el hidden para que, de no mostrarse ninguna coincidencia no apareciera*/
     return (         
       <div>
-        
-        <div className={classes.resu}>{"Recetas con todos sus ingredientes:"}</div><br></br>
+      <div className={classes.resu} hidden={!verEncabezado100} >{"Recetas con todos sus ingredientes:"}</div><br></br>
       <GridList className={classes.gridList} cols={2.5}
       container
       spacing={35}
@@ -351,7 +362,7 @@ export default function PrevRecetas(props) {
     >
       {tarjetasRecetas()}
       </GridList><br></br>
-      <div className={classes.resu}>{"Recetas con la mitad de sus ingredientes:"}</div><br></br>
+      <div className={classes.resu} hidden={!verEncabezadoRecomendaciones}>{"Recetas con la mitad de sus ingredientes:"}</div><br></br>
       <GridList className={classes.gridList} cols={2.5}
       container
       spacing={35}

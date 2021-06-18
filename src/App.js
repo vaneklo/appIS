@@ -10,9 +10,12 @@ import Autocompletado from './componentes/Autocompletado';
 import Footer from './componentes/Footer';
 import Header from './componentes/Header';
 import SeccionFormulario from './formularioRegistro/SeccionFormulario';
+import FormRegistro from './registroUsuarios/FormRegistro';
+import FormRegUsr from './registroUsuarios/FormRegUsr';
 
 function App() {
   return (
+    
     <Router>
 
       <Header />
@@ -23,6 +26,12 @@ function App() {
         </Route>
         <Route path="/registrar">
           <SeccionFormulario />
+        </Route>
+        <Route path="/usuario">
+          <FormRegUsr />
+        </Route>
+        <Route path="/admin">
+          <FormRegistro />
         </Route>
       </Switch>
 

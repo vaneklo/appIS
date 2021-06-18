@@ -21,7 +21,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-import { PhotoCamera } from '@material-ui/icons';
+import { IndeterminateCheckBoxSharp, PhotoCamera } from '@material-ui/icons';
 
 import { db } from './firebase';
 import { IngredientCreator } from './IngredientCreator';
@@ -30,9 +30,10 @@ var archivo;
 
 const useStyles = makeStyles((theme) => ({
   formulario: {
-    border: '1px solid gray',
+    border: '1px solid black',
     padding: '10px',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    variant:'filled'
   }
 
 }));
@@ -52,17 +53,14 @@ const FormularioRecetas = () => {
       lista.push(obj)
     });
     setListaNombresRegistrados(lista)
-    console.log(lista[0].camponombre);
   }
   const validarNombre = (nombre) => {
     var bandera = true;
-    var contador = 0;
     listaNombresRegistrados.map((receta) => {
+     
       if (receta.camponombre == nombre) {
-        console.log(receta.camponombre);
         bandera = false;
       }
-      contador++;
     });
     return bandera;
   }
@@ -106,17 +104,14 @@ const FormularioRecetas = () => {
     archivo = e.target.files[0];
 
     var foto = o.files[0];
-    console.log(e.target.files[0]);
     var img = new Image();
     img.src = URL.createObjectURL(foto);
-    console.log(img.src);
     img.onload = function dimension() {
       var tam720 = this.width.toFixed(0) <= 720 && this.height.toFixed(0) <= 720;
       var tam480 = this.width.toFixed(0) >= 480 && this.height.toFixed(0) >= 480;
       if (tam720 && tam480) {
         setImage(e.target.files[0]);
         //return true;
-        console.log("listo");
       }
       else {
         window.location.reload(true);
@@ -128,13 +123,19 @@ const FormularioRecetas = () => {
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
     const storageApply = firebase.storage().ref(`images/${values.camponombre}`).put(image)
-    console.log(image)
+   
   };
 
   const agregarReceta = () => {
     //comunicacion con la base de datos con la coleccion receta.doc,para id unico
     //primero agrego la tabla de  ingredientes y debajo los cdatos de complejidad,etc 
-    db.collection('receta').doc().set(values)
+    db.collection('receta').doc().set({camponombre:values.camponombre,campodescripcion:values.campodescripcion,
+  campocomplejidad:values.campocomplejidad,
+  campoCalorias:values.campoCalorias,
+  campoGrasas:values.campoGrasas,
+  campoCarbohidratos:values.campoCarbohidratos,
+  campoCantidadIngredientes:recipeItems.length})
+
     // db.collection('receta-imagen').doc().set({nombreReceta:values.nombreReceta,url:urlImagen})
     recipeItems.map((recipeItem) => {
       db.collection('ingrediente-receta').doc().set({ nombreReceta: values.camponombre, cantidad: recipeItem.cantidad, unidades: recipeItem.unidades, name: recipeItem.name });
@@ -142,29 +143,28 @@ const FormularioRecetas = () => {
   }
   //validacion de los campos de texto
   const validarNombreReceta = (str) => {
-    var pattern = new RegExp("^[a-zA-Z]+\\.?");
+    var pattern = new RegExp("^[a-zA-Zñáéíóú]+\\.?");
     return !!pattern.test(str);
   };
   const validarDescripcionReceta = (str) => {
-    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h]+");    
+    var pattern = new RegExp("^[a-z||A-Z||0-9][a-zA-Z\t\h\r\n\<br />]+");    
     return !!pattern.test(str);
   };
 
   const validarTamDescripcion = (str) => {
-    console.log(str.length);
-    console.log(str.length>100 && str.length<=5000);
+    
     var tamValido=str.length>100 && str.length<=5000;
     return tamValido;
   };
 
   const validarComplejidadReceta = (str) => {
-    var pattern = new RegExp("^[1-9][0-9]*$");
+    var pattern = new RegExp("^[1-5][0-5]*$");
     return !!pattern.test(str);
   };
 
   const validarNumeroIngredientes = () => {
     if (recipeItems.length>0 && recipeItems.length<21 ) { 
-      console.log(recipeItems)
+      
       return true; }
     else { return false; }
   };
@@ -178,9 +178,10 @@ const FormularioRecetas = () => {
         <TableCell>{recipe.cantidad}</TableCell>
         <TableCell>{recipe.unidades}</TableCell>
         <TableCell>{recipe.name}</TableCell>
-        <TableCell><Button 
+        <TableCell>
+        <Button 
         style={{backgroundColor: "#20603d", color:"#ffffff"}} 
-        onClick={(e) => deleteIngredient(e.target, recipe)} type="submit"
+        onClick={()=>{deleteIngredient(recipe)}} 
        >eliminar</Button> </TableCell>
        </TableRow>
     ))
@@ -200,25 +201,22 @@ const FormularioRecetas = () => {
     else { alert('no puede haber campos vacios') }
   }
 
-  const deleteIngredient = (e, recipeItem) => {
+  const deleteIngredient = ( recipeItem) => {
     // e.preventDefault();
-    //console.log('antes'+recipeItems);
-    var contador = 0;
-    var lista = recipeItems;
-    //console.log(lista);
-    lista.map((ingrediente) => {
-      if (recipeItem.name == ingrediente.name) {
-        console.log(ingrediente);
-        lista.splice(contador, 1);
-        console.log(lista);
-      }
-      contador++;
-    });
-    setRecipeItems(lista);
-    console.log(recipeItems)
-    var tablaAlmacen = recipeItems;
-    window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
-    window.location.reload(true);
+    var index = recipeItems.map(item=>item.name).indexOf(recipeItem.name)
+
+     console.log(recipeItem)
+     console.log(index)
+     setRecipeItems(nuevalista=>{
+       if(index==0){nuevalista.splice(0,1)}
+      else{ nuevalista.splice(index,index)}
+
+     var tablaAlmacen = nuevalista;
+     console.log(tablaAlmacen)
+      window.localStorage.setItem('tablaIngredientes', JSON.stringify(tablaAlmacen));
+      return [...nuevalista];
+    })
+ 
   }
 
 
@@ -244,7 +242,6 @@ const FormularioRecetas = () => {
 
     }
     catch (error) {
-      console.error(error);
     }
   }
 
@@ -255,7 +252,6 @@ const FormularioRecetas = () => {
     if (!validarNombreReceta(values.camponombre)) { alert("el nombre debe estar compuesto de caracteres de la 'a' a la 'z' y no puede estar vacio"); }
     else {
       if (!validarNombre(values.camponombre)) {
-        console.log(values.camponombre);
         alert("nombre de receta ya registrada"); }
       else {
         if (!validarDescripcionReceta(values.campodescripcion)) { alert("descripcion no valida"); }
@@ -283,7 +279,7 @@ const FormularioRecetas = () => {
 
 
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth='sm' >
       <Typography variant="h4" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
         Registro de recetas
       </Typography>
@@ -292,7 +288,7 @@ const FormularioRecetas = () => {
         <Grid container spacing={3}>
           <Grid item sm={12} xs={12}>
             <TextField
-              required
+              
               label="Nombre de la receta"
               InputProps={{ inputProps: { maxLength: 35 } }}
               defaultValue=""

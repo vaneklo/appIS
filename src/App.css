@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+body {
+  background-image: url("https://cdn.hipwallpaper.com/i/0/68/OG1FLx.jpg");
+  background-color: #cccccc;
+  background-size: 100%;
+  background-repeat: repeat;
+ }

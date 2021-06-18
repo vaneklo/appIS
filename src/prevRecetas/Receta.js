@@ -6,7 +6,6 @@ import React, {
 import { db } from '../formularioRegistro/firebase';
 
 const Receta=()=> {
-console.log("oooopoppoop");
   const recetaEjemplo="pan";
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
@@ -27,7 +26,6 @@ console.log("oooopoppoop");
           obj=doc.data();
           obj.id=doc.id;
           lista.push(obj);
-          console.log(lista);
         })
       setIngredientesReceta(lista);
       var obj2;
@@ -37,7 +35,6 @@ console.log("oooopoppoop");
           obj2=doc.data();
           obj2.id=doc.id;
           lista2.push(obj);
-          console.log(lista2);
         })
       setDetalleReceta(lista2);
   }

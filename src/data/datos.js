@@ -15,14 +15,13 @@ export const ingredientes = [
 const respuestas=()=>{
   var ingredientesUnicos=[];  
   respuesta.then((item)=>{ 
-    //console.log(item);
+    
     ingredientesUnicos=[...ingredientesUnicos,item]
     } 
     );
     return ingredientesUnicos;
 }
 const itemsunicos=respuestas();
-console.log(respuestas());
 const ingredien=itemsunicos;
 
 

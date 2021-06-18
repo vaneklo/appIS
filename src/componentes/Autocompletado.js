@@ -58,9 +58,17 @@ const Autocompletado = () =>{
 
 const campoAutocompletado=()=>(
   <>
-    <Typography variant="h2" component="h1" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
-      ComeCon
+
+    <Typography variant="h2" component="h1" gutterBottom style={{ textAlign: 'center', marginTop: '1em' }}>
+  
+      <img src="https://i.ibb.co/qmxT6nN/large-removebg-preview.png"  width="500" height="333">
+      </img>
       </Typography>
+      <b><div style={{ textAlign: 'center', color: '#20603d', }}>{"Recetas segun lo que tengas en casa!"}</div></b>
+      <div style={{ textAlign: 'center', color: '#000000', }}>
+        {"Ingresa los ingredientes que tengas a la mano en la barra buscadora, presiona buscar"}</div>
+        <div style={{ textAlign: 'center', color: '#000000', }}>
+        {"y deja que nuestra app te recomiende todo tipo de recetas!"}</div>
     <Formik
       initialValues={{
         autocomplete: [],
@@ -90,7 +98,9 @@ const campoAutocompletado=()=>(
                   multiple
                   noOptionsText='No existen coincidencias'
                   component={Autocomplete}
-                  options={listaIngredientesUnicos.sort((a, b) => a.ingrediente.localeCompare(b.ingrediente))
+                  options={listaIngredientesUnicos.sort((a,b) => {
+                    if(a.ingrediente!=undefined && b.ingrediente!=undefined){a.ingrediente.localeCompare(b.ingrediente)}
+                                 })
                   }
                   getOptionLabel={(option) => option.ingrediente}
                   style={{ width: '60vw' }}
@@ -100,7 +110,10 @@ const campoAutocompletado=()=>(
                       error={touched['autocomplete'] && !!errors['autocomplete']}
                       helperText={touched['autocomplete'] && errors['autocomplete']}
                       label="Buscar ingredientes"
-                      variant="outlined"
+                      variant="filled"
+                      InputLabelProps={{
+                        style: {color: '#000000', fontWeight:"bold"}
+                    }}
                     />
                   )}
                 />

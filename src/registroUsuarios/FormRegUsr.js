@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 import firebase from 'firebase';
+
 import {
   Button,
   Container,
@@ -12,8 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { db } from '../formularioRegistro/firebase';
 
+import { db } from '../formularioRegistro/firebase';
 
 const useStyles = makeStyles((theme) => ({
     formulario: {
@@ -29,10 +31,7 @@ const FormularioUsuario = () => {
   
     const classes = useStyles();
 
-    const validarCorreo = (str) => {
-        var pattern = new RegExp("/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/");
-        return !!pattern.test(str);
-      };
+    
       
       const [values, setValues] = React.useState({
         nameComplete:'',
@@ -60,8 +59,27 @@ const FormularioUsuario = () => {
       
    const funcionRegistrarCliente=(e)=>{
     //agregar todas las restricciones
+    const validarCorreo = (str) => {
+      var pattern = new RegExp("/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/");
+      return !!pattern.test(str);
+    };
 
+    const validarNombre = (str) => {
+      var pattern = new RegExp("^[a-zA-Zñáéíóú]+\\.?");
+      return !!pattern.test(str);
+    };
 
+    const validarTamContra = (str) => {
+    
+      var tamValido=str.length>5 && str.length<=10;
+      return tamValido;
+    };
+
+    const validarContraIgual = (str) => {
+    
+      var igual = str;
+      return igual;
+    };
     registrarNuevoCliente(e);
 
 
@@ -88,7 +106,7 @@ const FormularioUsuario = () => {
    else{ console.log('contrasenas diferentes')}
     }
 
-
+    
 
 return (
     <Container maxWidth='sm' >
@@ -192,6 +210,8 @@ return (
             color="primary" 
             onClick={(e)=>{registrarNuevoCliente(e)}}
             >
+
+            
               Registrar 
               </Button></Grid>
 

@@ -1,5 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
+
 import firebase from 'firebase';
+
 import {
   Button,
   Container,
@@ -12,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useUsuario, UsuarioProvider } from '../UserContext';
 
 const useStyles = makeStyles((theme) => ({
     formulario: {
@@ -89,7 +90,7 @@ const FormularioLoginUsuario = () => {
 return (
     <Container maxWidth='sm' >
       <Typography variant="h4" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
-        Registro de Usuario
+        Iniciar Sesion 
       </Typography>
 
       <form className={classes.formulario}>
@@ -145,7 +146,7 @@ return (
             color="primary" 
             onClick={(e)=>{iniciarSesionUsuario(e)}}
             >
-              Registrar 
+              Ingresar 
               </Button></Grid>
 
         </Grid>

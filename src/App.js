@@ -18,22 +18,31 @@ import {
   UsuarioProvider,
 } from './UserContext';
 import Profile from './views/profile';
+import Contexto from './contexto/contexto';
+import RecetasFavoritas from './componentes/recetasFavoritas';
 
 function App() {
-      const UserContext=useContext(useUsuario);  
+
+    const{estadoBotonRegistrarRecetas,
+         estadoBotonVerRecetasFavoritas}=useContext(Contexto)
 return (
   <UsuarioProvider> 
     <Router>
       <Header/>
-
- 
-
       <Switch>
         <Route exact path="/">
             <Autocompletado />
+            
+
         </Route>
-          <Route path="/registrar" >
+        
+          <Route  path="/registrar" >
              <SeccionFormulario />
+
+        </Route>
+
+        <Route  path="/recetasFavoritas" >
+             
         </Route>
 
         <ProtectedRoute path="/authnav" >
@@ -42,6 +51,9 @@ return (
       </Switch>
       <Footer />
   </Router>
+   
+
+  
   </UsuarioProvider> 
   );
 }

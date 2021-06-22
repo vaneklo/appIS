@@ -41,6 +41,7 @@ const FormularioRecetas = () => {
   const [listaNombresRegistrados, setListaNombresRegistrados] = useState([]);
   useEffect(() => { getNombre() }, [])
 
+  
   const getNombre = async () => {
     let obj;
     let lista = []

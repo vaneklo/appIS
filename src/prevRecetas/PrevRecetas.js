@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import firebase from 'firebase';
+
 import {
   Card,
   CardActions,
@@ -16,7 +16,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import Modal from '../componentes/Modal';
-import {db} from '../formularioRegistro/firebase';
+import { db } from '../formularioRegistro/firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,13 +52,15 @@ window.addEventListener("load",function() { changeBackground('#bdecb6') });*/
 export default function PrevRecetas(props) {
   const[listaIngredientesSolicitados,setListaIngredientesSolicitados]=useState(props.buscar);
   const classes = useStyles();
+  const[listaPerfecta, setListaPerfecta]=useState([]);
+  const[listaRecetasSemiPerfectas, setListaSemiPerfecta]=useState([]);
   const clickModal = () => {
   }
-
 ///////este es el parametro de busqueda de base de datos
 //const listaIngredientesSolicitados=[...props.buscar];
 
 ///cambialo por el valor de props 
+
 
   const[verEncabezado100,setVerEncabezado100]=useState(true);
   const[verEncabezadoRecomendaciones,setVerEncabezadoRecomendaciones]=useState(true);
@@ -292,12 +294,42 @@ export default function PrevRecetas(props) {
     else{
       setResultadoBusquedaRecetas50(ArregloRecetas1);}
     
-
+      var resListaPerfecta=[];
+      var resListaCPerfecta=[];
+      ArregloRecetas100.map((receta)=>{
+      if(receta.campoCantidadIngredientes==listaIngredientesSolicitados.length){resListaPerfecta.push(receta);}
+      else{resListaCPerfecta.push(receta);}
+      })
+      setListaPerfecta(resListaPerfecta);
+      setListaSemiPerfecta(resListaCPerfecta);
     //setResultadoBusquedaRecetas100(ArregloRecetas100);
-    
 
     }
-      
+
+    const mapeoListaPerfecta=()=>( listaPerfecta.map((elem) => 
+    ( <Grid item xs={3} key={listaPerfecta.id}> 
+    <Card className={classes.root}> 
+    <CardMedia style = {{ height: 0, paddingTop: '56%'}} 
+    className={classes.cardMedia} 
+    image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
+    elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} /> 
+    <CardHeader title={`${elem.camponombre}`} 
+    subheader={`Complejidad : ${elem.campocomplejidad}`} /> 
+    <CardContent> {`Calorias : ${elem.campoCalorias}`}
+    <div/> {`Grasas saturadas : ${elem.campoGrasas}`}
+    <div/> {`Carbohidratos : ${elem.campoCarbohidratos}`} 
+    </CardContent> 
+    <CardActions> 
+      <Modal ingredientes={lisIngredientes} 
+      imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
+      elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} complejidad={elem.campocomplejidad} 
+      calorias={elem.campoCalorias} grasas={elem.campoGrasas} carbohidratos={elem.campoCarbohidratos} 
+      nombre={elem.camponombre} descripcion={elem.campodescripcion}/> 
+      </CardActions> 
+      </Card> 
+      </Grid> )) );
+
+      /*
       const tarjetasRecetas=()=>(
             ResultadoBusquedaRecetas.map((elem) => (
             <Grid  item xs={3} key={ResultadoBusquedaRecetas.id}>
@@ -323,8 +355,34 @@ export default function PrevRecetas(props) {
          
           ))
       );
+*/
+      const mapeoListaSugerencias=()=>(listaRecetasSemiPerfectas.map((elem) =>
+      ( <Grid item xs={3} key={listaRecetasSemiPerfectas.id}> 
+      <Card className={classes.root}> 
+      <CardMedia style = {{ height: 0, paddingTop: '56%'}}
+       className={classes.cardMedia} 
+       image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
+       elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} /> 
+       <CardHeader title={`${elem.camponombre}`} 
+       subheader={`Complejidad : ${elem.campocomplejidad}`} /> 
+       <CardContent> {`Calorias : ${elem.campoCalorias}`}
+       <div/> {`Grasas saturadas : ${elem.campoGrasas}`}
+       <div/> {`Carbohidratos : ${elem.campoCarbohidratos}`} 
+       </CardContent>
+        <CardActions> 
+         <Modal ingredientes={lisIngredientes} 
+         imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
+         elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} 
+         complejidad={elem.campocomplejidad} 
+         calorias={elem.campoCalorias} 
+         grasas={elem.campoGrasas} 
+         carbohidratos={elem.campoCarbohidratos} 
+         nombre={elem.camponombre} 
+         descripcion={elem.campodescripcion}/> </CardActions> </Card> </Grid> )) );
 
-      const tarjetasRecetas50porciento=()=>(
+     
+     /*
+         const tarjetasRecetas50porciento=()=>(
         ResultadoBusquedaRecetas50.map((elem) => (
         <Grid  item xs={3} key={ResultadoBusquedaRecetas.id}>
             <Card className={classes.root}>
@@ -348,31 +406,57 @@ export default function PrevRecetas(props) {
           </Grid>
      
       ))
-  );
+  );*/
+
+
+  
      /*agrege el hidden para que, de no mostrarse ninguna coincidencia no apareciera*/
-    return (         
+
+     
+
+      if(listaPerfecta.length>0)
+      {return (
       <div>
-      <div className={classes.resu} hidden={!verEncabezado100} >{"Recetas con todos sus ingredientes:"}</div><br></br>
-      <GridList className={classes.gridList} cols={2.5}
-      container
-      spacing={35}
-      direction="row"
-      justify="flex-start"
-      alignItems="flex-start"
-    >
-      {tarjetasRecetas()}
-      </GridList><br></br>
-      <div className={classes.resu} hidden={!verEncabezadoRecomendaciones}>{"Recetas con la mitad de sus ingredientes:"}</div><br></br>
-      <GridList className={classes.gridList} cols={2.5}
-      container
-      spacing={35}
-      direction="row"
-      justify="flex-start"
-      alignItems="flex-start"
-    >
-      
-      {tarjetasRecetas50porciento()}
-      </GridList>  
-      </div>
-    );
-}
+            <div className={classes.resu} hidden={!verEncabezado100} >{"Recetas con todos sus ingredientes:"}</div><br></br>
+            <GridList className={classes.gridList} cols={2.5}
+            container
+            spacing={35}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {mapeoListaPerfecta()}
+            </GridList><br></br>
+            <div className={classes.resu} hidden={!verEncabezadoRecomendaciones}>{"sugerencias"}</div><br></br>
+            <GridList className={classes.gridList} cols={2.5}
+            container
+            spacing={35}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            
+            {mapeoListaSugerencias()
+      }
+            </GridList>  
+            </div>
+      );
+      }else{
+      return(
+      <div>
+            <div className={classes.resu} hidden={!verEncabezado100} >{"no encontramos todos los ingredientes, sugerencias"}</div><br></br>
+            <GridList className={classes.gridList} cols={2.5}
+            container
+            spacing={35}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {mapeoListaSugerencias()}
+            </GridList><br></br>
+            )
+            </div>
+         )   }}
+        
+         ;
+         

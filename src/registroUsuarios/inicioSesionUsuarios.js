@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import firebase from 'firebase';
+import React from 'react';
+
 import {
   Button,
   Container,
@@ -12,8 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { db } from '../formularioRegistro/firebase';
-
 
 const useStyles = makeStyles((theme) => ({
     formulario: {
@@ -25,29 +23,28 @@ const useStyles = makeStyles((theme) => ({
   
   }));
 
-const FormularioUsuario = () => {
+ 
   
+  
+const FormularioUsuario = () => {
     const classes = useStyles();
 
+  
     const validarCorreo = (str) => {
         var pattern = new RegExp("/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/");
         return !!pattern.test(str);
       };
       
       const [values, setValues] = React.useState({
-        nameComplete:'',
         amount: '',
         password: '',
-        passwordConfirm:'',
         weight: '',
         weightRange: '',
         showPassword: false,
       });
       
       const handleChange = (prop) => (event) => {
-
         setValues({ ...values, [prop]: event.target.value });
-        console.log(values);
       };
     
       const handleClickShowPassword = () => {
@@ -57,39 +54,7 @@ const FormularioUsuario = () => {
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
       };
-      
-   const funcionRegistrarCliente=(e)=>{
-    //agregar todas las restricciones
-
-
-    registrarNuevoCliente(e);
-
-
-
-   }
-
-
-
-  const registrarNuevoCliente=(e)=>{
-    e.preventDefault();
-   if(values.password==values.passwordConfirm){
-     //creamos un nuevo cliente pero el contexto no debe cambiar
-
-   const authApply = firebase.auth().createUserWithEmailAndPassword(values.amount,values.password)
-   .then(user=>{//luego cambio los valores del context tambien los valores de visibilidad
-    db.collection('usuario').doc().set({correoElectronico:values.amount,
-                                      nombreCompleto:values.nameComplete,
-                                      rol:"cliente"});
-   console.log(user);})
-   .catch(error=>{
-     alert('el correo electronico ya esta registrado,prueba con otro')
-    console.log(error);})
-   }
-   else{ console.log('contrasenas diferentes')}
-    }
-
-
-
+    
 return (
     <Container maxWidth='sm' >
       <Typography variant="h4" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '2em' }}>
@@ -99,18 +64,7 @@ return (
       <form className={classes.formulario}>
         <Grid container spacing={3}>
           <Grid item sm={12} xs={12}>
-          <TextField
-              label="Nombre Completo"
-              InputProps={{ inputProps: { maxLength: 35 } }}
-              defaultValue=""
-              fullWidth='true'
-              placeholder='Introduzca su nombre completo'
-              name='campoNombre'
-              onChange={handleChange('nameComplete')}
-             //onChange={handleInputChange}
-              //value={values.camponombre}
-                       />
-
+            
             <TextField
               
               label="Correo"
@@ -119,7 +73,6 @@ return (
               fullWidth='true'
               placeholder='Introduzca su correo'
               name='campocorreo'
-              onChange={handleChange('amount')}
              //onChange={handleInputChange}
               //value={values.camponombre}
             />
@@ -157,13 +110,13 @@ return (
               InputProps={{ inputProps: { maxLength: 10 } }}
               defaultValue=""
               fullWidth='true'
-              placeholder='Confirmar contraseña'
+              placeholder='Consfirmar contraseña'
               name='campoconcontra'
               //onChange={handleInputChange}
               //value={values.camponombre}
             
               type={values.showPassword ? 'text' : 'password'}
-              onChange={handleChange('passwordConfirm')}
+              onChange={handleChange('password')}
               InputProps={{ inputProps: { maxLength: 10 } }}
               endAdornment={
               <InputAdornment position="end">
@@ -190,7 +143,7 @@ return (
           }}
             variant="contained" 
             color="primary" 
-            onClick={(e)=>{registrarNuevoCliente(e)}}
+            //onClick={handleSubmit}
             >
               Registrar 
               </Button></Grid>

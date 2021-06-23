@@ -13,7 +13,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { db } from '../formularioRegistro/firebase';
+import {db}  from '../formularioRegistro/firebase';
+import context from 'react-bootstrap/esm/AccordionContext';
 
 const styles = (theme) => ({
   root: {
@@ -51,13 +52,24 @@ const DialogContent = withStyles((theme) => ({
 
 
 export default function Modal(props) {
+
   var nombreReceta=props.nombre
- 
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
-  useEffect(()=>{getDatosReceta()},[]);
 
+  const [estadoBotonFavorito,setEstadoBotonFavortito]=useState(false);
+
+  useEffect(()=>{getDatosReceta()},[]);
+  //useEffect(()=>)
   const [open, setOpen] = React.useState(false);
+
+
+   // se requerira solo la alista de nombres de recetas favoritas del cliente
+   // se verificara si esta receta esta en esa lista,si
+   // esta el icono pasara a estar pintado indicando que ya fue guardada la receta
+   // nombre Receta o prop.nombre da lo mismo
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,15 +78,6 @@ export default function Modal(props) {
     setOpen(false);
   };
    const getDatosReceta=async()=>{
-      //      var obj;
-    //        var lista=[];      
-  // const consultaIngredientes=await db.collection("ingrediente-receta").where('nombreReceta','==',nombreReceta).get();
-  // consultaIngredientes.forEach((doc) =>{ 
-      // obj=doc.data();
-      // obj.id=doc.id;
-     //  lista.push(obj);
-   //  })
-
      var objt;
      var listat=[];      
      const consultaTodosIngredientes=await db.collection("ingrediente-receta").get();
@@ -82,13 +85,8 @@ export default function Modal(props) {
      objt=doc.data();
      objt.id=doc.id;
      listat.push(objt);
-
      })
     
-    // var respuesta='';
-    // lista.map((item)=>
-    // respuesta=respuesta+'\n\r'+'-'+item.cantidad+' '+item.unidades+' de '+item.name)
-
 
     setIngredientesReceta(listat);
       
@@ -101,19 +99,52 @@ export default function Modal(props) {
        obj2.id=doc.id;
        lista2.push(obj2);
      })
-   setDetalleReceta(lista2);
-   
-    
+   setDetalleReceta(lista2);  
 }
-const getListaIngredientes=()=>{
-  console.log('getListaIngredientes')
-var respuesta='';
-ingredientesReceta.map((item)=>
-  respuesta=respuesta+'-'+item.cantidad+' '+item.unidades+' de '+item.name+"\n")
-console.log(respuesta)
-console.log("resssss")
-return respuesta;
+
+
+// filtrar y recorrer
+const getIngredientes=(nombreReceta)=>{
+const ingredientesDeReceta=ingredientesReceta.filter((item)=>{
+if(item.nombreReceta==nombreReceta){return true;}
+else {return false;}
+})
+return (
+   ingredientesDeReceta.map((item)=>
+  <div>
+      <label key={item.cantidad+item.nombre}>{'-'+item.cantidad+' '+item.unidades+' de '+item.name}</label>
+       <br></br>
+  </div>
+  )
+)
 }
+
+const guardarRecetaParaElUsuario=()=>{
+  //if(context.nombreUsuario!=null &&){ si ya esta logueado 
+    //db.collection('usuario-recetaFavorita').doc().set(
+   //   {
+  //    correoElectronico:  ,//obtener del contexto
+   //   nombreRecetaFavorita:nombreReceta //ya esta cargada 
+      
+   //    });
+
+    //}
+}
+//const getListaRecetasFavoritas=async()=>{
+//  var objF;
+//  var listaF=[];   
+ //  const listaFavoritos=await db.collection("usuario-recetaFavorita")
+  // .where('correoElectronico','==',nombreDelContexto).get();
+ // listaFavoritos.forEach((doc) =>{ 
+ //   objF=doc.data();
+ //   objF.id=doc.id;
+ //   listaF.push(objF);
+ //   })
+
+//}
+
+
+
 
 
   return (
@@ -146,6 +177,8 @@ return respuesta;
           <Typography gutterBottom>
             {props.descripcion}
           </Typography>
+       
+         <button>{estadoBotonFavorito}</button>
 
         </DialogContent>
       </Dialog>

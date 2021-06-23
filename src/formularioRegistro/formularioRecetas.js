@@ -2,9 +2,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
 import firebase from 'firebase';
-
 import {
   Button,
   Container,
@@ -23,7 +21,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { IndeterminateCheckBoxSharp, PhotoCamera } from '@material-ui/icons';
 
-import { db } from './firebase';
+import  {db} from './firebase';
 import { IngredientCreator } from './IngredientCreator';
 
 var archivo;

@@ -12,33 +12,32 @@ import Header from './componentes/Header';
 import SeccionFormulario from './formularioRegistro/SeccionFormulario';
 import FormRegistro from './registroUsuarios/FormRegistro';
 import FormRegUsr from './registroUsuarios/FormRegUsr';
-
+import { useUsuario, UsuarioProvider } from './UserContext';
+import FormularioLoginUsuario from './registroUsuarios/loginUsuarios';
+import { useContext } from 'react';
 function App() {
-  return (
-    
+      const UserContext=useContext(useUsuario);  
+return (
+  <UsuarioProvider> 
     <Router>
-
-      <Header />
-  
-<Switch>
+      <Header/>
+      <Switch>
         <Route exact path="/">
-          <Autocompletado />
+            <Autocompletado />
         </Route>
-        <Route path="/registrar">
-          <SeccionFormulario />
+          <Route path="/registrar" >
+             <SeccionFormulario />
         </Route>
         <Route path="/usuario">
           <FormRegUsr />
         </Route>
-        <Route path="/admin">
-          <FormRegistro />
+           <Route path="/admin">
+             <FormularioLoginUsuario/>
         </Route>
       </Switch>
-
       <Footer />
-
-    </Router>
-
+  </Router>
+  </UsuarioProvider> 
   );
 }
 

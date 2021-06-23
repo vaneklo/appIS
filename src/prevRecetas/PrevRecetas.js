@@ -16,7 +16,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import Modal from '../componentes/Modal';
-import { db } from '../formularioRegistro/firebase';
+import {db} from '../formularioRegistro/firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {

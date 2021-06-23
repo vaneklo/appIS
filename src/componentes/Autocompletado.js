@@ -18,7 +18,7 @@ import {
 import Box from '@material-ui/core/Box';
 import MuiTextField from '@material-ui/core/TextField';
 
-import { db } from '../formularioRegistro/firebase';
+import {db} from '../formularioRegistro/firebase';
 import PrevRecetas from '../prevRecetas/PrevRecetas';
 
 const Autocompletado = () =>{ 

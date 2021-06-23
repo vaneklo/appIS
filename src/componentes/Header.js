@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import AuthNav from './authentication-button';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -31,8 +33,9 @@ export default function ButtonAppBar() {
                         
                         <Button color="inherit" component={Link} to="/" >Inicio</Button>
                         <Button color="inherit" component={Link} to="/registrar" >Recetas</Button>
-                        <Button color="inherit" component={Link} to="/usuario" >RegUsuario</Button>
-                        <Button color="inherit" component={Link} to="/admin" >RegAdmin</Button>
+                
+                        <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
+                        <AuthNav/>
 
                     </Toolbar>
                 </AppBar>

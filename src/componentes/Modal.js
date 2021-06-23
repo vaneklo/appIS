@@ -1,4 +1,5 @@
 import React, {
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -15,6 +16,8 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import {db}  from '../formularioRegistro/firebase';
 import context from 'react-bootstrap/esm/AccordionContext';
+import Contexto from '../contexto/contexto';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const styles = (theme) => ({
   root: {
@@ -52,24 +55,69 @@ const DialogContent = withStyles((theme) => ({
 
 
 export default function Modal(props) {
-
   var nombreReceta=props.nombre
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
+  const [estadoBotonFavorito,setearRecetasFavoritas]=useState(false);
+  const {user,isAuthenticated} =useAuth0();
+  const{nombreUsuario,
+    correoUsuario,
+    listaFavoritos,
+    rol,
+    setRecetasFavoritas}=useContext(Contexto);
 
-  const [estadoBotonFavorito,setEstadoBotonFavortito]=useState(false);
+  const[recetas,setRecetas]=useState([]);
 
-  useEffect(()=>{getDatosReceta()},[]);
-  //useEffect(()=>)
+ const [texto,setTexto]=useState('receta no guardada');
+
+useEffect(()=>{getDatosReceta()},[]);
+
+useEffect(()=>{cargarEstadoDeFavorito()},[recetas])
+ 
+useEffect(()=>{getRecetasFavoritas()},[isAuthenticated])
+
+const getRecetasFavoritas = async () => {
+if(isAuthenticated){
+  var objRecetas;
+  var datosRecetas=[];
+const consultarRecetasFavoritas=await db.collection("receta-usuario").where('correoElectronico','==',user.email).get();
+consultarRecetasFavoritas.forEach((doc) => {
+    objRecetas=doc.data();
+    objRecetas.id=doc.id;
+    datosRecetas.push(objRecetas);})
+   setRecetas(datosRecetas);
+   console.log(recetas);}
+
+}
   const [open, setOpen] = React.useState(false);
 
+   const cargarEstadoDeFavorito=()=>{
+     console.log(recetas)
+    var index = recetas.map(item=>item.camponombre).indexOf(props.nombre)
+    console.log(index)
+    if(index>0){
+    setTexto('receta guardada');}
+    else{setTexto('receta no guardada')}  
+                 
+   }
 
-   // se requerira solo la alista de nombres de recetas favoritas del cliente
-   // se verificara si esta receta esta en esa lista,si
-   // esta el icono pasara a estar pintado indicando que ya fue guardada la receta
-   // nombre Receta o prop.nombre da lo mismo
+  const guardarRecetaParaElUsuario=()=>{
+   if(isAuthenticated){
+     console.log(user.email);
+     console.log(props.nombre)
+   if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
+   else{
+     db.collection('receta-usuario').doc().set({ 
+      correoElectronico:user.email,
+      camponombre:props.nombre});
 
-
+     setTexto('receta guardada');
+     alert("receta guardada en favoritos");
+     setearRecetasFavoritas();
+   }
+                      }
+   else{alert('registrate para guaradar recetas')}
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -86,11 +134,7 @@ export default function Modal(props) {
      objt.id=doc.id;
      listat.push(objt);
      })
-    
-
     setIngredientesReceta(listat);
-      
-     
     var obj2;
     var lista2=[];   
    const consultaDetalleReceta=await db.collection("receta").where('camponombre','==',nombreReceta).get();
@@ -102,8 +146,6 @@ export default function Modal(props) {
    setDetalleReceta(lista2);  
 }
 
-
-// filtrar y recorrer
 const getIngredientes=(nombreReceta)=>{
 const ingredientesDeReceta=ingredientesReceta.filter((item)=>{
 if(item.nombreReceta==nombreReceta){return true;}
@@ -118,35 +160,6 @@ return (
   )
 )
 }
-
-const guardarRecetaParaElUsuario=()=>{
-  //if(context.nombreUsuario!=null &&){ si ya esta logueado 
-    //db.collection('usuario-recetaFavorita').doc().set(
-   //   {
-  //    correoElectronico:  ,//obtener del contexto
-   //   nombreRecetaFavorita:nombreReceta //ya esta cargada 
-      
-   //    });
-
-    //}
-}
-//const getListaRecetasFavoritas=async()=>{
-//  var objF;
-//  var listaF=[];   
- //  const listaFavoritos=await db.collection("usuario-recetaFavorita")
-  // .where('correoElectronico','==',nombreDelContexto).get();
- // listaFavoritos.forEach((doc) =>{ 
- //   objF=doc.data();
- //   objF.id=doc.id;
- //   listaF.push(objF);
- //   })
-
-//}
-
-
-
-
-
   return (
     <div>
       <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -171,15 +184,15 @@ const guardarRecetaParaElUsuario=()=>{
             Ingredientes:
           </Typography>
           {getIngredientes(props.nombre)}
+          
         <Typography variant='h6' component='h2' gutterBottom>
             Pasos de elaboración:
           </Typography>
           <Typography gutterBottom>
             {props.descripcion}
           </Typography>
-       
-         <button>{estadoBotonFavorito}</button>
-
+          <button  key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
+         
         </DialogContent>
       </Dialog>
     </div>

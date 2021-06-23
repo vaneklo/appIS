@@ -1,22 +1,30 @@
 import './App.css';
 
+import { useContext } from 'react';
+
 import {
   BrowserRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
 
+import ProtectedRoute from './auth/protected-route';
 import Autocompletado from './componentes/Autocompletado';
 import Footer from './componentes/Footer';
 import Header from './componentes/Header';
 import SeccionFormulario from './formularioRegistro/SeccionFormulario';
-import FormRegistro from './registroUsuarios/FormRegistro';
-import FormRegUsr from './registroUsuarios/FormRegUsr';
-import { useUsuario, UsuarioProvider } from './UserContext';
-import FormularioLoginUsuario from './registroUsuarios/loginUsuarios';
-import { useContext } from 'react';
+import {
+  useUsuario,
+  UsuarioProvider,
+} from './UserContext';
+import Profile from './views/profile';
+import Contexto from './contexto/contexto';
+import RecetasFavoritas from './componentes/recetasFavoritas';
+
 function App() {
-      const UserContext=useContext(useUsuario);  
+
+    const{estadoBotonRegistrarRecetas,
+         estadoBotonVerRecetasFavoritas}=useContext(Contexto)
 return (
   <UsuarioProvider> 
     <Router>
@@ -24,19 +32,28 @@ return (
       <Switch>
         <Route exact path="/">
             <Autocompletado />
+            
+
         </Route>
-          <Route path="/registrar" >
+        
+          <Route  path="/registrar" >
              <SeccionFormulario />
+
         </Route>
-        <Route path="/usuario">
-          <FormRegUsr />
+
+        <Route  path="/recetasFavoritas" >
+             
         </Route>
-           <Route path="/admin">
-             <FormularioLoginUsuario/>
-        </Route>
+
+        <ProtectedRoute path="/authnav" >
+             <Profile />
+        </ProtectedRoute>
       </Switch>
       <Footer />
   </Router>
+   
+
+  
   </UsuarioProvider> 
   );
 }

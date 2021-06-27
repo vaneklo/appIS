@@ -1,10 +1,17 @@
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
 import { useAuth0 } from '@auth0/auth0-react';
-import React, { useState, useEffect } from 'react';
+
 import { db } from '../formularioRegistro/firebase';
-import Tarjetas from './Tarjetas';
-  
 import { Paginacion } from './paginacion';
-  const RecetasFavoritas = () => {
+import Tarjetas from './Tarjetas';
+
+const RecetasFavoritas = () => {
+
+
   const [listaFavoritos, setListaFavoritos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -61,12 +68,15 @@ const consulta=async()=>{
   console.log(paginaActual);
   };
   return (
-    <div>
+    <>
+
+
     <Tarjetas listaFavoritos={tarjetasActuales} loading={loading} ></Tarjetas>
-    <Paginacion tarjetasPorPagina={tarjetasPorPagina}
+    
+                <Paginacion tarjetasPorPagina={tarjetasPorPagina}
                 tarjetasTotales={listaFavoritos.length}
-                paginate={paginate}/>
-     </div>
+                paginate={paginate}/> 
+     </>
   );
 };
 

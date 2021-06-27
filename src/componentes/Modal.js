@@ -1,8 +1,9 @@
 import React, {
-  useContext,
   useEffect,
   useState,
 } from 'react';
+
+import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -12,9 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import {db}  from '../formularioRegistro/firebase';
-import Contexto from '../contexto/contexto';
-import { useAuth0 } from '@auth0/auth0-react';
+
+import { db } from '../formularioRegistro/firebase';
 
 const styles = (theme) => ({
   root: {
@@ -185,7 +185,8 @@ return (
 }
   return (
     <div>
-      <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} 
+      variant="outlined" color="primary" onClick={handleClickOpen}>
         Ver receta
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
@@ -214,7 +215,8 @@ return (
           <Typography gutterBottom>
             {props.descripcion}
           </Typography>
-          <button key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
+          <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} 
+     variant="outlined" color="primary" onClick={()=>guardarRecetaParaElUsuario()}>{texto}</Button>
         </DialogContent>
       </Dialog>
     </div>

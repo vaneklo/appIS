@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 
 export const Paginacion =({tarjetasPorPagina,tarjetasTotales,paginate})=>{
 
@@ -8,9 +9,10 @@ return (
 <ul className='paginacion'>
 {numeracion.map(numero=>
     (
-     <button key={numero} onClick={()=>paginate(numero)}>
+     <Button style={{ backgroundColor: "#20603d",color:"#ffffff", justifyContent: 'center'}} 
+     variant="outlined" color="primary" key={numero} onClick={()=>paginate(numero)}>
          {numero}
-     </button>
+     </Button>
     )
     )}
 </ul>

@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -13,9 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-
 import {db}  from '../formularioRegistro/firebase';
-import context from 'react-bootstrap/esm/AccordionContext';
 import Contexto from '../contexto/contexto';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -52,29 +49,25 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-
-
 export default function Modal(props) {
   var nombreReceta=props.nombre
   const [ingredientesReceta,setIngredientesReceta]=useState([]);
   const [detalleReceta, setDetalleReceta]=useState([]);
   const [estadoBotonFavorito,setearRecetasFavoritas]=useState(false);
   const {user,isAuthenticated} =useAuth0();
-  const{nombreUsuario,
-    correoUsuario,
-    listaFavoritos,
-    rol,
-    setRecetasFavoritas}=useContext(Contexto);
 
   const[recetas,setRecetas]=useState([]);
 
  const [texto,setTexto]=useState('receta no guardada');
 
+ const [rol,setRol]=useState('');
 useEffect(()=>{getDatosReceta()},[]);
 
-useEffect(()=>{cargarEstadoDeFavorito()},[recetas])
+useEffect(()=>{cargarEstadoDeFavorito()},[])
  
 useEffect(()=>{getRecetasFavoritas()},[isAuthenticated])
+
+useEffect(()=>{cargarRol()},[isAuthenticated])
 
 const getRecetasFavoritas = async () => {
 if(isAuthenticated){
@@ -87,38 +80,68 @@ consultarRecetasFavoritas.forEach((doc) => {
     datosRecetas.push(objRecetas);})
    setRecetas(datosRecetas);
    console.log(recetas);}
+}
 
+const cargarRol=async()=>{
+  if(isAuthenticated)
+  {
+  var objt;
+  var roles=[];
+  const consultaDatosRol=await db.collection("usuario").where('correoElectronico','==',user.email).get();
+  consultaDatosRol.forEach((doc) => {
+      if(consultaDatosRol!=null){
+        objt=doc.data();
+        objt.id=doc.id;
+        roles.push(objt);}})
+        console.log(roles[0].rol);
+        setRol(roles[0].rol)
+        console.log(rol);
+}
 }
   const [open, setOpen] = React.useState(false);
-
+/*
    const cargarEstadoDeFavorito=()=>{
-     console.log(recetas)
+     //ya estan las recetas
     var index = recetas.map(item=>item.camponombre).indexOf(props.nombre)
     console.log(index)
-    if(index>0){
-    setTexto('receta guardada');}
-    else{setTexto('receta no guardada')}  
-                 
+    if(index>0){setTexto('receta guardada');
+    return (
+       <button key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
+          );
+              }
+    else{ setTexto('receta no guardada')
+      return (
+        <button key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
+             );
+        }           
    }
+*/const cargarEstadoDeFavorito=()=>{
+  console.log(recetas)
+  var index = recetas.map(item=>item.camponombre).indexOf(props.nombre)
+  console.log(index)
+  if(index>0){
+  setTexto('receta guardada');}
+  else{setTexto('receta no guardada')}  
+               
+ }
 
-  const guardarRecetaParaElUsuario=()=>{
-   if(isAuthenticated){
-     console.log(user.email);
-     console.log(props.nombre)
-   if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
-   else{
-     db.collection('receta-usuario').doc().set({ 
-      correoElectronico:user.email,
-      camponombre:props.nombre});
+const guardarRecetaParaElUsuario=()=>{
+ if(isAuthenticated){
+   console.log(user.email);
+   console.log(props.nombre)
+ if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
+ else{
+   db.collection('receta-usuario').doc().set({ 
+    correoElectronico:user.email,
+    camponombre:props.nombre});
 
-     setTexto('receta guardada');
-     alert("receta guardada en favoritos");
-     setearRecetasFavoritas();
-   }
-                      }
-   else{alert('registrate para guaradar recetas')}
-  }
-
+   setTexto('receta guardada');
+   alert("receta guardada en favoritos");
+   setearRecetasFavoritas();
+ }
+                    }
+ else{alert('registrate para guaradar recetas')}
+}
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -191,8 +214,7 @@ return (
           <Typography gutterBottom>
             {props.descripcion}
           </Typography>
-          <button  key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
-         
+          <button key={props.nombre} onClick={()=>guardarRecetaParaElUsuario()}>{texto}</button>
         </DialogContent>
       </Dialog>
     </div>

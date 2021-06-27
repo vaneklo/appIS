@@ -18,12 +18,12 @@ export const IngredientCreator = props => {
 
   //validacion de los campos de texto
   const validarUnidad = (str) => {
-    var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
+    var pattern = new RegExp("^([a-zA-Zñáéíóú]+)+$");
     return !!pattern.test(str);
   };
   //validacion de los campos de texto
   const validarNombre = (str) => {
-    var pattern = new RegExp("^([a-zñáéíóú ]+)+$");
+    var pattern = new RegExp("^([a-zA-Zñáéíóú]+)+$");
    // var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
     return !!pattern.test(str);
   };
@@ -42,9 +42,9 @@ export const IngredientCreator = props => {
               alert('las unidades deben ser numeros positivos')
           }
       }
-      else { alert('el nombre debe tener solo caracteres de la a la z y no debe estar vacia'); }
+      else { alert('el nombre debe tener solo caracteres de la a la z y no debe estar vacia y no debe tener espacios'); }
     }
-    else { alert('la unidad debe tener solo caracteres de la a la z y no debe estar vacia'); }
+    else { alert('la unidad debe tener solo caracteres de la a la z y no debe estar vacia y no debe tener espacios'); }
   }
   return (
     <Grid container spacing={1}>

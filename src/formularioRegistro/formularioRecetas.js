@@ -118,12 +118,9 @@ const FormularioRecetas = () => {
       }
     };     
   }
-
   //metodo para subir imagenes a la base de datos falta como recuperar la url
   const subirImagen = () => {
-    const storageApply = firebase.storage().ref(`images/${values.camponombre}`).put(image)
-   
-  };
+    const storageApply = firebase.storage().ref(`images/${values.camponombre}`).put(image)};
 
   const agregarReceta = () => {
     //comunicacion con la base de datos con la coleccion receta.doc,para id unico
@@ -137,7 +134,9 @@ const FormularioRecetas = () => {
 
     // db.collection('receta-imagen').doc().set({nombreReceta:values.nombreReceta,url:urlImagen})
     recipeItems.map((recipeItem) => {
-      db.collection('ingrediente-receta').doc().set({ nombreReceta: values.camponombre, cantidad: recipeItem.cantidad, unidades: recipeItem.unidades, name: recipeItem.name });
+      var nombreCorregido=recipeItem.name.toLowerCase();
+      console.log(nombreCorregido);
+      db.collection('ingrediente-receta').doc().set({ nombreReceta: values.camponombre, cantidad: recipeItem.cantidad, unidades: recipeItem.unidades, name: nombreCorregido });
     })
   }
   //validacion de los campos de texto

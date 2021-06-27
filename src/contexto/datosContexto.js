@@ -10,8 +10,6 @@ const [nombreUsuario,setNombreUsuario]=useState(null);
 const [correoUsuario,setCorreoUsuario]=useState(null);
 const [listaFavoritos,setListaFavoritos]=useState([]);
 const [rol,setRol]=useState(null);
-const [estadoBotonRegistrarRecetas,setEstadoBotonRegistrarRecetas]=useState(false);
-const [estadoBotonVerRecetasFavoritas,setEstadoBotonVerRecetasFavoritas]=useState(true);
 
 const [cambio,setCambio]=useState(0);
 const [ciclo,setciclo]=useState(true);
@@ -72,8 +70,6 @@ if(isAuthenticated){
     if(datosCliente[0].rol=='cliente'){
         setNombreUsuario(user.nickname);
         setCorreoUsuario(user.email);
-        setEstadoBotonRegistrarRecetas(false);
-        setEstadoBotonVerRecetasFavoritas(true);
         setRol(datosCliente[0].rol);
 
                                     }
@@ -81,10 +77,7 @@ if(isAuthenticated){
         if(datosCliente[0].rol=='administrador'){
             setNombreUsuario(user.nickname);
             setCorreoUsuario(user.email);
-            setEstadoBotonRegistrarRecetas(true);
-            setEstadoBotonVerRecetasFavoritas(false);
-            setRol(datosCliente[0].rol);
-                                     
+            setRol(datosCliente[0].rol);                   
                                                   }
         }
 }
@@ -113,8 +106,6 @@ nombreUsuario,
 correoUsuario,
 listaFavoritos,
 rol,
-estadoBotonRegistrarRecetas,
-estadoBotonVerRecetasFavoritas,
 setearRecetasFavoritas   
      }>
 {props.children}

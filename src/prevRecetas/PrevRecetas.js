@@ -77,8 +77,6 @@ export default function PrevRecetas(props) {
 
   const cumpleTodosIngredientes=(entero,nombreIngrediente,nombreReceta,arreglo)=>{
   var contador=0;
-  console.log("juuan pasadsa");
-  console.log(arreglo);
   arreglo.map((item)=>{
   if(nombreIngrediente=item.name && nombreReceta==item.nombreReceta){contador++;}})
   if (contador==entero){return true;}
@@ -149,8 +147,7 @@ export default function PrevRecetas(props) {
    
       //recetas que tengan el 100 por ciento
       listaRecetas.map((receta)=>{
-         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){          
-          console.log('si 100')
+         if(cumpleTodosIngredientes(listaIngredientesSolicitados.length,receta.name,receta.nombreReceta,listaRecetas)){
            listaNombresRecetas100porciento.push(receta.nombreReceta);   
            //obtener sus datos y agregarlo al arreglo
           //recetasTotales.indexOf(receta.nombreReceta)
@@ -304,7 +301,11 @@ export default function PrevRecetas(props) {
       else{resListaCPerfecta.push(receta);}
       })
       setListaPerfecta(resListaPerfecta);
-      setListaSemiPerfecta(resListaCPerfecta);
+      //setListaSemiPerfecta(resListaCPerfecta);
+      if(resListaCPerfecta.length>0){
+        setListaSemiPerfecta(resListaCPerfecta);    
+      }
+      else{ setListaSemiPerfecta(ArregloRecetas1);}
     //setResultadoBusquedaRecetas100(ArregloRecetas100);
 
     }
@@ -415,8 +416,6 @@ export default function PrevRecetas(props) {
   
      /*agrege el hidden para que, de no mostrarse ninguna coincidencia no apareciera*/
 
-     
-
       if(listaPerfecta.length>0)
       {return (
       <div>
@@ -437,8 +436,7 @@ export default function PrevRecetas(props) {
             direction="row"
             justify="flex-start"
             alignItems="flex-start"
-          >
-            
+          >  
             {mapeoListaSugerencias()
       }
             </GridList>  
@@ -462,4 +460,3 @@ export default function PrevRecetas(props) {
          )   }}
         
          ;
-         

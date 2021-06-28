@@ -10,10 +10,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid'
@@ -23,7 +20,7 @@ import Loading from './loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: '50vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,8 +45,8 @@ const Profile = () => {
   const classes = useStyles();
 
   return (
-    <Grid container maxWidth='sm' justify="center"  >
-      <Grid item xs={6}>
+    <Grid container maxWidth='md' justify="center" alignItems="center"  >
+      <Grid item md={6}>
         <Card className={classes.root}>
           <Avatar alt={user.nickname} src={picture} className={classes.large} />
           <CardContent>

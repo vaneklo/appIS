@@ -39,7 +39,7 @@ const Tarjetas=({listaFavoritos,loading})=>
 return(
 <div>{
 (listaFavoritos.map(elem =>
-      (<Grid item xs={3} key={elem.id}> 
+      (
       <Card className={classes.root}> 
       <CardMedia style = {{ height:0, paddingTop: '56%'}}
        className={classes.cardMedia} 
@@ -61,9 +61,10 @@ return(
          carbohidratos={elem.campoCarbohidratos} 
          nombre={elem.camponombre} 
          descripcion={elem.campodescripcion}/> </CardActions>
-         </Card> </Grid>)
+         </Card> 
          )
-         )}
+         )
+         )}         
 </div>
 );
 

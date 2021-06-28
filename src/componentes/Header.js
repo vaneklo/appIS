@@ -16,7 +16,7 @@ import {
     BrowserRouter as Router,
     Route,
     Switch,
-  } from 'react-router-dom';
+} from 'react-router-dom';
 import Autocompletado from './Autocompletado';
 import SeccionFormulario from '../formularioRegistro/SeccionFormulario';
 import RecetasFavoritas from './recetasFavoritas';
@@ -37,118 +37,116 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
-    const[rol,setRol]=useState(null);
-    const{user,isAuthenticated}=useAuth0();
-   
-    useEffect(async()=>{
+    const [rol, setRol] = useState(null);
+    const { user, isAuthenticated } = useAuth0();
+
+    useEffect(async () => {
         console.log('useefect leer header');
-        if(isAuthenticated)
-        {
-        var objt;
-        var roles=[];
-        const consultaDatosRol=await db.collection("usuario").where('correoElectronico','==',user.email).get();
-        consultaDatosRol.forEach((doc) => {
-            if(consultaDatosRol!=null){
-              objt=doc.data();
-              objt.id=doc.id;
-              roles.push(objt);}})
-              console.log(roles[0].rol);
-              setRol(roles[0].rol)
-              console.log(rol);
+        if (isAuthenticated) {
+            var objt;
+            var roles = [];
+            const consultaDatosRol = await db.collection("usuario").where('correoElectronico', '==', user.email).get();
+            consultaDatosRol.forEach((doc) => {
+                if (consultaDatosRol != null) {
+                    objt = doc.data();
+                    objt.id = doc.id;
+                    roles.push(objt);
+                }
+            })
+            console.log(roles[0].rol);
+            setRol(roles[0].rol)
+            console.log(rol);
+        }
+    }, [isAuthenticated])
+
+    const botones = () => {
+        if (isAuthenticated) {
+            if (rol === "cliente") {
+                return (
+                    <div className={classes.root}>
+                        <AppBar style={{ background: '#20603d' }} position="static">
+                            <Toolbar>
+                                <Typography variant="h6" className={classes.title}>ComeCon</Typography>
+
+                                <Button color="inherit" component={Link} to="/" >Inicio</Button>
+
+                                <Button color="inherit" component={Link} to="/RecetasFavoritas">favoritos</Button>
+
+                                <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
+
+                                <AuthNav />
+
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                );
+            }
+
+            else {
+                return (
+                    <div className={classes.root}>
+                        <AppBar style={{ background: '#20603d' }} position="static">
+                            <Toolbar>
+                                <Typography variant="h6" className={classes.title}>ComeCon</Typography>
+                                <Button color="inherit" component={Link} to="/" >Inicio</Button>
+
+                                <Button color="inherit" component={Link} to="/registrar" >Registrar recetas</Button>
+
+                                <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
+
+                                <AuthNav />
+
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                );
+            }
+
+        }
+        else {
+            return (
+                <div className={classes.root}>
+                    <AppBar style={{ background: '#20603d' }} position="static">
+                        <Toolbar>
+                            <Typography variant="h6" className={classes.title}>ComeCon</Typography>
+
+                            <Button color="inherit" component={Link} to="/" >Inicio</Button>
+
+                            <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
+
+                            <AuthNav />
+
+                        </Toolbar>
+                    </AppBar>
+                </div>
+            );
+        }
     }
-    },[isAuthenticated])
 
-   const botones=()=>{
-   if(isAuthenticated)
-   {  
-       if(rol==="cliente"){
-        return(
-            <div className={classes.root}>
-            <AppBar style={{ background: '#20603d' }} position="static">
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>ComeCon</Typography>
+    const RutaProtegidaCliente = (props) => {
+        if (isAuthenticated) {
+            if (rol == "cliente") { return (<Route  {...props}> </Route>); }
+            else { return (<Redirect to='/authnav' />); }
 
-                    <Label color="inherit">{user.name}</Label>
-                    
-                    <Button color="inherit" component={Link} to="/" >Inicio</Button>
-    
-                    <Button color="inherit"  component={Link} to="/RecetasFavoritas">favoritos</Button>
-                         
-                    <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
-    
-                    <AuthNav/>
-    
-                </Toolbar>
-            </AppBar>
-        </div>
-           );
-       }
+        }
+    }
 
-       else{
-        return(
-            <div className={classes.root}>
-            <AppBar style={{ background: '#20603d' }} position="static">
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>ComeCon</Typography>
-                    <Label color="inherit">{user.name}</Label>
-                    <Button color="inherit" component={Link} to="/" >Inicio</Button>
-        
-                    <Button color="inherit" component={Link} to="/registrar" >Registrar recetas</Button>
-                     
-                    <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
-    
-                    <AuthNav/>
-    
-                </Toolbar>
-            </AppBar>
-        </div>
-           );
-       }
-
-   }
-   else{
-    return(
-        <div className={classes.root}>
-        <AppBar style={{ background: '#20603d' }} position="static">
-            <Toolbar>
-                <Typography variant="h6" className={classes.title}>ComeCon</Typography>
-                
-                <Button color="inherit" component={Link} to="/" >Inicio</Button>
-     
-                <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
-
-                <AuthNav/>
-
-            </Toolbar>
-        </AppBar>
-    </div>
-       );
-   }
-   }
-
-   const RutaProtegidaCliente=(props)=>{
-    if(isAuthenticated){
-       if(rol=="cliente"){return(<Route  {...props}> </Route>);}
-        else { return(<Redirect to='/authnav'/>);}
-         
-       }}
-       
-   ///aqui esta el footer
+    ///aqui esta el footer
     return (
-            <div >
-       {botones()}
-       
-       <Switch>
-        <Route exact path="/"> <Autocompletado />    </Route>
-        
-          <Route  path="/registrar" > <SeccionFormulario /> </Route>
+        <div >
+            {botones()}
 
-          <Route  path="/RecetasFavoritas" > <RecetasFavoritas/>  </Route>
+            <Switch>
+                <Route exact path="/"> <Autocompletado />    </Route>
 
-          <ProtectedRoute path="/authnav" ><Profile/> </ProtectedRoute>
+                <Route path="/registrar" > <SeccionFormulario /> </Route>
 
-      </Switch>
+                <Route path="/RecetasFavoritas" > <RecetasFavoritas />  </Route>
 
-            </div>
+                <ProtectedRoute path="/authnav" ><Profile /> </ProtectedRoute>
+
+            </Switch>
+
+        </div>
     );
 }

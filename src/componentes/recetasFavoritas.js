@@ -1,17 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
 
 import { useAuth0 } from '@auth0/auth0-react';
-
+import React, { useState, useEffect } from 'react';
 import { db } from '../formularioRegistro/firebase';
-import { Paginacion } from './paginacion';
 import Tarjetas from './Tarjetas';
-
-const RecetasFavoritas = () => {
-
-
+  
+import { Paginacion } from './paginacion';
+  const RecetasFavoritas = () => {
   const [listaFavoritos, setListaFavoritos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +32,7 @@ const consulta=async()=>{
      console.log(recetasTotales)
                             var objRecetas;
                             var datosRecetas=[];
-                            const consultarRecetasFavoritas=await db.collection("receta-usuario").where('correoElectronico','==',user.email).get();
+                            const consultarRecetasFavoritas=await db.collection("receta-usuario").where('correoElectronico','==','201709996@est.umss.edu').get();
                             consultarRecetasFavoritas.forEach((doc) => {
                              objRecetas=doc.data();
                              objRecetas.id=doc.id;
@@ -68,15 +62,12 @@ const consulta=async()=>{
   console.log(paginaActual);
   };
   return (
-    <>
-
-
+    <div>
     <Tarjetas listaFavoritos={tarjetasActuales} loading={loading} ></Tarjetas>
-    
-                <Paginacion tarjetasPorPagina={tarjetasPorPagina}
+    <Paginacion tarjetasPorPagina={tarjetasPorPagina}
                 tarjetasTotales={listaFavoritos.length}
-                paginate={paginate}/> 
-     </>
+                paginate={paginate}/>
+     </div>
   );
 };
 

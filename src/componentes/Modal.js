@@ -63,7 +63,7 @@ export default function Modal(props) {
  const [rol,setRol]=useState('');
 useEffect(()=>{getDatosReceta()},[]);
 
-useEffect(()=>{cargarEstadoDeFavorito()},[])
+useEffect(()=>{cargarEstadoDeFavorito()})
  
 useEffect(()=>{getRecetasFavoritas()},[isAuthenticated])
 
@@ -77,7 +77,9 @@ const consultarRecetasFavoritas=await db.collection("receta-usuario").where('cor
 consultarRecetasFavoritas.forEach((doc) => {
     objRecetas=doc.data();
     objRecetas.id=doc.id;
+
     datosRecetas.push(objRecetas);})
+    cargarEstadoDeFavorito();
    setRecetas(datosRecetas);
    console.log(recetas);}
 }
@@ -119,7 +121,7 @@ const cargarRol=async()=>{
   console.log(recetas)
   var index = recetas.map(item=>item.camponombre).indexOf(props.nombre)
   console.log(index)
-  if(index>0){
+  if(index>=0){
   setTexto('receta guardada');}
   else{setTexto('receta no guardada')}  
                

@@ -127,18 +127,22 @@ const cargarRol=async()=>{
 
 const guardarRecetaParaElUsuario=()=>{
  if(isAuthenticated){
-   console.log(user.email);
-   console.log(props.nombre)
- if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
- else{
-   db.collection('receta-usuario').doc().set({ 
-    correoElectronico:user.email,
-    camponombre:props.nombre});
+   if(rol=='cliente'){
+      console.log(user.email);
+      console.log(props.nombre)
+     if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
+    else{
+      db.collection('receta-usuario').doc().set({ 
+      correoElectronico:user.email,
+      camponombre:props.nombre});
 
-   setTexto('receta guardada');
-   alert("receta guardada en favoritos");
-   setearRecetasFavoritas();
- }
+      setTexto('receta guardada');
+      alert("receta guardada en favoritos");
+      setearRecetasFavoritas();
+   }
+   }else{
+     alert("Solo los clientes pueden guardar recetas");
+   }
                     }
  else{alert('registrate para guaradar recetas')}
 }

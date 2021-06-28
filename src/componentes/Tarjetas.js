@@ -1,45 +1,52 @@
 import {
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    Grid,
-    GridList,}from '@material-ui/core/';
-import { isElement } from 'react-dom/test-utils';
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+} from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
+
 import ModalFavoritos from './ModalFavoritos';
+
 const Tarjetas=({listaFavoritos,loading})=>
 {  
      const useStyles = makeStyles((theme) => ({
-    root: {
-      justifyContent: 'space-around',
-      flexGrow: 1,
-      padding: theme.spacing(4),
-      height: "550px",
-      width: "280px",
-      backgroundColor:'#f5efd7',
-      
-    },
-    gridList: {
-      flexWrap: 'nowrap',
-      transform: 'translateZ(0)',
-      height: "650px",
-    },
+      root: {
+        justifyContent: 'space-around',
+        flexGrow: 1,
+        padding: theme.spacing(4),
+        height: "500px",
+        width: "350px",
+        backgroundColor:'#f5efd7',
+        
+      },
     resu: {
       ...theme.typography.button,
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(1),
-    }
+    },clasediv: {
+      flexGrow: 1,
+      padding: theme.spacing(2)
+  }
   }));
 
     const classes = useStyles();
     
 
 return(
-<div>{
+<div className={classes.clasediv}>
+  <Grid
+  container
+  spacing={4}
+  direction="row"
+  justify="flex-start"
+  alignItems="flex-start"
+>{
 (listaFavoritos.map(elem =>
       (
+      <Grid item xs={4} key={elem.id}> 
       <Card className={classes.root}> 
       <CardMedia style = {{ height:0, paddingTop: '56%'}}
        className={classes.cardMedia} 
@@ -61,10 +68,10 @@ return(
          carbohidratos={elem.campoCarbohidratos} 
          nombre={elem.camponombre} 
          descripcion={elem.campodescripcion}/> </CardActions>
-         </Card> 
-         )
-         )
-         )}         
+         </Card> </Grid>)
+         )        
+
+         )} </Grid>
 </div>
 );
 

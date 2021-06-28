@@ -8,44 +8,60 @@ import {
   Container,
   Typography,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid'
+
 
 import Loading from './loading';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: '50vw',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#DBCFC5'
+
+  },
+  media: {
+    height: 140,
+
+  },
+  large: {
+    width: theme.spacing(14),
+    height: theme.spacing(14),
+
+  },
+}));
 
 const Profile = () => {
   const { user } = useAuth0();
   const { name, picture, email } = user;
   console.log(user.name);
+  const classes = useStyles();
 
   return (
-    <Container maxWidth='sm' >
-    <div>
-      <div className="row align-items-center profile-header">
-          <img
-            src={picture}
-            alt="Profile"
-            className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-          />
+    <Grid container maxWidth='md' justify="center" alignItems="center"  >
+      <Grid item md={6}>
+        <Card className={classes.root}>
+          <Avatar alt={user.nickname} src={picture} className={classes.large} />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2" align="center">
+              {user.nickname}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Email: {email}
+            </Typography>
+          </CardContent>
 
-        <div className="col-md text-center text-md-left">
-          <h2>{name}</h2>
-          <Typography variant="h6" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '1em' }}>
-          <p className="lead text-muted">{email}</p>
+        </Card>
+      </Grid>
 
-      </Typography>
-        </div>
-      </div>
-      <Typography variant="h6" component="h2" gutterBottom style={{ textAlign: 'center', marginTop: '1em' }}>
-
-      <div className="row">
-        <pre className="col-12 text-light bg-dark p-4">
-          {JSON.stringify(user, null, 2)}
-        </pre>
-      </div>
-      </Typography>
-
-    </div>
-
-    </Container>
+    </Grid>
 
   );
 };

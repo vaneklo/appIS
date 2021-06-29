@@ -21,7 +21,7 @@ import MuiTextField from '@material-ui/core/TextField';
 import {db} from '../formularioRegistro/firebase';
 import PrevRecetas from '../prevRecetas/PrevRecetas';
 
-const Autocompletado = () =>{ 
+const Autocompletado = (props) =>{ 
   const [elementos, setElementos] = useState(['ninguno']);
 
   const[listaIngredientesUnicos,setListaIngredientesUnicos]=useState([{ingrediente:' '}]);
@@ -147,7 +147,7 @@ const campoAutocompletado=()=>(
 return(
     <div>
       {campoAutocompletado()}
-      <PrevRecetas buscar={elementos}/>
+      <PrevRecetas buscar={elementos} rol={props.rol}/>
     </div>
   );
 

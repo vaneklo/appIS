@@ -3,9 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-
-import Label from '@material-ui/core/Button';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +19,6 @@ import SeccionFormulario from '../formularioRegistro/SeccionFormulario';
 import RecetasFavoritas from './recetasFavoritas';
 import Profile from '../views/profile';
 import ProtectedRoute from '../auth/protected-route';
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -61,7 +57,7 @@ export default function ButtonAppBar() {
 
     const botones = () => {
         if (isAuthenticated) {
-            if (rol === "cliente") {
+            if (rol == "cliente") {
                 return (
                     <div className={classes.root}>
                         <AppBar style={{ background: '#20603d' }} position="static">
@@ -101,7 +97,6 @@ export default function ButtonAppBar() {
                     </div>
                 );
             }
-
         }
         else {
             return (
@@ -111,8 +106,6 @@ export default function ButtonAppBar() {
                             <Typography variant="h6" className={classes.title}>ComeCon</Typography>
 
                             <Button color="inherit" component={Link} to="/" >Inicio</Button>
-
-                            <Button color="inherit" component={Link} to="/authnav" >perfil</Button>
 
                             <AuthNav />
 
@@ -135,13 +128,12 @@ export default function ButtonAppBar() {
     return (
         <div >
             {botones()}
-
             <Switch>
-                <Route exact path="/"> <Autocompletado />    </Route>
+                <Route exact path="/"> <Autocompletado rol={rol} />    </Route>
 
-                <Route path="/registrar" > <SeccionFormulario /> </Route>
+                <Route path="/registrar" > <SeccionFormulario rol={rol}/> </Route>
 
-                <Route path="/RecetasFavoritas" > <RecetasFavoritas />  </Route>
+                <Route path="/RecetasFavoritas" > <RecetasFavoritas rol={rol}/>  </Route>
 
                 <ProtectedRoute path="/authnav" ><Profile /> </ProtectedRoute>
 

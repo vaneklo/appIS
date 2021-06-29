@@ -114,8 +114,8 @@ import React, {
             Receta: {props.nombre}
           </DialogTitle>
           <DialogContent dividers>
-          <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'
-          } /> </Paper>
+          <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'
+          } /> </Paper> 
           <Typography gutterBottom>
               Complejidad: {props.complejidad}
             </Typography>

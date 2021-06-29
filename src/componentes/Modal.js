@@ -13,7 +13,6 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-
 import { db } from '../formularioRegistro/firebase';
 
 const styles = (theme) => ({
@@ -57,19 +56,16 @@ export default function Modal(props) {
   const {user,isAuthenticated} =useAuth0();
 
   const[recetas,setRecetas]=useState([]);
-
  const [texto,setTexto]=useState('receta no guardada');
-
  const [rol,setRol]=useState('');
+
 useEffect(()=>{getDatosReceta()},[]);
-
-useEffect(()=>{cargarEstadoDeFavorito()})
- 
-useEffect(()=>{getRecetasFavoritas()},[isAuthenticated])
-
+useEffect(()=>{cargarEstadoDeFavorito()},[])
+useEffect(()=>{getRecetasFavoritas();cargarEstadoDeFavorito()},[isAuthenticated])
 useEffect(()=>{cargarRol()},[isAuthenticated])
 
 const getRecetasFavoritas = async () => {
+  console.log('consultas')
 if(isAuthenticated){
   var objRecetas;
   var datosRecetas=[];
@@ -77,11 +73,14 @@ const consultarRecetasFavoritas=await db.collection("receta-usuario").where('cor
 consultarRecetasFavoritas.forEach((doc) => {
     objRecetas=doc.data();
     objRecetas.id=doc.id;
-
-    datosRecetas.push(objRecetas);})
-    cargarEstadoDeFavorito();
-   setRecetas(datosRecetas);
-   console.log(recetas);}
+    datosRecetas.push(objRecetas.camponombre);})
+    console.log(datosRecetas)
+    var index = datosRecetas.map(item=>item).indexOf(props.nombre);
+    console.log(index)
+    if(index>=0){setTexto('receta guardada');}
+            else{setTexto('receta no guardada')}  
+  
+  }
 }
 
 const cargarRol=async()=>{
@@ -89,16 +88,18 @@ const cargarRol=async()=>{
   {
   var objt;
   var roles=[];
+  console.log('base');
+  console.log(isAuthenticated)
   const consultaDatosRol=await db.collection("usuario").where('correoElectronico','==',user.email).get();
   consultaDatosRol.forEach((doc) => {
       if(consultaDatosRol!=null){
         objt=doc.data();
         objt.id=doc.id;
         roles.push(objt);}})
-        console.log(roles[0].rol);
-        setRol(roles[0].rol)
+        setRol(roles[0].rol);
         console.log(rol);
 }
+
 }
   const [open, setOpen] = React.useState(false);
 /*
@@ -119,28 +120,25 @@ const cargarRol=async()=>{
    }
 */const cargarEstadoDeFavorito=()=>{
   console.log(recetas)
-  var index = recetas.map(item=>item.camponombre).indexOf(props.nombre)
-  console.log(index)
-  if(index>=0){
-  setTexto('receta guardada');}
-  else{setTexto('receta no guardada')}  
-               
- }
+  
+  var index = recetas.map(item=>item).indexOf(props.nombre);
 
+  console.log(index)
+  if(index>=0){setTexto('receta guardada');}
+          else{setTexto('receta no guardada')}             
+ }
 const guardarRecetaParaElUsuario=()=>{
  if(isAuthenticated){
    if(rol=='cliente'){
-      console.log(user.email);
-      console.log(props.nombre)
-     if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
-    else{
-      db.collection('receta-usuario').doc().set({ 
-      correoElectronico:user.email,
-      camponombre:props.nombre});
-
-      setTexto('receta guardada');
-      alert("receta guardada en favoritos");
-      setearRecetasFavoritas();
+      console.log(texto);
+       if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
+       else{
+        setTexto('receta guardada');
+        console.log(texto);
+       db.collection('receta-usuario').doc().set({ 
+       correoElectronico:user.email,
+       camponombre:props.nombre});
+       alert("receta guardada en favoritos"); 
    }
    }else{
      alert("Solo los clientes pueden guardar recetas");
@@ -200,8 +198,7 @@ return (
           Receta: {props.nombre}
         </DialogTitle>
         <DialogContent dividers>
-        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'
-        } /> </Paper>
+        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} /> </Paper>
         <Typography gutterBottom>
             Complejidad: {props.complejidad}
           </Typography>
@@ -222,7 +219,7 @@ return (
             {props.descripcion}
           </Typography>
           <Button style={{ backgroundColor: "#20603d",color:"#ffffff"}} 
-     variant="outlined" color="primary" onClick={()=>guardarRecetaParaElUsuario()}>{texto}</Button>
+         variant="outlined" color="primary" onClick={()=>guardarRecetaParaElUsuario()}>{texto}</Button>
         </DialogContent>
       </Dialog>
     </div>

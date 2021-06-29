@@ -7,11 +7,9 @@ import {
   Grid,
 } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-
 import ModalFavoritos from './ModalFavoritos';
-
 const Tarjetas=({listaFavoritos,loading})=>
-{  
+{     console.log(listaFavoritos);
      const useStyles = makeStyles((theme) => ({
       root: {
         justifyContent: 'space-around',
@@ -34,8 +32,8 @@ const Tarjetas=({listaFavoritos,loading})=>
 
     const classes = useStyles();
     
-
 return(
+
 <div className={classes.clasediv}>
   <Grid
   container
@@ -50,8 +48,8 @@ return(
       <Card className={classes.root}> 
       <CardMedia style = {{ height:0, paddingTop: '56%'}}
        className={classes.cardMedia} 
-       image={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
-       elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} /> 
+       image={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+
+       elem.camponombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} /> 
        <CardHeader title={`${elem.camponombre}`} 
        subheader={`Complejidad : ${elem.campocomplejidad}`} /> 
        <CardContent> {`Calorias : ${elem.campoCalorias}`}
@@ -60,8 +58,8 @@ return(
        </CardContent>
        <CardActions> 
          <ModalFavoritos
-         imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludables-1af0b.appspot.com/o/images%2F'+
-         elem.camponombre+'?alt=media&token=9055b467-b88d-483c-b097-1970b52aa037'} 
+         imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+
+         elem.camponombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} 
          complejidad={elem.campocomplejidad} 
          calorias={elem.campoCalorias} 
          grasas={elem.campoGrasas} 

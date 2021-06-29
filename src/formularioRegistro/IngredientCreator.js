@@ -5,7 +5,6 @@ import {
   TextField,
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-
 export const IngredientCreator = props => {
   const [newCantidad, setNewCantidad] = useState("");
   const [newUnidad, setNewUnidad] = useState("");
@@ -23,26 +22,29 @@ export const IngredientCreator = props => {
   };
   //validacion de los campos de texto
   const validarNombre = (str) => {
-    var pattern = new RegExp("^([a-zA-Zñáéíóú]+)+$");
+    //var pattern = new RegExp("^([a-zA-Zñáéíóú]+)+$");
+    var pattern = new RegExp("^[a-zA-Zñáéíóú]+ ?");
+     
    // var pattern = new RegExp("^([a-zñáéíóú]+[\s]*)+$");
     return !!pattern.test(str);
   };
+
 
   const createNewIngredient = (e) => {
     e.preventDefault();
     if (validarUnidad(newUnidad)) {
       if (validarNombre(newIngredient)) {
-           if(newCantidad>0){
+           if(newCantidad>0 && newCantidad<9999){
         props.agregarIngrediente(newCantidad, newUnidad, newIngredient);
         setNewCantidad('');
         setNewUnidad('');
         setNewIngredient('');
            }
           else{
-              alert('las unidades deben ser numeros positivos')
+              alert('cantidad de unidad no valida');
           }
       }
-      else { alert('el nombre debe tener solo caracteres de la a la z y no debe estar vacia y no debe tener espacios'); }
+      else { alert('el nombre debe tener solo caracteres de la a la z y no debe estar vacia y no debe empezar con espacios'); }
     }
     else { alert('la unidad debe tener solo caracteres de la a la z y no debe estar vacia y no debe tener espacios'); }
   }

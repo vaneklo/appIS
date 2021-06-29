@@ -3,9 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState, useEffect } from 'react';
 import { db } from '../formularioRegistro/firebase';
 import Tarjetas from './Tarjetas';
-  
+import {Redirect } from 'react-router-dom';
 import { Paginacion } from './paginacion';
-  const RecetasFavoritas = () => {
+  const RecetasFavoritas = (props) => {
   const [listaFavoritos, setListaFavoritos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -28,11 +28,10 @@ const consulta=async()=>{
      objt=doc.data();
      objt.id=doc.id;
      recetasTotales.push(objt);}})
-
      console.log(recetasTotales)
                             var objRecetas;
                             var datosRecetas=[];
-                            const consultarRecetasFavoritas=await db.collection("receta-usuario").where('correoElectronico','==','201709996@est.umss.edu').get();
+                            const consultarRecetasFavoritas=await db.collection("receta-usuario").where('correoElectronico','==',user.email).get();
                             consultarRecetasFavoritas.forEach((doc) => {
                              objRecetas=doc.data();
                              objRecetas.id=doc.id;
@@ -61,6 +60,11 @@ const consulta=async()=>{
   const paginate=(numero)=>{setPaginaActual(numero)
   console.log(paginaActual);
   };
+  if(props.rol!='cliente'){
+    console.log('link to');
+    return(<Redirect to='/'/>);
+  }
+
   return (
     <div>
     <Tarjetas listaFavoritos={tarjetasActuales} loading={loading} ></Tarjetas>

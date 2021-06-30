@@ -48,8 +48,8 @@ return(
       <Card className={classes.root}> 
       <CardMedia style = {{ height:0, paddingTop: '56%'}}
        className={classes.cardMedia} 
-       image={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+
-       elem.camponombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} /> 
+       image={'https://firebasestorage.googleapis.com/v0/b/base-2b48c.appspot.com/o/images%2F'+
+       elem.camponombre+'?alt=media&token=d6a8a5eb-f608-4f00-a117-52c245ccb23e'} /> 
        <CardHeader title={`${elem.camponombre}`} 
        subheader={`Complejidad : ${elem.campocomplejidad}`} /> 
        <CardContent> {`Calorias : ${elem.campoCalorias}`}
@@ -58,8 +58,8 @@ return(
        </CardContent>
        <CardActions> 
          <ModalFavoritos
-         imagen={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+
-         elem.camponombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} 
+image={'https://firebasestorage.googleapis.com/v0/b/base-2b48c.appspot.com/o/images%2F'+
+elem.camponombre+'?alt=media&token=d6a8a5eb-f608-4f00-a117-52c245ccb23e'} 
          complejidad={elem.campocomplejidad} 
          calorias={elem.campoCalorias} 
          grasas={elem.campoGrasas} 

@@ -14,7 +14,7 @@ import { Paginacion } from './paginacion';
 
   const {user,isAuthenticated} =useAuth0();
 
-  useEffect(() => {consulta()},[isAuthenticated]);
+  useEffect(() => {consulta()},[]);
 
 const consulta=async()=>{
   console.log('consulta recetas favori');
@@ -46,7 +46,7 @@ const consulta=async()=>{
    for(let i=0;i<lista.length;i++){
     var index = recetasTotales.map(item=>item.camponombre).indexOf(lista[i])    
     console.log(index)                    
-   if(index>0){res.push(recetasTotales[index])}
+   if(index>=0){res.push(recetasTotales[index])}
 
     }
   setListaFavoritos(res);

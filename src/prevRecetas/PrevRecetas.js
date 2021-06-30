@@ -304,7 +304,6 @@ export default function PrevRecetas(props) {
       setListaPerfecta(resListaPerfecta);
       //setListaSemiPerfecta(resListaCPerfecta);
       if(resListaCPerfecta.length>0){
-        console.log("lista semi perfecta")
         setListaSemiPerfecta(resListaCPerfecta);    
       }
       else{ 

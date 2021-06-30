@@ -61,7 +61,7 @@ export default function Modal(props) {
 
 useEffect(()=>{getDatosReceta()},[]);
 useEffect(()=>{cargarEstadoDeFavorito()},[])
-useEffect(()=>{getRecetasFavoritas();cargarEstadoDeFavorito()},[isAuthenticated])
+useEffect(()=>{console.log("isauth");getRecetasFavoritas();cargarEstadoDeFavorito()},[isAuthenticated])
 useEffect(()=>{cargarRol()},[isAuthenticated])
 
 const getRecetasFavoritas = async () => {
@@ -197,8 +197,9 @@ return (
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Receta: {props.nombre}
         </DialogTitle>
+        
         <DialogContent dividers>
-        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/recetassaludablesfinal.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=074cf1f9-7ebe-4d7c-97b6-0c61480f3f6c'} /> </Paper>
+        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/base-2b48c.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=d6a8a5eb-f608-4f00-a117-52c245ccb23e'} /> </Paper>
         <Typography gutterBottom>
             Complejidad: {props.complejidad}
           </Typography>

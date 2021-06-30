@@ -61,7 +61,7 @@ export default function Modal(props) {
 
 useEffect(()=>{getDatosReceta()},[]);
 useEffect(()=>{cargarEstadoDeFavorito()},[])
-useEffect(()=>{console.log("isauth");getRecetasFavoritas();},[isAuthenticated])
+useEffect(()=>{console.log("isauth");getRecetasFavoritas();},[props.nombre])
 useEffect(()=>{cargarRol()},[isAuthenticated])
 
 const getRecetasFavoritas = async () => {

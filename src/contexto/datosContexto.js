@@ -21,9 +21,9 @@ useEffect(()=>cargarDatos(),[isAuthenticated]);
 const guardarUsuario=()=>{
 
 if(isAuthenticated){
-  console.log('guardar usuario')
+  
 const authApply = firebase.auth().createUserWithEmailAndPassword(user.email,'001122334a')
-.then(()=>{
+.then(()=>{console.log('guardar usuario')
      db.collection('usuario').doc().set({correoElectronico:user.email,
                                        nombreCompleto:user.nickname,
                                        rol:"cliente"});

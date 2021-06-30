@@ -61,7 +61,7 @@ export default function Modal(props) {
 
 useEffect(()=>{getDatosReceta()},[]);
 useEffect(()=>{cargarEstadoDeFavorito()},[])
-useEffect(()=>{console.log("isauth");getRecetasFavoritas();cargarEstadoDeFavorito()},[isAuthenticated])
+useEffect(()=>{console.log("isauth");getRecetasFavoritas();},[isAuthenticated])
 useEffect(()=>{cargarRol()},[isAuthenticated])
 
 const getRecetasFavoritas = async () => {
@@ -79,7 +79,6 @@ consultarRecetasFavoritas.forEach((doc) => {
     console.log(index)
     if(index>=0){setTexto('receta guardada');}
             else{setTexto('receta no guardada')}  
-  
   }
 }
 
@@ -88,7 +87,7 @@ const cargarRol=async()=>{
   {
   var objt;
   var roles=[];
-  console.log('base');
+  console.log('cargando rol');
   console.log(isAuthenticated)
   const consultaDatosRol=await db.collection("usuario").where('correoElectronico','==',user.email).get();
   consultaDatosRol.forEach((doc) => {
@@ -130,7 +129,6 @@ const cargarRol=async()=>{
 const guardarRecetaParaElUsuario=()=>{
  if(isAuthenticated){
    if(rol=='cliente'){
-      console.log(texto);
        if(texto=='receta guardada'){alert('la receta ya fue guardada en favoritos')}
        else{
         setTexto('receta guardada');

@@ -195,9 +195,8 @@ return (
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Receta: {props.nombre}
         </DialogTitle>
-        
         <DialogContent dividers>
-        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/base-2b48c.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=d6a8a5eb-f608-4f00-a117-52c245ccb23e'} /> </Paper>
+        <Paper variant="outlined"><img src={'https://firebasestorage.googleapis.com/v0/b/respaldo-e5d0a.appspot.com/o/images%2F'+props.nombre+'?alt=media&token=f3ebf252-23fe-4a07-8656-c30d351fa9f1'} /> </Paper>
         <Typography gutterBottom>
             Complejidad: {props.complejidad}
           </Typography>

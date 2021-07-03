@@ -3,12 +3,12 @@ import 'firebase/firestore'
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyCXAlNbHIpxR3NosQ96F-sIsLlnn_zctUc",
-    authDomain: "base-2b48c.firebaseapp.com",
-    projectId: "base-2b48c",
-    storageBucket: "base-2b48c.appspot.com",
-    messagingSenderId: "151076658992",
-    appId: "1:151076658992:web:225b9d86d9fdbe657d32f5"
+  apiKey: "AIzaSyDXTjxHxvzXwkaTYSWDo2HY0-e8GwQgoFY",
+  authDomain: "respaldo-e5d0a.firebaseapp.com",
+  projectId: "respaldo-e5d0a",
+  storageBucket: "respaldo-e5d0a.appspot.com",
+  messagingSenderId: "967768364943",
+  appId: "1:967768364943:web:4501cf30059ee7e75dddfa"
 };
 // Initialize Firebase
 const fb=firebase.initializeApp(firebaseConfig);
